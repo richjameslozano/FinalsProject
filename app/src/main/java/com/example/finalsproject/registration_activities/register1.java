@@ -28,7 +28,7 @@ public class register1 extends Fragment {
         view = inflater.inflate(R.layout.fragment_register1, container, false);
         Button nextbtn2 = view.findViewById(R.id.next_btn2);
 
-        nextbtn2.setOnClickListener(new View.OnClickListener() {
+        nextbtn2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 replaceFragment(new register2());

@@ -25,21 +25,17 @@ public class register2 extends Fragment {
 EditText email_regis,pass_regis;
     FirebaseAuth  fAuth;
     View view;
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_register2, container, false);
         Button signup = view.findViewById(R.id.next_btn2);
-
         fAuth = FirebaseAuth.getInstance();
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getActivity().finish(); //BACK TO DEFAULT ACTIVITY
             }
         });

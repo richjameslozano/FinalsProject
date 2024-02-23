@@ -32,13 +32,13 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //regis1 datas
+        //regis1 data
         first_name = findViewById(R.id.first_name);
         last_name = findViewById(R.id.last_name);
         address = findViewById(R.id.address);
         contact_num = findViewById(R.id.contact_num);
 
-        //regis2 datas
+        //regis2 data
         nextbtn = findViewById(R.id.next_btn2);
         email_regis = findViewById(R.id.email_regis);
         pass_regis = findViewById(R.id.pass_regis);
@@ -62,7 +62,6 @@ public class register extends AppCompatActivity {
 
     }
     private void replaceFragment(register1 register1) {
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_layout,register1);
