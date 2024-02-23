@@ -16,6 +16,9 @@ import com.example.finalsproject.R;
 public class register1 extends Fragment {
     View view;
 
+
+    Button next_btn1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -23,15 +26,14 @@ public class register1 extends Fragment {
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_register1, container, false);
-        Button nextbtn = view.findViewById(R.id.signup_btn);
-        nextbtn.setOnClickListener(new View.OnClickListener() {
+        Button nextbtn2 = view.findViewById(R.id.next_btn2);
+
+        nextbtn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 replaceFragment(new register2());
             }
         });
-
         return view;
     }
 
