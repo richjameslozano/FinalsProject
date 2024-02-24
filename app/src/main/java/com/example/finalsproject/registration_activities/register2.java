@@ -1,47 +1,64 @@
 package com.example.finalsproject.registration_activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.finalsproject.Login;
 import com.example.finalsproject.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class register2 extends Fragment {
-
-
-EditText email_regis,pass_regis;
+    EditText email_regis,pass_regis,confirm_pass_regis;
     FirebaseAuth  fAuth;
+    Button next_btn2, back_btn2;
     View view;
+    ConstraintLayout fragment_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_register2, container, false);
-        Button signup = view.findViewById(R.id.next_btn2);
+        //VIEWS DECLARATIONS//
+        view = inflater.inflate(R.layout.fragment_register2, container, false); // Inflate the layout for this fragment
         fAuth = FirebaseAuth.getInstance();
-
-        signup.setOnClickListener(new View.OnClickListener() {
+        next_btn2 = view.findViewById(R.id.next_btn2);
+        back_btn2 = view.findViewById(R.id.back_btn2);
+        fragment_layout = view.findViewById(R.id.fragment_layout);
+        //regis2 data
+        email_regis = view.findViewById(R.id.email_regis);
+        pass_regis = view.findViewById(R.id.pass_regis);
+        confirm_pass_regis = view.findViewById(R.id.confirm_pass);
+        //LISTENERS//
+        next_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish(); //BACK TO DEFAULT ACTIVITY
+                //CONTINUE
+                Intent i = new Intent(getActivity(), Login.class);
+                startActivity(i); //BACK TO DEFAULT ACTIVITY
             }
         });
-
-
-getActivity();//BACK TO DEFAULT ACTIVITY
+        back_btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //CONTINUE
+                replaceFragment(new register1());
+            }
+        });
         return view;
+    }
+    private void replaceFragment(register1 register1) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_layout,register1);
+        fragmentTransaction.commit();
     }
 }
