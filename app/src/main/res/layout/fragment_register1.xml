@@ -90,6 +90,7 @@
             android:layout_marginTop="12dp"
             android:ems="11"
             android:hint="Contact Number"
+            android:maxLength="11"
             android:inputType="phone"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

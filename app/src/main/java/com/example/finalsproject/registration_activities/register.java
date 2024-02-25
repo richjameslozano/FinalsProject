@@ -48,26 +48,20 @@ public class register extends AppCompatActivity {
 //            finish();
 //        }
 
-        //Spinner//
+        //SPINNER//
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_acctype, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+
         //LISTENERS//
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedItem = parent.getItemAtPosition(position).toString();
                     // Do something with the selected item
-                    switch (selectedItem) {
-                        case "Customer":
-                        case "Subcontractor":
-                            account_type = selectedItem;
-                            Toast.makeText(getApplicationContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
-                            break;
-                        default:
-                            // Handle other cases if needed
-                            break;
-                    }
+                    account_type = selectedItem;
+                    Toast.makeText(getApplicationContext(), "Selected: " + selectedItem, Toast.LENGTH_SHORT).show();
                 }
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
@@ -78,17 +72,22 @@ public class register extends AppCompatActivity {
             public void onClick(View v) {
                 String user = user_regis.getText().toString().trim();
                 if(user.isEmpty()){
-                    Toast.makeText(register.this, "Please enter an account username.", Toast.LENGTH_SHORT).show();
-                } else if (user.length()<5) {
-                    Toast.makeText(register.this, "Username should be more than at least 5 characters.", Toast.LENGTH_SHORT).show();
+                    user_regis.setError("Please enter an account username.");
+                }
+                else if (user.length()<5) {
+                    user_regis.setError("Username should be more than at least 5 characters.");
+                }
+                else if (!user.matches(".*[a-zA-Z].*")) {
+                    user_regis.setError("Username should contain at least one letter.");
                 }
                 //CHECK IF USERNAME IN DATABASE IS TAKEN//
                 else if(user.equals("taken")){
-                    Toast.makeText(register.this, "Username is already taken.", Toast.LENGTH_SHORT).show();
+                    user_regis.setError("Username is already taken.");
                 }
                 //CONTINUE//
                 else if(!user.equals("taken")){
                     register_values.account_type = account_type;
+                    register_values.username = user;
                     fragment_layout.setVisibility(View.VISIBLE);
                     replaceFragment(new register1());
                 }
@@ -103,6 +102,7 @@ public class register extends AppCompatActivity {
             }
         });
     }
+    //FRAGMENT METHOD//
     private void replaceFragment(register1 register1) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
