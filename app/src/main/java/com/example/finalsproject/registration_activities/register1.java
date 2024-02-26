@@ -39,58 +39,52 @@ public class register1 extends Fragment {
         contact_num = view.findViewById(R.id.contact_num);
 
         //LISTENERS//
-        next_btn1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                String
-                        f_name = first_name.getText().toString().trim(),
-                        l_name = last_name.getText().toString().trim(),
-                        add = address.getText().toString().trim(),
-                        contact = contact_num.getText().toString().trim();
+        next_btn1.setOnClickListener(v -> {
+            String
+                    f_name = first_name.getText().toString().trim(),
+                    l_name = last_name.getText().toString().trim(),
+                    add = address.getText().toString().trim(),
+                    contact = contact_num.getText().toString().trim();
 
-                //TEMPORARY//
-                Toast.makeText(getActivity(), "Account Type: " + register_values.account_type, Toast.LENGTH_SHORT).show();
-                if(f_name.isEmpty()){
-                    first_name.setError("First name is required.");
-                }
-                else if (!f_name.matches("[a-zA-Z]+")) {
-                    first_name.setError("First name should contain letters only.");
-                }
-                else if(l_name.isEmpty()){
-                    last_name.setError("Last name is required.");
-                }
-                else if (!l_name.matches("[a-zA-Z]+")) {
-                    last_name.setError("Last name should contain letters only.");
-                }
-                else if(add.isEmpty()){
-                    address.setError("Address is required.");
-                }
-                else if (!add.matches(".*[a-zA-Z].*")) {
-                    address.setError("Address invalid.");
-                }
-                else if(contact.isEmpty()){
-                    contact_num.setError("Contact number is required.");
-                }
-                else if (contact.length()<10||!contact.startsWith("09")) {
-                    contact_num.setError("Invalid contact number.");
-                }
-                //CONTINUE//
-                else{
-                    register_values.first_name = f_name;
-                    register_values.last_name = l_name;
-                    register_values.address = add;
-                    register_values.contact = contact;
-                    replaceFragment(new register2());
-                    //TRANSFER DATA TO DATABASE COLLECTION//
-                }
+            //TEMPORARY//
+            Toast.makeText(getActivity(), "Account Type: " + register_values.account_type, Toast.LENGTH_SHORT).show();
+            if(f_name.isEmpty()){
+                first_name.setError("First name is required.");
+            }
+            else if (!f_name.matches("[a-zA-Z]+")) {
+                first_name.setError("First name should contain letters only.");
+            }
+            else if(l_name.isEmpty()){
+                last_name.setError("Last name is required.");
+            }
+            else if (!l_name.matches("[a-zA-Z]+")) {
+                last_name.setError("Last name should contain letters only.");
+            }
+            else if(add.isEmpty()){
+                address.setError("Address is required.");
+            }
+            else if (!add.matches(".*[a-zA-Z].*")) {
+                address.setError("Address invalid.");
+            }
+            else if(contact.isEmpty()){
+                contact_num.setError("Contact number is required.");
+            }
+            else if (contact.length()<10||!contact.startsWith("09")) {
+                contact_num.setError("Invalid contact number.");
+            }
+            //CONTINUE//
+            else{
+                register_values.first_name = f_name;
+                register_values.last_name = l_name;
+                register_values.address = add;
+                register_values.contact = contact;
+                replaceFragment(new register2());
+                //TRANSFER DATA TO DATABASE COLLECTION//
             }
         });
-        back_btn1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //RETURN
-                startActivity(new Intent(getActivity(),register.class));
-            }
+        back_btn1.setOnClickListener(view -> {
+            //RETURN
+            startActivity(new Intent(getActivity(),register.class));
         });
         return view;
     }

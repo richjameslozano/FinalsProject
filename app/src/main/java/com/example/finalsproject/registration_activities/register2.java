@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.finalsproject.Login;
 import com.example.finalsproject.R;
@@ -41,45 +40,39 @@ public class register2 extends Fragment {
 
 
         //LISTENERS//
-        next_btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //CONTINUE
-                String
-                        email = email_regis.getText().toString().trim(),
-                        pass = pass_regis.getText().toString().trim(),
-                        confirm_pass = confirm_pass_regis.getText().toString().trim();
-                if(email.isEmpty()){
-                    email_regis.setError("Email address is required.");
-                }
-                else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
-                    email_regis.setError("Invalid email address.");
-                }
-                else if (pass.isEmpty()) {
-                    pass_regis.setError("Password is required.");
-                } else if (pass.length() < 8) {
-                    pass_regis.setError("Password should be at least 8 characters.");
-                }
-                else if(confirm_pass.isEmpty()){
-                    confirm_pass_regis.setError("Confirm your password.");
-                }
-                else if(!pass.equals(confirm_pass)){
-                    confirm_pass_regis.setError("Password does not match.");
-                }
-                //CONTINUE//
-                else{
-                    register_values.email = email;
-                    register_values.password = pass;
-                    startActivity(new Intent(getActivity(),Login.class));
-                }
+        next_btn2.setOnClickListener(view -> {
+            //CONTINUE
+            String
+                    email = email_regis.getText().toString().trim(),
+                    pass = pass_regis.getText().toString().trim(),
+                    confirm_pass = confirm_pass_regis.getText().toString().trim();
+            if(email.isEmpty()){
+                email_regis.setError("Email address is required.");
+            }
+            else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
+                email_regis.setError("Invalid email address.");
+            }
+            else if (pass.isEmpty()) {
+                pass_regis.setError("Password is required.");
+            } else if (pass.length() < 8) {
+                pass_regis.setError("Password should be at least 8 characters.");
+            }
+            else if(confirm_pass.isEmpty()){
+                confirm_pass_regis.setError("Confirm your password.");
+            }
+            else if(!pass.equals(confirm_pass)){
+                confirm_pass_regis.setError("Password does not match.");
+            }
+            //CONTINUE//
+            else{
+                register_values.email = email;
+                register_values.password = pass;
+                startActivity(new Intent(getActivity(),Login.class));
             }
         });
-        back_btn2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                //CONTINUE
-                replaceFragment(new register1());
-            }
+        back_btn2.setOnClickListener(view -> {
+            //CONTINUE
+            replaceFragment(new register1());
         });
         return view;
     }

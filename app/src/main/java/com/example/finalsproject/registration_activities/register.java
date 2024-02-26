@@ -67,39 +67,32 @@ public class register extends AppCompatActivity {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
-        next_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user = user_regis.getText().toString().trim();
-                if(user.isEmpty()){
-                    user_regis.setError("Please enter an account username.");
-                }
-                else if (user.length()<5) {
-                    user_regis.setError("Username should be more than at least 5 characters.");
-                }
-                else if (!user.matches(".*[a-zA-Z].*")) {
-                    user_regis.setError("Username should contain at least one letter.");
-                }
-                //CHECK IF USERNAME IN DATABASE IS TAKEN//
-                else if(user.equals("taken")){
-                    user_regis.setError("Username is already taken.");
-                }
-                //CONTINUE//
-                else if(!user.equals("taken")){
-                    register_values.account_type = account_type;
-                    register_values.username = user;
-                    fragment_layout.setVisibility(View.VISIBLE);
-                    replaceFragment(new register1());
-                }
+        next_btn.setOnClickListener(view -> {
+            String user = user_regis.getText().toString().trim();
+            if(user.isEmpty()){
+                user_regis.setError("Please enter an account username.");
+            }
+            else if (user.length()<5) {
+                user_regis.setError("Username should be more than at least 5 characters.");
+            }
+            else if (!user.matches(".*[a-zA-Z].*")) {
+                user_regis.setError("Username should contain at least one letter.");
+            }
+            //CHECK IF USERNAME IN DATABASE IS TAKEN//
+            else if(user.equals("Taken")){
+                user_regis.setError("Username is already taken.");
+            }
+            //CONTINUE//
+            else if(!user.equals("taken")){
+                register_values.account_type = account_type;
+                register_values.username = user;
+                fragment_layout.setVisibility(View.VISIBLE);
+                replaceFragment(new register1());
             }
         });
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //CONTINUE
-                Intent i = new Intent(getApplicationContext(), Login.class);
-                startActivity(i); //BACK TO DEFAULT ACTIVITY
-            }
+        back_btn.setOnClickListener(view -> {
+            //CONTINUE
+            startActivity(new Intent(getApplicationContext(),Login.class));
         });
     }
     //FRAGMENT METHOD//
