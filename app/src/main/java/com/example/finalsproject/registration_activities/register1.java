@@ -21,7 +21,7 @@ public class register1 extends Fragment {
     View view;
     FirebaseAuth fAuth;
     Button next_btn1, back_btn1;
-    EditText first_name,last_name,address,contact_num;
+    EditText first_name,last_name,contact_num;
     ConstraintLayout fragment_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +35,6 @@ public class register1 extends Fragment {
         //regis1 data
         first_name = view.findViewById(R.id.first_name);
         last_name = view.findViewById(R.id.last_name);
-        address = view.findViewById(R.id.address);
         contact_num = view.findViewById(R.id.contact_num);
 
         //LISTENERS//
@@ -43,7 +42,6 @@ public class register1 extends Fragment {
             String
                     f_name = first_name.getText().toString().trim(),
                     l_name = last_name.getText().toString().trim(),
-                    add = address.getText().toString().trim(),
                     contact = contact_num.getText().toString().trim();
 
             //TEMPORARY//
@@ -60,12 +58,6 @@ public class register1 extends Fragment {
             else if (!l_name.matches("[a-zA-Z]+")) {
                 last_name.setError("Last name should contain letters only.");
             }
-            else if(add.isEmpty()){
-                address.setError("Address is required.");
-            }
-            else if (!add.matches(".*[a-zA-Z].*")) {
-                address.setError("Address invalid.");
-            }
             else if(contact.isEmpty()){
                 contact_num.setError("Contact number is required.");
             }
@@ -76,7 +68,6 @@ public class register1 extends Fragment {
             else{
                 register_values.first_name = f_name;
                 register_values.last_name = l_name;
-                register_values.address = add;
                 register_values.contact = contact;
                 replaceFragment(new register2());
                 //TRANSFER DATA TO DATABASE COLLECTION//
