@@ -88,7 +88,7 @@ public class register2 extends Fragment {
                         DocumentReference documentReference = db.collection("users").document(userID);
                         Map<String,Object> user = new HashMap<>();
                         user.put("acc_type",register_values.account_type);
-                        user.put("uname",register_values.username);
+                        user.put("u_name",register_values.username);
                         user.put("f_name",register_values.first_name);
                         user.put("l_name",register_values.last_name);
                         user.put("contact",register_values.contact);

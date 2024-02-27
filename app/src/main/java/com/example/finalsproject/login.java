@@ -1,7 +1,10 @@
 package com.example.finalsproject;
 
+import static com.example.finalsproject.SplashScreen.EMAIL;
+import static com.example.finalsproject.SplashScreen.PASSWORD;
 import static com.example.finalsproject.SplashScreen.SHARED_PREFS;
 import static com.example.finalsproject.SplashScreen.STATUS;
+import static com.example.finalsproject.SplashScreen.UID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +30,7 @@ public class login extends AppCompatActivity {
     CheckBox remember_btn;
     EditText email_login,pass_login;
     FirebaseAuth fAuth;
+    String uId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +65,7 @@ public class login extends AppCompatActivity {
             fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     Toast.makeText(login.this,"Login Successfully!",Toast.LENGTH_SHORT).show();
+                    uId = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
                     remember_save();
                     startActivity(new Intent(getApplicationContext(), dashboard.class));
                     finish();
@@ -75,6 +80,9 @@ public class login extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(STATUS, remember_btn.isChecked());
+        editor.putString(UID,uId);
+        editor.putString(EMAIL,email_login.getText().toString().trim());
+        editor.putString(PASSWORD,pass_login.getText().toString().trim());
         editor.apply();
     }
 }
