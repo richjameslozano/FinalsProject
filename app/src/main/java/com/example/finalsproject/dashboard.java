@@ -1,4 +1,5 @@
 package com.example.finalsproject;
+import static com.example.finalsproject.SplashScreen.ACC_TYPE;
 import static com.example.finalsproject.SplashScreen.EMAIL;
 import static com.example.finalsproject.SplashScreen.PASSWORD;
 import static com.example.finalsproject.SplashScreen.SHARED_PREFS;
@@ -7,6 +8,7 @@ import static com.example.finalsproject.SplashScreen.UID;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -22,9 +25,10 @@ import java.util.Objects;
 public class dashboard extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String uiD;
-    TextView acc_type,u_name,f_name,l_name,contact,email,pass;
+    String uiD,id;
+    TextView acc_type,u_name,f_name,l_name,contact,email,pass,textView;
     Button logout_btn;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +44,11 @@ public class dashboard extends AppCompatActivity {
         contact = findViewById(R.id.contact);
         email = findViewById(R.id.email);
         pass = findViewById(R.id.pass);
+        textView = findViewById(R.id.title);
         DocumentReference documentReference = fStore.collection("users").document(uiD);
         documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
+                // HANDLE HOW EACH DASHBOARD DIFFERS PER USER POSSIBLY THROUGH FRAGMENTATION HERE (TO FOLLOW) //
                 acc_type.setText(documentSnapshot.getString("acc_type"));
                 u_name.setText(documentSnapshot.getString("u_name"));
                 f_name.setText(documentSnapshot.getString("f_name"));
@@ -55,19 +61,20 @@ public class dashboard extends AppCompatActivity {
 
         //LISTENERS
         logout_btn.setOnClickListener(view ->{
-            startActivity(new Intent(getApplicationContext(),login.class));
             fAuth.signOut();
             un_remember_save();
+            startActivity(new Intent(getApplicationContext(),login.class));
             finish();
         });
     }
-    public void un_remember_save(){
+    public void un_remember_save(){ //BACK TO DEFAULT VALUES
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(STATUS, false);
         editor.putString(UID,"uid");
         editor.putString(EMAIL,"email");
         editor.putString(PASSWORD,"password");
+        editor.putString(ACC_TYPE,"acc_type");
         editor.apply();
     }
 }

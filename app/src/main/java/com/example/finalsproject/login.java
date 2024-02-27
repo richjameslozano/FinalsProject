@@ -43,7 +43,6 @@ public class login extends AppCompatActivity {
         remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
-
         login_btn.setOnClickListener(view -> {
 
             String email = email_login.getText().toString().trim();
