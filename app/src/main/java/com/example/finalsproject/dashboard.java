@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,7 +24,7 @@ import java.util.Objects;
 public class dashboard extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
-    String uiD,id;
+    String uiD;
     TextView acc_type,u_name,f_name,l_name,contact,email,pass,textView;
     Button logout_btn;
     @SuppressLint("SetTextI18n")
