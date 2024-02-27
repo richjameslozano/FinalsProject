@@ -1,5 +1,7 @@
 package com.example.finalsproject.registration_activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,28 +10,38 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.example.finalsproject.Login;
+import com.example.finalsproject.login;
 import com.example.finalsproject.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class register2 extends Fragment {
     EditText email_regis,pass_regis,confirm_pass_regis;
-    FirebaseAuth  fAuth;
     Button next_btn2, back_btn2;
     View view;
     ConstraintLayout fragment_layout;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore db;
+    String userID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //VIEWS DECLARATIONS//
         view = inflater.inflate(R.layout.fragment_register2, container, false); // Inflate the layout for this fragment
-        fAuth = FirebaseAuth.getInstance();
         next_btn2 = view.findViewById(R.id.next_btn2);
         back_btn2 = view.findViewById(R.id.back_btn2);
         fragment_layout = view.findViewById(R.id.fragment_layout);
@@ -37,8 +49,9 @@ public class register2 extends Fragment {
         email_regis = view.findViewById(R.id.email_regis);
         pass_regis = view.findViewById(R.id.pass_regis);
         confirm_pass_regis = view.findViewById(R.id.confirm_pass);
-
-
+        //FIREBASE INSTANCES
+        fAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         //LISTENERS//
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
@@ -67,7 +80,27 @@ public class register2 extends Fragment {
             else{
                 register_values.email = email;
                 register_values.password = pass;
-                startActivity(new Intent(getActivity(),Login.class));
+                //REGISTER ALL CREDENTIALS//
+                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getActivity(), "Account created.",Toast.LENGTH_SHORT).show();
+                        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); //GET CURRENT USER ID
+                        DocumentReference documentReference = db.collection("users").document(userID);
+                        Map<String,Object> user = new HashMap<>();
+                        user.put("acc_type",register_values.account_type);
+                        user.put("uname",register_values.username);
+                        user.put("f_name",register_values.first_name);
+                        user.put("l_name",register_values.last_name);
+                        user.put("contact",register_values.contact);
+                        user.put("email",register_values.email);
+                        user.put("pass",register_values.password);
+                        documentReference.set(user).addOnSuccessListener(unused -> Log.d(TAG,"User profile created for "+ userID));
+                        startActivity(new Intent(getActivity(), login.class));
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Account creation error!" + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
         back_btn2.setOnClickListener(view -> {

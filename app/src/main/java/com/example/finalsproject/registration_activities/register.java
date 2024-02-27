@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.finalsproject.Login;
+import com.example.finalsproject.login;
 import com.example.finalsproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -26,7 +26,7 @@ public class register extends AppCompatActivity {
     Button next_btn, back_btn;
     Spinner spinner;
     EditText user_regis;
-    ConstraintLayout fragment_layout;
+    ConstraintLayout register_layout, fragment_layout;
     String account_type;
 
     @SuppressLint("MissingInflatedId")
@@ -40,16 +40,11 @@ public class register extends AppCompatActivity {
         back_btn = findViewById(R.id.back_btn);
         spinner = findViewById(R.id.acctype_spinner);
         user_regis = findViewById(R.id.user_regis);
+        register_layout = findViewById(R.id.register_layout);
         fragment_layout = findViewById(R.id.fragment_layout);
 
-        //NOT WORKING?
-//        if (fAuth.getCurrentUser() != null){
-//            startActivity(new Intent(register.this, MainActivity.class));
-//            finish();
-//        }
-
         //SPINNER//
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_acctype, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_acc_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -68,6 +63,7 @@ public class register extends AppCompatActivity {
                 }
             });
         next_btn.setOnClickListener(view -> {
+
             String user = user_regis.getText().toString().trim();
             if(user.isEmpty()){
                 user_regis.setError("Please enter an account username.");
@@ -86,13 +82,14 @@ public class register extends AppCompatActivity {
             else if(!user.equals("taken")){
                 register_values.account_type = account_type;
                 register_values.username = user;
-                fragment_layout.setVisibility(View.VISIBLE);
                 replaceFragment(new register1());
+                fragment_layout.setVisibility(View.VISIBLE);
+                register_layout.setVisibility(View.GONE);
             }
         });
         back_btn.setOnClickListener(view -> {
             //CONTINUE
-            startActivity(new Intent(getApplicationContext(),Login.class));
+            startActivity(new Intent(getApplicationContext(), login.class));
         });
     }
     //FRAGMENT METHOD//

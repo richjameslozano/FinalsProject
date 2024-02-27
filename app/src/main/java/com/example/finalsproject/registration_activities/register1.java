@@ -22,7 +22,7 @@ public class register1 extends Fragment {
     FirebaseAuth fAuth;
     Button next_btn1, back_btn1;
     EditText first_name,last_name,contact_num;
-    ConstraintLayout fragment_layout;
+    ConstraintLayout fragment_layout,register_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,13 +32,14 @@ public class register1 extends Fragment {
         next_btn1 = view.findViewById(R.id.next_btn1);
         back_btn1 = view.findViewById(R.id.back_btn1);
         fragment_layout = view.findViewById(R.id.fragment_layout);
+        register_layout = view.findViewById(R.id.register_layout);
         //regis1 data
         first_name = view.findViewById(R.id.first_name);
         last_name = view.findViewById(R.id.last_name);
         contact_num = view.findViewById(R.id.contact_num);
 
         //LISTENERS//
-        next_btn1.setOnClickListener(v -> {
+        next_btn1.setOnClickListener(view -> {
             String
                     f_name = first_name.getText().toString().trim(),
                     l_name = last_name.getText().toString().trim(),
@@ -49,13 +50,13 @@ public class register1 extends Fragment {
             if(f_name.isEmpty()){
                 first_name.setError("First name is required.");
             }
-            else if (!f_name.matches("[a-zA-Z]+")) {
+            else if (!f_name.matches("[a-zA-Z ]+")) {
                 first_name.setError("First name should contain letters only.");
             }
             else if(l_name.isEmpty()){
                 last_name.setError("Last name is required.");
             }
-            else if (!l_name.matches("[a-zA-Z]+")) {
+            else if (!l_name.matches("[a-zA-Z ]+")) {
                 last_name.setError("Last name should contain letters only.");
             }
             else if(contact.isEmpty()){

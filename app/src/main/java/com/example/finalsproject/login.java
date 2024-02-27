@@ -1,31 +1,32 @@
 package com.example.finalsproject;
 
-import androidx.annotation.NonNull;
+import static com.example.finalsproject.SplashScreen.SHARED_PREFS;
+import static com.example.finalsproject.SplashScreen.STATUS;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.finalsproject.registration_activities.register;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class Login extends AppCompatActivity {
+public class login extends AppCompatActivity {
 
     TextView signup;
     Button login_btn;
+    CheckBox remember_btn;
     EditText email_login,pass_login;
     FirebaseAuth fAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class Login extends AppCompatActivity {
         pass_login = findViewById(R.id.pass_login);
         signup = findViewById(R.id.signup);
         login_btn = findViewById(R.id.login_btn);
+        remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
 
@@ -56,18 +58,23 @@ public class Login extends AppCompatActivity {
                   return;
             }
             //authentication
-            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(Login.this,"Login Successfully!",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    }
-                    else{
-                        Toast.makeText(Login.this,Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                    }
+            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    Toast.makeText(login.this,"Login Successfully!",Toast.LENGTH_SHORT).show();
+                    remember_save();
+                    startActivity(new Intent(getApplicationContext(), dashboard.class));
+                    finish();
+                }
+                else{
+                    Toast.makeText(login.this,Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                 }
             });
         });
+    }
+    public void remember_save(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(STATUS, remember_btn.isChecked());
+        editor.apply();
     }
 }

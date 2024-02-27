@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">EGC-GHE Delivery Service App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string-array name="register_acctype">
+    <string-array name="register_acc_type">
         <item>Customer</item>//1
         <item>Subcontractor</item>//2
     </string-array>
+    <bool name="login_status">false</bool>
 </resources>
