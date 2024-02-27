@@ -1,5 +1,6 @@
 package com.example.finalsproject;
 
+import static com.example.finalsproject.SplashScreen.ACC_TYPE;
 import static com.example.finalsproject.SplashScreen.EMAIL;
 import static com.example.finalsproject.SplashScreen.PASSWORD;
 import static com.example.finalsproject.SplashScreen.SHARED_PREFS;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.finalsproject.registration_activities.register;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -30,6 +33,7 @@ public class login extends AppCompatActivity {
     CheckBox remember_btn;
     EditText email_login,pass_login;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
     String uId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class login extends AppCompatActivity {
         login_btn = findViewById(R.id.login_btn);
         remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
         login_btn.setOnClickListener(view -> {
 
@@ -63,7 +68,6 @@ public class login extends AppCompatActivity {
             //authentication
             fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    Toast.makeText(login.this,"Login Successfully!",Toast.LENGTH_SHORT).show();
                     uId = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
                     remember_save();
                     startActivity(new Intent(getApplicationContext(), dashboard.class));
@@ -82,6 +86,14 @@ public class login extends AppCompatActivity {
         editor.putString(UID,uId);
         editor.putString(EMAIL,email_login.getText().toString().trim());
         editor.putString(PASSWORD,pass_login.getText().toString().trim());
+        //ACCOUNT TYPE//
+        DocumentReference documentReference = fStore.collection("users").document(uId);
+        documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
+            assert documentSnapshot != null;
+            String field = documentSnapshot.getString("acc_type");
+            editor.putString(ACC_TYPE,field);
+            Toast.makeText(login.this,"Account Type: " + field,Toast.LENGTH_SHORT).show(); //DEBUG
+        });
         editor.apply();
     }
 }
