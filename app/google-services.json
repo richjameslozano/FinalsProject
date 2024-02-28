@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "66188628373",
-    "project_id": "lost-luggage-delivery",
-    "storage_bucket": "lost-luggage-delivery.appspot.com"
+    "project_number": "27551528903",
+    "project_id": "finalsproject-410c0",
+    "storage_bucket": "finalsproject-410c0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:66188628373:android:454aa5f4462475b272269c",
+        "mobilesdk_app_id": "1:27551528903:android:4035108d5f17eae12a4be2",
         "android_client_info": {
           "package_name": "com.example.finalsproject"
         }
@@ -15,45 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC6NaUUawOX1HAK_tZO6iUrxJz7aWN5noc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:66188628373:android:3d6781308ed6739172269c",
-        "android_client_info": {
-          "package_name": "com.example.laboratory2finals"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC6NaUUawOX1HAK_tZO6iUrxJz7aWN5noc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:66188628373:android:432122d1e31874c372269c",
-        "android_client_info": {
-          "package_name": "com.example.lostbaggagedelivery"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC6NaUUawOX1HAK_tZO6iUrxJz7aWN5noc"
+          "current_key": "AIzaSyBR0FAvn153kk1K4ZGnUCd8Nn6T-KmX1Wo"
         }
       ],
       "services": {

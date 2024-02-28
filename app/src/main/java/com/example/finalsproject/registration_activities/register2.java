@@ -1,11 +1,16 @@
 package com.example.finalsproject.registration_activities;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,39 +18,102 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.finalsproject.login;
 import com.example.finalsproject.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class register2 extends Fragment {
-
-
-EditText email_regis,pass_regis;
-    FirebaseAuth  fAuth;
+    EditText email_regis,pass_regis,confirm_pass_regis;
+    Button next_btn2, back_btn2;
     View view;
+    ConstraintLayout fragment_layout;
 
-
+    FirebaseAuth fAuth;
+    FirebaseFirestore db;
+    String userID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_register2, container, false);
-        Button signup = view.findViewById(R.id.next_btn2);
-
+        //VIEWS DECLARATIONS//
+        view = inflater.inflate(R.layout.fragment_register2, container, false); // Inflate the layout for this fragment
+        next_btn2 = view.findViewById(R.id.next_btn2);
+        back_btn2 = view.findViewById(R.id.back_btn2);
+        fragment_layout = view.findViewById(R.id.fragment_layout);
+        //regis2 data
+        email_regis = view.findViewById(R.id.email_regis);
+        pass_regis = view.findViewById(R.id.pass_regis);
+        confirm_pass_regis = view.findViewById(R.id.confirm_pass);
+        //FIREBASE INSTANCES
         fAuth = FirebaseAuth.getInstance();
-
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                getActivity().finish(); //BACK TO DEFAULT ACTIVITY
+        db = FirebaseFirestore.getInstance();
+        //LISTENERS//
+        next_btn2.setOnClickListener(view -> {
+            //CONTINUE
+            String
+                    email = email_regis.getText().toString().trim(),
+                    pass = pass_regis.getText().toString().trim(),
+                    confirm_pass = confirm_pass_regis.getText().toString().trim();
+            if(email.isEmpty()){
+                email_regis.setError("Email address is required.");
+            }
+            else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
+                email_regis.setError("Invalid email address.");
+            }
+            else if (pass.isEmpty()) {
+                pass_regis.setError("Password is required.");
+            } else if (pass.length() < 8) {
+                pass_regis.setError("Password should be at least 8 characters.");
+            }
+            else if(confirm_pass.isEmpty()){
+                confirm_pass_regis.setError("Confirm your password.");
+            }
+            else if(!pass.equals(confirm_pass)){
+                confirm_pass_regis.setError("Password does not match.");
+            }
+            //CONTINUE//
+            else{
+                register_values.email = email;
+                register_values.password = pass;
+                //REGISTER ALL CREDENTIALS//
+                fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getActivity(), "Account created.",Toast.LENGTH_SHORT).show();
+                        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); //GET CURRENT USER ID
+                        DocumentReference documentReference = db.collection("users").document(userID);
+                        Map<String,Object> user = new HashMap<>();
+                        user.put("acc_type",register_values.account_type);
+                        user.put("u_name",register_values.username);
+                        user.put("f_name",register_values.first_name);
+                        user.put("l_name",register_values.last_name);
+                        user.put("contact",register_values.contact);
+                        user.put("email",register_values.email);
+                        user.put("pass",register_values.password);
+                        documentReference.set(user).addOnSuccessListener(unused -> Log.d(TAG,"User profile created for "+ userID));
+                        startActivity(new Intent(getActivity(), login.class));
+                    }
+                    else{
+                        Toast.makeText(getActivity(), "Account creation error!" + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
-
-
-getActivity();//BACK TO DEFAULT ACTIVITY
+        back_btn2.setOnClickListener(view -> {
+            //CONTINUE
+            replaceFragment(new register1());
+        });
         return view;
+    }
+    //FRAGMENT METHOD//
+    private void replaceFragment(register1 register1) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_layout,register1);
+        fragmentTransaction.commit();
     }
 }
