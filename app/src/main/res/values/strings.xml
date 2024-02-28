@@ -6,4 +6,8 @@
         <item>Subcontractor</item>//2
     </string-array>
     <bool name="login_status">false</bool>
+    <string name ="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
 </resources>

@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.finalsproject" />
-                  <option name="mobileSdkAppId" value="1:66188628373:android:454aa5f4462475b272269c" />
-                  <option name="projectId" value="lost-luggage-delivery" />
-                  <option name="projectNumber" value="66188628373" />
+                  <option name="mobileSdkAppId" value="1:27551528903:android:4035108d5f17eae12a4be2" />
+                  <option name="projectId" value="finalsproject-410c0" />
+                  <option name="projectNumber" value="27551528903" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

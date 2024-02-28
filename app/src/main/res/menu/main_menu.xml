@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <group android:checkableBehavior="single">
+
+            <item
+                android:id="@+id/nav_luggage"
+                android:title="Luggage Details"
+                android:icon="@drawable/luggage"/>
+
+            <item
+                android:id="@+id/nav_address"
+                android:title="Delivery Address"
+                android:icon="@drawable/location"/>
+
+            <item
+                android:id="@+id/nav_monitoring"
+                android:title="Luggage Monitoring"
+                android:icon="@drawable/monitoring"/>
+
+            <item
+                android:id="@+id/nav_profile"
+                android:title="Profile"
+                android:icon="@drawable/profile"/>
+        </group>
+</menu>
