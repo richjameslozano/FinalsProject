@@ -1,10 +1,5 @@
 package com.example.finalsproject.registration_activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +11,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.finalsproject.login;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.finalsproject.R;
+import com.example.finalsproject.login;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class register extends AppCompatActivity {
@@ -47,8 +47,6 @@ public class register extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.register_acc_type, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
-
         //LISTENERS//
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -63,7 +61,6 @@ public class register extends AppCompatActivity {
                 }
             });
         next_btn.setOnClickListener(view -> {
-
             String user = user_regis.getText().toString().trim();
             if(user.isEmpty()){
                 user_regis.setError("Please enter an account username.");
@@ -74,12 +71,7 @@ public class register extends AppCompatActivity {
             else if (!user.matches(".*[a-zA-Z].*")) {
                 user_regis.setError("Username should contain at least one letter.");
             }
-            //CHECK IF USERNAME IN DATABASE IS TAKEN//
-            else if(user.equals("Taken")){
-                user_regis.setError("Username is already taken.");
-            }
-            //CONTINUE//
-            else if(!user.equals("taken")){
+            else{
                 register_values.account_type = account_type;
                 register_values.username = user;
                 replaceFragment(new register1());

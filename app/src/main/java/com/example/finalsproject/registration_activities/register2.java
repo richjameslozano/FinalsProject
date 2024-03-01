@@ -4,12 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.finalsproject.login;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.finalsproject.R;
+import com.example.finalsproject.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,9 +55,9 @@ public class register2 extends Fragment {
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
             String
-                    email = email_regis.getText().toString().trim(),
-                    pass = pass_regis.getText().toString().trim(),
-                    confirm_pass = confirm_pass_regis.getText().toString().trim();
+            email = email_regis.getText().toString().trim(),
+            pass = pass_regis.getText().toString().trim(),
+            confirm_pass = confirm_pass_regis.getText().toString().trim();
             if(email.isEmpty()){
                 email_regis.setError("Email address is required.");
             }
