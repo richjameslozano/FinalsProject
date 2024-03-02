@@ -1,7 +1,13 @@
 TO DO:
+
 NAVIGATION FUNCTIONS AND IMPLEMENT DIFFERENT DASHBOARDS PER USER
+
+
 USER PROFILE AND MORE ACCOUNT SETTINGS LIKE CHANGE PASSWORD, DELETE ACCOUNT FOR BETTER USER EXPERIENCE
+
+
 IMPLEMENT SUBCONTRACTOR MAPS ACTIVITY TO MAKE CUSTOMER MAPS ACTIVITY
+
 
 TRANSACTION RECEIPT CONTAINING THE FF: PRODUCE UPON SUBCONTRACTOR DELIVERY STATUS UPDATE
 Customer address
@@ -13,6 +19,7 @@ Luggage Details
 Delivery Date
 Delivery Status (set by Subcontractor)
 Delivery Amount (Compare longitude and latitude A and B using Haversine Formula)
+
 
 double lat1 = 40.7128; // latitude of point 1 in degrees
         double lon1 = A1; // longitude of point A in degrees
