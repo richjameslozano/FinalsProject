@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".dashboard_user_activities.history_list_class"
+        android:name=".Aabasis.history_list_class"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".dashboard_user_activities.setAddress"
+            android:name=".Aabasis.setAddress"
             android:exported="false" />
         <activity
             android:name=".registration_activities.register"
@@ -45,10 +45,10 @@
             android:name=".dashboard"
             android:exported="false" />
         <activity
-            android:name=".dashboard_user_activities.history_class"
+            android:name=".Aabasis.history_class"
             android:exported="false" />
         <activity
-            android:name=".dashboard_user_activities.setAddressMap"
+            android:name=".Aabasis.setAddressMap"
             android:exported="false" />
         <!--
              Before you run your application, you need a Google Maps API key.

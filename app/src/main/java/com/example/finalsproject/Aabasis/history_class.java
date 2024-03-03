@@ -1,4 +1,4 @@
-package com.example.finalsproject.dashboard_user_activities;
+package com.example.finalsproject.Aabasis;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -41,7 +41,6 @@ public class history_class extends AppCompatActivity {
             }
             catch (IOException e) {
                 readableAddresses.add("Unable to get street address");
-                e.printStackTrace();
             }
         }
         lv_savedLocations.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, readableAddresses));

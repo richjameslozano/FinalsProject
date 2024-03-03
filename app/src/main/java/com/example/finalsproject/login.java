@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalsproject.registration_activities.register;
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 public class login extends AppCompatActivity {
 
-    TextView signup;
+    TextView signup,forgot_btn;
     Button login_btn;
     CheckBox remember_btn;
     EditText email_login,pass_login;
@@ -37,16 +38,16 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         email_login =findViewById(R.id.email_login);
         pass_login = findViewById(R.id.pass_login);
         signup = findViewById(R.id.signup);
         login_btn = findViewById(R.id.login_btn);
+        forgot_btn = findViewById(R.id.forgot);
         remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
-        login_btn.setOnClickListener(view -> {
+        login_btn.setOnClickListener(v -> {
 
             String email = email_login.getText().toString().trim();
             String password = pass_login.getText().toString().trim();
@@ -75,6 +76,27 @@ public class login extends AppCompatActivity {
                     Toast.makeText(login.this,Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                 }
             });
+        });
+        //PASSWORD RESET//
+        forgot_btn.setOnClickListener(v->{
+            EditText reset = new EditText(v.getContext());
+            AlertDialog.Builder passResetDialog = new AlertDialog.Builder(v.getContext())
+            .setTitle("Are you sure you want to reset your password?")
+            .setMessage("Please, enter your email address, we will send a verification email")
+            .setView(reset)
+            .setPositiveButton("Yes", (dialog, which) -> {
+                String mail = reset.getText().toString();
+                fAuth.sendPasswordResetEmail(mail).addOnSuccessListener(unused -> {
+                    Toast.makeText(login.this,"We have sent a password reset request to your email.",Toast.LENGTH_LONG).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(login.this,"Your email is invalid or does not exist in our system.",Toast.LENGTH_LONG).show();
+                });
+            })
+            .setNegativeButton("No", (dialog, which) -> {
+
+            });
+            passResetDialog.show();
         });
     }
     public void remember_save(){

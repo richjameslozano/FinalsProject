@@ -1,4 +1,4 @@
-package com.example.finalsproject.dashboard_user_activities;
+package com.example.finalsproject.Aabasis;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

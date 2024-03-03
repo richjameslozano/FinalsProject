@@ -83,9 +83,14 @@ public class register2 extends Fragment {
                 //REGISTER ALL CREDENTIALS//
                 fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
+                        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); //GET CURRENT USER ID
+                        //SEND EMAIL VERIFICATION
+//                        FirebaseUser currentUser = fAuth.getCurrentUser();
+//                        currentUser.sendEmailVerification().addOnSuccessListener(unused -> Toast.makeText(getActivity(),"We have sent you a verification email.",Toast.LENGTH_LONG).show())
+//                        .addOnFailureListener(unused -> Toast.makeText(getActivity(),"Your email is invalid.",Toast.LENGTH_SHORT).show());
+//
                         startActivity(new Intent(getActivity(), login.class));
                         Toast.makeText(getActivity(), "Account created.",Toast.LENGTH_SHORT).show();
-                        userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); //GET CURRENT USER ID
                         DocumentReference documentReference = db.collection("users").document(userID);
                         Map<String, Object> user = getStringObjectMap();
                         documentReference.set(user).addOnSuccessListener(unused -> Log.d(TAG,"User profile created for "+ userID));

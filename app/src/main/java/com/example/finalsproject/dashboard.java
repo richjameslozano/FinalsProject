@@ -12,8 +12,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -21,7 +20,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.example.finalsproject.dashboard_user_activities.profile;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,8 +40,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String uiD;
-    TextView acc_type,u_name,f_name,l_name,contact,email,pass,textView;
-    Button logout_btn;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,49 +49,16 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-
         setNavigationView();
-
-        //VIEWS
-        logout_btn = findViewById(R.id.logout_btn);
-        acc_type = findViewById(R.id.acc_type);
-        u_name = findViewById(R.id.u_name);
-        f_name = findViewById(R.id.f_name);
-        l_name = findViewById(R.id.l_name);
-        contact = findViewById(R.id.contact);
-        email = findViewById(R.id.email);
-        pass = findViewById(R.id.pass);
-        textView = findViewById(R.id.title);
-        //PROFILE//
-        DocumentReference documentReference = fStore.collection("users").document(uiD);
-        documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
-            if (documentSnapshot != null) {
-                acc_type.setText(documentSnapshot.getString("acc_type"));
-                u_name.setText(documentSnapshot.getString("u_name"));
-                f_name.setText(documentSnapshot.getString("f_name"));
-                l_name.setText(documentSnapshot.getString("l_name"));
-                contact.setText(documentSnapshot.getString("contact"));
-                email.setText(documentSnapshot.getString("email"));
-                pass.setText(documentSnapshot.getString("pass"));
-            }
-        });
-
-        //LISTENERS
-        logout_btn.setOnClickListener(view ->{
-            fAuth.signOut();
-            un_remember_save();
-            startActivity(new Intent(this,login.class));
-            finish();
-        });
     }
     private void setNavigationView(){
         //NAVIGATION//
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nav_view);
+        navigationView.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         //actionbar
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -130,8 +98,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         editor.apply();
     }
 
-    @Override   //FRAGMENTS UTILIZATION POTENTIAL//
+    @Override   //FRAGMENTS UTILIZATION// ISOLATE EACH FRAGMENT BASED ON ACCOUNT TYPE //
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
+        item.setCheckable(false);
         DocumentReference documentReference = fStore.collection("users").document(uiD);
         documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
@@ -139,7 +109,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     case "admin":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                //
+                                setHomeFragment();
                                 break;
                             case "Account Management":
                                 //
@@ -148,18 +118,17 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                //
+                                setProfileFragment(new profile());
                                 break;
                             case "Logout":
-                                startActivity(new Intent(this, login.class));
-                                finish();
+                                logout();
                                 break;
                         }
-                        break;
+                    break;
                     case "employee":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                //
+                                setHomeFragment();
                                 break;
                             case "Delivery Inquiries":
                                 //
@@ -171,21 +140,20 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                //
+                                setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
                                 //
                                 break;
                             case "Logout":
-                                startActivity(new Intent(this, login.class));
-                                finish();
+                                logout();
                                 break;
                         }
-                        break;
+                    break;
                     case "customer":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                //
+                                setHomeFragment();
                                 break;
                             case "Inquire Lost Luggage":
                                 //
@@ -194,21 +162,20 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                //
+                                setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
                                 //
                                 break;
                             case "Logout":
-                                startActivity(new Intent(this, login.class));
-                                finish();
+                                logout();
                                 break;
                         }
-                        break;
+                    break;
                     case "subcontractor":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                //
+                                setHomeFragment();
                                 break;
                             case "Available Deliveries":
                                 //
@@ -217,21 +184,26 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                //
+                                setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
                                 //
                                 break;
                             case "Logout":
-                                startActivity(new Intent(this, login.class));
-                                finish();
+                                logout();
                                 break;
                         }
-                        break;
+                    break;
                 }
             }
         });
         return true;
+    }
+    private void logout(){
+        fAuth.signOut();
+        un_remember_save();
+        startActivity(new Intent(this,login.class));
+        finish();
     }
     @Override
     public void onBackPressed() {//slide to back function
@@ -244,5 +216,19 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         else {
             super.onBackPressed();
         }
+    }
+    //ALL FRAGMENTS//
+    private void setHomeFragment(){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, new Fragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+    private void setProfileFragment(profile a) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a);
+        fragmentTransaction.commit();
     }
 }
