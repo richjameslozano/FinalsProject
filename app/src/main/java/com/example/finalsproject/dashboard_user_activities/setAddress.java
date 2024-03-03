@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Switch;
@@ -26,7 +25,7 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
 
-public class subcontractor extends AppCompatActivity {
+public class setAddress extends AppCompatActivity {
     public static final int DEFAULT_UPDATE_INTERVAL = 30;
     public static final int FAST_UPDATE_INTERVAL = 3;
     private static final int PERMISSIONS_FINE_LOCATION = 0;
@@ -36,7 +35,6 @@ public class subcontractor extends AppCompatActivity {
 
     //WAYPOINT VARIABLES//
     Switch sw_location_updates,sw_gps;
-    Boolean updateOn = false;
     Location currentLocation;
     List<Location> savedLocations;
 
@@ -47,6 +45,7 @@ public class subcontractor extends AppCompatActivity {
 
 
     //START OF CLASS//
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,18 +82,14 @@ public class subcontractor extends AppCompatActivity {
 
         //LISTENERS//
         btn_newWayPoint.setOnClickListener(v->{
-            class_history_list subcontractorHistoryList = (class_history_list)getApplicationContext();
-            savedLocations = subcontractorHistoryList.getMyLocations();
+            savedLocations = history_list_class.getMyLocations();
             savedLocations.add(currentLocation);
+            tv_MarkerCount.setText(Integer.toString(history_list_class.getMyLocations().size()));
         });
 
-        btn_showWayPoint.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(), class_history.class));
-        });
+        btn_showWayPoint.setOnClickListener(v-> startActivity(new Intent(getApplicationContext(), history_class.class)));
 
-        btn_showMap.setOnClickListener(v->{
-            startActivity(new Intent(getApplicationContext(),map_subcontractor.class));
-        });
+        btn_showMap.setOnClickListener(v-> startActivity(new Intent(getApplicationContext(), setAddressMap.class)));
 
         sw_gps.setOnClickListener(v->{
             if(sw_gps.isChecked()){
@@ -121,12 +116,13 @@ public class subcontractor extends AppCompatActivity {
     //METHODS//
 
     //LOCATION UPDATES//
-    @SuppressLint("MissingPermission")
+    @SuppressLint({"MissingPermission", "SetTextI18n"})
     private void startLocationUpdates() {
         tv_updates.setText("Location is being tracked");
         fusedLocationProviderClient.requestLocationUpdates(locationRequest,locationCallBack,null); // location tracking start line //
         updateGPS();
     }
+    @SuppressLint("SetTextI18n")
     private void stopLocationUpdates() {
         tv_updates.setText("Location is not being tracked");
         tv_lat.setText("Not tracking location");
@@ -163,9 +159,7 @@ public class subcontractor extends AppCompatActivity {
             });
         }
         else{
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},PERMISSIONS_FINE_LOCATION);
-            }
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
         }
     }
     //LOCATION UPDATE//
@@ -173,6 +167,7 @@ public class subcontractor extends AppCompatActivity {
 
     
     //UPDATE VALUES IN UI//
+    @SuppressLint("SetTextI18n")
     private void updateUIValues(Location location) {
         if (location == null) {
             // Handle null location
@@ -201,15 +196,12 @@ public class subcontractor extends AppCompatActivity {
         Geocoder geocoder = new Geocoder(getApplicationContext());
         try{
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+            assert addresses != null;
             tv_address.setText(addresses.get(0).getAddressLine(0));
         }
         catch (Exception e){
             tv_address.setText("Unable to get street address");
         }
-
-        class_history_list history = (class_history_list)getApplicationContext();
-        savedLocations = history.getMyLocations();
-        tv_MarkerCount.setText(Integer.toString(savedLocations.size()));
     }
     //UPDATE VALUES IN UI//
 }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class class_history extends AppCompatActivity {
+public class history_class extends AppCompatActivity {
 
     ListView lv_savedLocations;
 
@@ -24,12 +24,11 @@ public class class_history extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         lv_savedLocations = findViewById(R.id.lv_savedlocations);
-        class_history_list history = (class_history_list) getApplicationContext();
 
         Geocoder geocoder = new Geocoder(getApplicationContext());
         // Create a list to store readable addresses
         List<String> readableAddresses = new ArrayList<>();
-        List<Location> savedLocations = class_history_list.getMyLocations();
+        List<Location> savedLocations = history_list_class.getMyLocations();
         for (Location location : savedLocations) {
             try {
                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -44,6 +43,6 @@ public class class_history extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        lv_savedLocations.setAdapter(new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, readableAddresses));
+        lv_savedLocations.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, readableAddresses));
     }
 }

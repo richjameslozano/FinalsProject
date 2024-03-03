@@ -6,8 +6,8 @@ import android.location.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-public class class_history_list extends Application {
-    private static class_history_list singleton;
+public class history_list_class extends Application {
+    private static history_list_class singleton;
 
     private static List<Location> myLocations;
 
@@ -15,9 +15,9 @@ public class class_history_list extends Application {
         return myLocations;
     }
     public void setMyLocations(List<Location>myLocations){
-        class_history_list.myLocations = myLocations;
+        history_list_class.myLocations = myLocations;
     }
-    public class_history_list getInstance(){
+    public history_list_class getInstance(){
         return singleton;
     }
     public void onCreate(){

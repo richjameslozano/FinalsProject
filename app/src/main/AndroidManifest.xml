@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".dashboard_user_activities.class_history_list"
+        android:name=".dashboard_user_activities.history_list_class"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -24,7 +24,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".dashboard_user_activities.subcontractor"
+            android:name=".dashboard_user_activities.setAddress"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,10 +45,10 @@
             android:name=".dashboard"
             android:exported="false" />
         <activity
-            android:name=".dashboard_user_activities.class_history"
+            android:name=".dashboard_user_activities.history_class"
             android:exported="false" />
         <activity
-            android:name=".dashboard_user_activities.map_subcontractor"
+            android:name=".dashboard_user_activities.setAddressMap"
             android:exported="false" />
         <!--
              Before you run your application, you need a Google Maps API key.

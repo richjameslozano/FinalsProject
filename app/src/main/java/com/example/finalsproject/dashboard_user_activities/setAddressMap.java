@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class map_subcontractor extends AppCompatActivity implements OnMapReadyCallback {
+public class setAddressMap extends AppCompatActivity implements OnMapReadyCallback {
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     List<Location> savedLocations;
 
@@ -36,7 +36,7 @@ public class map_subcontractor extends AppCompatActivity implements OnMapReadyCa
                 .findFragmentById(R.id.id_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        savedLocations = class_history_list.getMyLocations();
+        savedLocations = history_list_class.getMyLocations();
     }
 
     @Override
