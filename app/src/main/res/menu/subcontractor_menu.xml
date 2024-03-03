@@ -2,6 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:title="subcontractor" />
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="Transactions">
+            <menu>
+                <item
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:title="Home" />
+                <item android:title="Available Deliveries" />
+                <item android:title="Delivery History" />
+            </menu>
+        </item>
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="My Account">
+            <menu>
+                <item android:title="Profile" />
+                <item android:title="Account Settings" />
+                <item android:title="Logout" />
+            </menu>
+        </item>
     </group>
 </menu>

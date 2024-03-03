@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -82,19 +83,12 @@ public class register2 extends Fragment {
                 //REGISTER ALL CREDENTIALS//
                 fAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
+                        startActivity(new Intent(getActivity(), login.class));
                         Toast.makeText(getActivity(), "Account created.",Toast.LENGTH_SHORT).show();
                         userID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid(); //GET CURRENT USER ID
                         DocumentReference documentReference = db.collection("users").document(userID);
-                        Map<String,Object> user = new HashMap<>();
-                        user.put("acc_type",register_values.account_type);
-                        user.put("u_name",register_values.username);
-                        user.put("f_name",register_values.first_name);
-                        user.put("l_name",register_values.last_name);
-                        user.put("contact",register_values.contact);
-                        user.put("email",register_values.email);
-                        user.put("pass",register_values.password);
+                        Map<String, Object> user = getStringObjectMap();
                         documentReference.set(user).addOnSuccessListener(unused -> Log.d(TAG,"User profile created for "+ userID));
-                        startActivity(new Intent(getActivity(), login.class));
                     }
                     else{
                         Toast.makeText(getActivity(), "Account creation error!" + Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
@@ -108,6 +102,20 @@ public class register2 extends Fragment {
         });
         return view;
     }
+
+    @NonNull
+    private static Map<String, Object> getStringObjectMap() {
+        Map<String,Object> user = new HashMap<>();
+        user.put("acc_type",register_values.account_type);
+        user.put("u_name",register_values.username);
+        user.put("f_name",register_values.first_name);
+        user.put("l_name",register_values.last_name);
+        user.put("contact",register_values.contact);
+        user.put("email",register_values.email);
+        user.put("pass",register_values.password);
+        return user;
+    }
+
     //FRAGMENT METHOD//
     private void replaceFragment(register1 register1) {
         FragmentManager fragmentManager = getParentFragmentManager();

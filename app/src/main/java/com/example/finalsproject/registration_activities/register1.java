@@ -62,7 +62,7 @@ public class register1 extends Fragment {
             else if(contact.isEmpty()){
                 contact_num.setError("Contact number is required.");
             }
-            else if (contact.length()<10||!contact.startsWith("09")) {
+            else if (contact.length()<=10||!contact.startsWith("09")) {
                 contact_num.setError("Invalid contact number.");
             }
             //CONTINUE//

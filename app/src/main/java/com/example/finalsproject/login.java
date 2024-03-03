@@ -84,14 +84,6 @@ public class login extends AppCompatActivity {
         editor.putString(UID,uId);
         editor.putString(EMAIL,email_login.getText().toString().trim());
         editor.putString(PASSWORD,pass_login.getText().toString().trim());
-        //ACCOUNT TYPE//
-//        DocumentReference documentReference = fStore.collection("users").document(uId);
-//        documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
-//            assert documentSnapshot != null;
-//            String field = documentSnapshot.getString("acc_type");
-//            editor.putString(ACC_TYPE,field);
-//            Toast.makeText(login.this,"Account Type: " + field,Toast.LENGTH_SHORT).show(); //DEBUG
-//        });
         editor.apply();
     }
 }

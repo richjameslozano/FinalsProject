@@ -4,34 +4,35 @@
 
         <group android:checkableBehavior="single">
 
-            <item
-                android:id="@+id/nav_luggage"
-                android:title="Luggage Details"
-                android:icon="@drawable/luggage"/>
+            <item android:title="Transactions" >
+                <menu >
+                    <item
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:title="Home" />
+                    <item
+                        android:icon="@drawable/luggage"
+                        android:title="Inquire Lost Luggage" />
+                    <item
+                        android:icon="@drawable/monitoring"
+                        android:title="Luggage Monitoring" />
+                </menu>
+            </item>
+            <item android:title="My Account">
+                <menu>
+                    <item
+                        android:icon="@drawable/profile"
+                        android:title="Profile" />
+                    <item
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:title="Account Settings" />
+                    <item
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:title="Logout" />
+                </menu>
+            </item>
 
-            <item
-                android:id="@+id/nav_address"
-                android:title="Delivery Address"
-                android:icon="@drawable/location"/>
-
-            <item
-                android:id="@+id/nav_monitoring"
-                android:title="Luggage Monitoring"
-                android:icon="@drawable/monitoring"/>
-
-            <item
-                android:id="@+id/nav_profile"
-                android:title="Profile"
-                android:icon="@drawable/profile"/>
-            <item
-                android:id="@+id/nav_settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:title="Settings" />
-            <item
-                android:id="@+id/nav_logout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:title="Logout" />
         </group>
 </menu>

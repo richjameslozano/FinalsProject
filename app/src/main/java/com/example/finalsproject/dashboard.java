@@ -127,11 +127,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         editor.putString(UID,"uid");
         editor.putString(EMAIL,"email");
         editor.putString(PASSWORD,"password");
-//        editor.putString(ACC_TYPE,"acc_type");
         editor.apply();
-        }
+    }
 
-    @Override
+    @Override   //FRAGMENTS UTILIZATION POTENTIAL//
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         DocumentReference documentReference = fStore.collection("users").document(uiD);
         documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
@@ -139,33 +138,110 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 switch (Objects.requireNonNull(documentSnapshot.getString("acc_type")).toLowerCase()){
                     case "admin":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
-                            case "admin":
-                                //USE FRAGMENTS NEXT//
+                            case "Home":
+                                //
+                                break;
+                            case "Account Management":
+                                //
+                                break;
+                            case "Transaction History":
+                                //
+                                break;
+                            case "Profile":
+                                //
+                                break;
+                            case "Logout":
+                                startActivity(new Intent(this, login.class));
                                 finish();
                                 break;
-                            case "Item":
+                        }
+                        break;
+                    case "employee":
+                        switch (Objects.requireNonNull(item.getTitle()).toString()){
+                            case "Home":
+                                //
+                                break;
+                            case "Delivery Inquiries":
+                                //
+                                break;
+                            case "Pending Deliveries":
+                                //
+                                break;
+                            case "Deliveries History":
+                                //
+                                break;
+                            case "Profile":
+                                //
+                                break;
+                            case "Account Settings":
+                                //
+                                break;
+                            case "Logout":
                                 startActivity(new Intent(this, login.class));
+                                finish();
                                 break;
                         }
                         break;
                     case "customer":
-
-                        break;
-                    case "employee":
-
+                        switch (Objects.requireNonNull(item.getTitle()).toString()){
+                            case "Home":
+                                //
+                                break;
+                            case "Inquire Lost Luggage":
+                                //
+                                break;
+                            case "Luggage Monitoring":
+                                //
+                                break;
+                            case "Profile":
+                                //
+                                break;
+                            case "Account Settings":
+                                //
+                                break;
+                            case "Logout":
+                                startActivity(new Intent(this, login.class));
+                                finish();
+                                break;
+                        }
                         break;
                     case "subcontractor":
-
+                        switch (Objects.requireNonNull(item.getTitle()).toString()){
+                            case "Home":
+                                //
+                                break;
+                            case "Available Deliveries":
+                                //
+                                break;
+                            case "Delivery History":
+                                //
+                                break;
+                            case "Profile":
+                                //
+                                break;
+                            case "Account Settings":
+                                //
+                                break;
+                            case "Logout":
+                                startActivity(new Intent(this, login.class));
+                                finish();
+                                break;
+                        }
                         break;
                 }
             }
         });
         return true;
     }
+    @Override
     public void onBackPressed() {//slide to back function
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.openDrawer(GravityCompat.START);
+        }
+        else {
             super.onBackPressed();
         }
     }

@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SplashScreen extends AppCompatActivity {
     public static final String SHARED_PREFS = "sharedPrefs";
     public static final String STATUS = "status";
-//    public static final String ACC_TYPE = "acc_type";
     public static final String UID = "uid";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";

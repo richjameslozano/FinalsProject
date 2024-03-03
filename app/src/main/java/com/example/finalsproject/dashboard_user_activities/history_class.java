@@ -24,7 +24,6 @@ public class history_class extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         lv_savedLocations = findViewById(R.id.lv_savedlocations);
-
         Geocoder geocoder = new Geocoder(getApplicationContext());
         // Create a list to store readable addresses
         List<String> readableAddresses = new ArrayList<>();
@@ -32,13 +31,15 @@ public class history_class extends AppCompatActivity {
         for (Location location : savedLocations) {
             try {
                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if (addresses != null && addresses.size() > 0) {
+                if (addresses != null && !addresses.isEmpty()) {
                     String addressLine = addresses.get(0).getAddressLine(0);
                     readableAddresses.add(addressLine);
-                } else {
+                }
+                else {
                     readableAddresses.add("No address found for this location");
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 readableAddresses.add("Unable to get street address");
                 e.printStackTrace();
             }
