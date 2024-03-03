@@ -24,7 +24,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".dashboard_user_activities.setAddress"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SplashScreen"
+            android:name=".dashboard_user_activities.setAddress"
             android:exported="false" />
         <activity
             android:name=".registration_activities.register"

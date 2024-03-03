@@ -1,13 +1,10 @@
 package com.example.finalsproject;
 
-import static com.example.finalsproject.SplashScreen.ACC_TYPE;
 import static com.example.finalsproject.SplashScreen.EMAIL;
 import static com.example.finalsproject.SplashScreen.PASSWORD;
 import static com.example.finalsproject.SplashScreen.SHARED_PREFS;
 import static com.example.finalsproject.SplashScreen.STATUS;
 import static com.example.finalsproject.SplashScreen.UID;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,9 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.finalsproject.registration_activities.register;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
@@ -87,13 +85,13 @@ public class login extends AppCompatActivity {
         editor.putString(EMAIL,email_login.getText().toString().trim());
         editor.putString(PASSWORD,pass_login.getText().toString().trim());
         //ACCOUNT TYPE//
-        DocumentReference documentReference = fStore.collection("users").document(uId);
-        documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
-            assert documentSnapshot != null;
-            String field = documentSnapshot.getString("acc_type");
-            editor.putString(ACC_TYPE,field);
-            Toast.makeText(login.this,"Account Type: " + field,Toast.LENGTH_SHORT).show(); //DEBUG
-        });
+//        DocumentReference documentReference = fStore.collection("users").document(uId);
+//        documentReference.addSnapshotListener(this, (documentSnapshot, error) -> {
+//            assert documentSnapshot != null;
+//            String field = documentSnapshot.getString("acc_type");
+//            editor.putString(ACC_TYPE,field);
+//            Toast.makeText(login.this,"Account Type: " + field,Toast.LENGTH_SHORT).show(); //DEBUG
+//        });
         editor.apply();
     }
 }
