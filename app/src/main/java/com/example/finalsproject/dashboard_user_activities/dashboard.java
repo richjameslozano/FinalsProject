@@ -89,15 +89,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         });
     }
-    public void un_remember_save(){ //SHARED PREFERENCES SET BACK TO DEFAULT VALUES
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(STATUS, false);
-        editor.putString(UID,"uid");
-        editor.putString(EMAIL,"email");
-        editor.putString(PASSWORD,"password");
-        editor.apply();
-    }
 
     @Override   //FRAGMENTS UTILIZATION// ISOLATE EACH FRAGMENT BASED ON ACCOUNT TYPE //
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -200,6 +191,15 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         });
         return true;
     }
+    public void un_remember_save(){ //SHARED PREFERENCES SET BACK TO DEFAULT VALUES
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(STATUS, false)
+        .putString(UID,"uid")
+        .putString(EMAIL,"email")
+        .putString(PASSWORD,"password")
+        .apply();
+    }
     private void logout(){
         fAuth.signOut();
         un_remember_save();
@@ -218,6 +218,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
     }
+
     //ALL FRAGMENTS//
     private void setHomeFragment(){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

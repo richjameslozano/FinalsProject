@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -56,7 +57,6 @@ public class login extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
-
         login_btn.setOnClickListener(v -> {
             String email = email_login.getText().toString().trim();
             String password = pass_login.getText().toString().trim();
@@ -96,29 +96,39 @@ public class login extends AppCompatActivity {
             }
         });
         //PASSWORD RESET//
-        forgot_btn.setOnClickListener(v->{
-            EditText reset = new EditText(v.getContext());
-            AlertDialog.Builder passResetDialog = new AlertDialog.Builder(v.getContext())
-            .setTitle("Are you sure you want to reset your password?")
-            .setMessage("Please, enter your email address, we will send a verification email")
-            .setView(reset)
-            .setPositiveButton("Yes", (dialog, which) -> {
-                String mail = reset.getText().toString();
-                fAuth.sendPasswordResetEmail(mail)
-                .addOnSuccessListener(unused -> Toast.makeText(login.this,"We have sent a password reset request to your email.",Toast.LENGTH_LONG).show())
-                .addOnFailureListener(e -> Toast.makeText(login.this,"Your email is invalid or does not exist in our system.",Toast.LENGTH_LONG).show());
-            })
-            .setNegativeButton("No", (dialog, which) -> {});
-            passResetDialog.show();
-        });
+        forgot_btn.setOnClickListener(this::showAlertDialogButtonClicked);
     }
     public void remember_save(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(STATUS, remember_btn.isChecked());
-        editor.putString(UID, uID);
-        editor.putString(EMAIL,email_login.getText().toString().trim());
-        editor.putString(PASSWORD,pass_login.getText().toString().trim());
-        editor.apply();
+        editor.putBoolean(STATUS, remember_btn.isChecked())
+        .putString(UID, uID)
+        .putString(EMAIL,email_login.getText().toString().trim())
+        .putString(PASSWORD,pass_login.getText().toString().trim())
+        .apply();
+    }
+    public void showAlertDialogButtonClicked(View view) {
+        final View customLayout = getLayoutInflater().inflate(R.layout.activity_forgot_password_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(customLayout)
+        .setNegativeButton("No", (dialog, which) -> {
+        })
+        .setPositiveButton("Yes", (dialog, which) -> {
+            EditText editText = customLayout.findViewById(R.id.emailReset);
+            String email = editText.getText().toString().trim();
+            if (email.isEmpty()){
+                Toast.makeText(this,"Email does not exist in our system.",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                sendEmail(email);
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void sendEmail(String email){
+        fAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener(unused -> Toast.makeText(this,"Email sent successfully.",Toast.LENGTH_SHORT).show())
+            .addOnFailureListener(e -> Toast.makeText(this,"Email failed to send.",Toast.LENGTH_SHORT).show());
     }
 }

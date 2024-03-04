@@ -55,14 +55,13 @@ public class register2 extends Fragment {
         email_regis = view.findViewById(R.id.email_regis);
         pass_regis = view.findViewById(R.id.pass_regis);
         confirm_pass_regis = view.findViewById(R.id.confirm_pass);
-        setInputType(pass_regis);
-        setInputType(confirm_pass_regis);
+        pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         //FIREBASE INSTANCES
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //LISTENERS//
         show1.setOnClickListener(v -> {
-            pass_regis.setSelection(pass_regis.getText().length());
             if (show1.isChecked()) {
                 pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
             }
@@ -71,7 +70,6 @@ public class register2 extends Fragment {
             }
         });
         show2.setOnClickListener(v -> {
-            confirm_pass_regis.setSelection(confirm_pass_regis.getText().length());//move to the end of the edittext
             if (show2.isChecked()) {
                 confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
             }
@@ -143,14 +141,11 @@ public class register2 extends Fragment {
         user.put("l_name",register_values.last_name);
         user.put("contact",register_values.contact);
         user.put("email",register_values.email);
-        user.put("pass",register_values.password);
+        user.put("first_pass",register_values.password);
         return user;
     }
 
     //FRAGMENT METHOD//
-    private void setInputType(EditText text){
-        text.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-    }
     private void replaceFragment(register1 register1) {
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
