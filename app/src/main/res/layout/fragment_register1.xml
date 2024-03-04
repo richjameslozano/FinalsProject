@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="First Name"
-            android:inputType="text"
+            android:inputType="text|textPersonName"
             android:maxLength="30"
             android:minHeight="48dp"
             android:textColorHint="@color/white"
@@ -64,16 +64,16 @@
             android:layout_marginTop="48dp"
             android:ems="10"
             android:hint="Last Name"
-            android:inputType="text"
+            android:inputType="text|textPersonName"
             android:maxLength="20"
             android:minHeight="48dp"
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.241"
+            app:layout_constraintHorizontal_bias="0.243"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.315" />
+            app:layout_constraintVertical_bias="0.341" />
 
         <EditText
             android:id="@+id/contact_num"
@@ -87,10 +87,10 @@
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.242"
+            app:layout_constraintHorizontal_bias="0.27"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.688" />
+            app:layout_constraintVertical_bias="0.689" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

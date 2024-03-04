@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Email Address"
-            android:inputType="text"
+            android:inputType="text|textEmailAddress"
+            android:minHeight="48dp"
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,6 +63,7 @@
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,12 +78,37 @@
             android:ems="10"
             android:hint="Confirm Password"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.593" />
+
+        <ToggleButton
+            android:id="@+id/show1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.987"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.365" />
+
+        <ToggleButton
+            android:id="@+id/show2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="show"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.987"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.589" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

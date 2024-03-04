@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.finalsproject.dashboard_user_activities.dashboard;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,5 +51,4 @@ public class SplashScreen extends AppCompatActivity {
             }
         },2000);
     }
-
 }

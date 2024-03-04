@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -31,12 +33,14 @@ import java.util.Objects;
 public class register2 extends Fragment {
     EditText email_regis,pass_regis,confirm_pass_regis;
     Button next_btn2, back_btn2;
+    ToggleButton show1,show2;
     View view;
     ConstraintLayout fragment_layout;
 
     FirebaseAuth fAuth;
     FirebaseFirestore db;
     String userID;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,15 +48,37 @@ public class register2 extends Fragment {
         view = inflater.inflate(R.layout.fragment_register2, container, false); // Inflate the layout for this fragment
         next_btn2 = view.findViewById(R.id.next_btn2);
         back_btn2 = view.findViewById(R.id.back_btn2);
+        show1 = view.findViewById(R.id.show1);
+        show2 = view.findViewById(R.id.show2);
         fragment_layout = view.findViewById(R.id.fragment_layout);
         //regis2 data
         email_regis = view.findViewById(R.id.email_regis);
         pass_regis = view.findViewById(R.id.pass_regis);
         confirm_pass_regis = view.findViewById(R.id.confirm_pass);
+        setInputType(pass_regis);
+        setInputType(confirm_pass_regis);
         //FIREBASE INSTANCES
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //LISTENERS//
+        show1.setOnClickListener(v -> {
+            pass_regis.setSelection(pass_regis.getText().length());
+            if (show1.isChecked()) {
+                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
+            }
+            else {
+                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
+        show2.setOnClickListener(v -> {
+            confirm_pass_regis.setSelection(confirm_pass_regis.getText().length());//move to the end of the edittext
+            if (show2.isChecked()) {
+                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            }
+            else {
+                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
             String
@@ -122,6 +148,9 @@ public class register2 extends Fragment {
     }
 
     //FRAGMENT METHOD//
+    private void setInputType(EditText text){
+        text.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+    }
     private void replaceFragment(register1 register1) {
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

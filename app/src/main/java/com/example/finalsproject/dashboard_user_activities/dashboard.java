@@ -1,4 +1,4 @@
-package com.example.finalsproject;
+package com.example.finalsproject.dashboard_user_activities;
 
 import static com.example.finalsproject.SplashScreen.EMAIL;
 import static com.example.finalsproject.SplashScreen.PASSWORD;
@@ -24,7 +24,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.finalsproject.dashboard_user_activities.profile;
+import com.example.finalsproject.R;
+import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -202,7 +203,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     private void logout(){
         fAuth.signOut();
         un_remember_save();
-        startActivity(new Intent(this,login.class));
+        startActivity(new Intent(this, login.class));
         finish();
     }
     @Override

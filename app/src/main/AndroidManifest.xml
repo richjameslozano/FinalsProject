@@ -42,7 +42,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".dashboard"
+            android:name=".dashboard_user_activities.dashboard"
             android:exported="false" />
         <activity
             android:name=".Aabasis.history_class"

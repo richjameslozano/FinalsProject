@@ -25,7 +25,7 @@ public class register extends AppCompatActivity {
     FirebaseAuth fAuth;
     Button next_btn, back_btn;
     Spinner spinner;
-    EditText user_regis;
+    EditText user_regis,pass_regis,confirm_pass;
     ConstraintLayout register_layout, fragment_layout;
     String account_type;
 
@@ -38,6 +38,9 @@ public class register extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance(); //firebase instance
         next_btn = findViewById(R.id.next_btn);
         back_btn = findViewById(R.id.back_btn);
+        pass_regis = findViewById(R.id.pass_regis);
+        confirm_pass = findViewById(R.id.confirm_pass);
+
         spinner = findViewById(R.id.acctype_spinner);
         user_regis = findViewById(R.id.user_regis);
         register_layout = findViewById(R.id.register_layout);
