@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class account_settings extends Fragment {
+public class fragment_account_settings extends Fragment {
     View view;
     ImageView pfp_acc;
     ToggleButton reset,show1,show2;

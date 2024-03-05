@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class profile extends Fragment {
+public class fragment_profile extends Fragment {
     View view;
     TextView acc_type,u_name,f_name,l_name,contact,email;
     ImageView pfp_prof;

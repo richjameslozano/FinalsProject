@@ -111,10 +111,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                setProfileFragment(new profile());
+                                setProfileFragment(new fragment_profile());
                                 break;
                             case "Account Settings":
-                                setAccountSettingsFragment(new account_settings());
+                                setAccountSettingsFragment(new fragment_account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -136,10 +136,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                setProfileFragment(new profile());
+                                setProfileFragment(new fragment_profile());
                                 break;
                             case "Account Settings":
-                                setAccountSettingsFragment(new account_settings());
+                                setAccountSettingsFragment(new fragment_account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -158,10 +158,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                setProfileFragment(new profile());
+                                setProfileFragment(new fragment_profile());
                                 break;
                             case "Account Settings":
-                                setAccountSettingsFragment(new account_settings());
+                                setAccountSettingsFragment(new fragment_account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -180,10 +180,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Profile":
-                                setProfileFragment(new profile());
+                                setProfileFragment(new fragment_profile());
                                 break;
                             case "Account Settings":
-                                setAccountSettingsFragment(new account_settings());
+                                setAccountSettingsFragment(new fragment_account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -239,13 +239,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         transaction.commit();
 
     }
-    private void setProfileFragment(profile a) {
+    private void setProfileFragment(fragment_profile a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
     }
-    private void setAccountSettingsFragment(account_settings a) {
+    private void setAccountSettingsFragment(fragment_account_settings a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.dashboard_layout,a);
