@@ -16,6 +16,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -112,6 +113,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Profile":
                                 setProfileFragment(new profile());
                                 break;
+                            case "Account Settings":
+                                setAccountSettingsFragment(new account_settings());
+                                break;
                             case "Logout":
                                 logout();
                                 break;
@@ -201,10 +205,18 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         .apply();
     }
     private void logout(){
-        fAuth.signOut();
-        un_remember_save();
-        startActivity(new Intent(this, login.class));
-        finish();
+        final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(this);
+        passwordResetDialog
+                .setTitle("Are you sure you want to logout?")
+                .setMessage("You are logging out of your account.")
+                .setNegativeButton("No",(dialog, which) -> {})
+                .setPositiveButton("Yes",(dialog, which) ->{
+                    fAuth.signOut();
+                    un_remember_save();
+                    startActivity(new Intent(this, login.class));
+                    finish();
+                })
+                .show();
     }
     @Override
     public void onBackPressed() {//slide to back function
