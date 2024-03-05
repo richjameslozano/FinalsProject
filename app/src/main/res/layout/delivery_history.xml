@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dashboard_user_activities.admin.delivery_history">
+    tools:context=".dashboard_user_activities.fragment_delivery_history">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

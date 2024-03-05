@@ -12,7 +12,6 @@
                     android:layout_height="wrap_content"
                     android:title="Home" />
                 <item android:title="Available Deliveries" />
-                <item android:title="Delivery History" />
             </menu>
         </item>
         <item

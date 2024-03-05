@@ -33,6 +33,11 @@
                         android:title="Logout" />
                 </menu>
             </item>
+            <item android:title="Help Center" >
+                <menu >
+                    <item android:title="Contact Us" />
+                </menu>
+            </item>
 
         </group>
 </menu>

@@ -9,6 +9,7 @@ import static com.example.finalsproject.SplashScreen.UID;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.example.finalsproject.dashboard_user_activities.admin.account_management;
-import com.example.finalsproject.dashboard_user_activities.admin.delivery_history;
 import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,7 +109,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setAccountManagementFragment(new account_management());
                                 break;
                             case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
+                                setDeliveryHistoryFragment(new fragment_delivery_history());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -134,7 +134,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 //
                                 break;
                             case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
+                                setDeliveryHistoryFragment(new fragment_delivery_history());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -167,6 +167,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Logout":
                                 logout();
                                 break;
+                            case "Contact Us":
+                                customercontactus();
+                                break;
                         }
                     break;
                     case "subcontractor":
@@ -177,9 +180,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Available Deliveries":
                                 //
                                 break;
-                            case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
-                                break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
                                 break;
@@ -188,6 +188,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 break;
                             case "Logout":
                                 logout();
+                                break;
+                            case "Contact Us":
+                                contactus();
                                 break;
                         }
                     break;
@@ -219,6 +222,14 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 })
                 .show();
     }
+    private void contactus(){
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https:www.facebook.com/curt.a.wong")));
+        finish();
+    }
+    private void customercontactus() {
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https:www.facebook.com/lozano.rj")));
+        finish();
+    }
     @Override
     public void onBackPressed() {//slide to back function
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -233,6 +244,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     //ALL FRAGMENTS//
+
     private void setHomeFragment(fragment_home a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.dashboard_layout, a);
@@ -245,7 +257,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
     }
-    private void setDeliveryHistoryFragment(delivery_history a) {
+    private void setDeliveryHistoryFragment(fragment_delivery_history a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.dashboard_layout,a);

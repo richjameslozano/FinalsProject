@@ -50,6 +50,7 @@ public class register1 extends Fragment {
             Toast.makeText(getActivity(), "Account Type: " + register_values.account_type, Toast.LENGTH_SHORT).show();
             if(f_name.isEmpty()){
                 first_name.setError("First name is required.");
+
             }
             else if (!f_name.matches("[a-zA-Z ]+")) {
                 first_name.setError("First name should contain letters only.");
