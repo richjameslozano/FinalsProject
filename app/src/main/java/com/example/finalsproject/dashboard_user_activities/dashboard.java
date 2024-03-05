@@ -21,11 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
+import com.example.finalsproject.dashboard_user_activities.admin.account_management;
+import com.example.finalsproject.dashboard_user_activities.admin.delivery_history;
 import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,13 +103,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     case "admin":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                setHomeFragment();
+                                setHomeFragment(new fragment_home());
                                 break;
                             case "Account Management":
-                                //
+                                setAccountManagementFragment(new account_management());
                                 break;
-                            case "Transaction History":
-                                //
+                            case "Delivery History":
+                                setDeliveryHistoryFragment(new delivery_history());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -124,7 +125,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     case "employee":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                setHomeFragment();
+                                setHomeFragment(new fragment_home());
                                 break;
                             case "Delivery Inquiries":
                                 //
@@ -132,8 +133,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Pending Deliveries":
                                 //
                                 break;
-                            case "Deliveries History":
-                                //
+                            case "Delivery History":
+                                setDeliveryHistoryFragment(new delivery_history());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -149,7 +150,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     case "customer":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                setHomeFragment();
+                                setHomeFragment(new fragment_home());
                                 break;
                             case "Inquire Lost Luggage":
                                 //
@@ -171,13 +172,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     case "subcontractor":
                         switch (Objects.requireNonNull(item.getTitle()).toString()){
                             case "Home":
-                                setHomeFragment();
+                                setHomeFragment(new fragment_home());
                                 break;
                             case "Available Deliveries":
                                 //
                                 break;
                             case "Delivery History":
-                                //
+                                setDeliveryHistoryFragment(new delivery_history());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -232,12 +233,23 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     //ALL FRAGMENTS//
-    private void setHomeFragment(){
+    private void setHomeFragment(fragment_home a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.dashboard_layout, new Fragment());
+        transaction.replace(R.id.dashboard_layout, a);
         transaction.addToBackStack(null);
         transaction.commit();
-
+    }
+    private void setAccountManagementFragment(account_management a) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a);
+        fragmentTransaction.commit();
+    }
+    private void setDeliveryHistoryFragment(delivery_history a) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a);
+        fragmentTransaction.commit();
     }
     private void setProfileFragment(fragment_profile a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
