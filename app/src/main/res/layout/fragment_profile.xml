@@ -18,17 +18,6 @@
         app:layout_constraintVertical_bias="0.606">
 
         <TextView
-            android:id="@+id/contact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="contact"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.557" />
-
-        <TextView
             android:id="@+id/acc_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,95 +75,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ToggleButton
-            android:id="@+id/show1"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="show"
-            android:textOff="Show"
-            android:textOn="Hide"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.854"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.64" />
-
-        <ToggleButton
-            android:id="@+id/show2"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="show"
-            android:textOff="Show"
-            android:textOn="Hide"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.854"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.731" />
-
-        <EditText
-            android:id="@+id/pass_EditText"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:hint="RESET PASSWORD"
-            android:inputType="text|textPassword"
-            android:textAlignment="center"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.203"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.64" />
-
-        <EditText
-            android:id="@+id/confirm_EditText"
+        <TextView
+            android:id="@+id/contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="CONFIRM PASSWORD"
-            android:inputType="text|textPassword"
-            android:minHeight="48dp"
-            android:textAlignment="center"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.203"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.727" />
-
-        <Button
-            android:id="@+id/confirmReset_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#656262"
-            android:text="Confirm"
-            android:visibility="invisible"
+            android:text="contact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.814" />
-
-        <ToggleButton
-            android:id="@+id/reset_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textOff="RESET PASSWORD"
-            android:textOn="BACK"
-            android:tooltipText="Reset Password?"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.976" />
+            app:layout_constraintVertical_bias="0.557" />
 
         <Button
             android:id="@+id/changepfp_btn"

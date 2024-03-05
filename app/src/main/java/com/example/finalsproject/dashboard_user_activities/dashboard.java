@@ -135,7 +135,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
-                                //
+                                setAccountSettingsFragment(new account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -157,7 +157,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
-                                //
+                                setAccountSettingsFragment(new account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -179,7 +179,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setProfileFragment(new profile());
                                 break;
                             case "Account Settings":
-                                //
+                                setAccountSettingsFragment(new account_settings());
                                 break;
                             case "Logout":
                                 logout();
@@ -228,6 +228,12 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
     private void setProfileFragment(profile a) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a);
+        fragmentTransaction.commit();
+    }
+    private void setAccountSettingsFragment(account_settings a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.dashboard_layout,a);
