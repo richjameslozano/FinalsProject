@@ -12,6 +12,7 @@
     <string name="title_activity_maps_customer">maps_customer</string>
     <string name="username">USERNAME</string>
     <string name="save">SAVE</string>
+    <string name="account_management">ACCOUNT MANAGEMENT</string>
 
 
 </resources>
