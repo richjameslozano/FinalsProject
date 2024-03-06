@@ -97,13 +97,13 @@ public class inquire_lost_luggage extends Fragment {
                    Quantity = quantity.getText().toString(),
                    flight = flightDate.getText().toString();
             if(desc.isEmpty()){
-                description.setError("This field is required");
+                description.setError("Describe your lost luggage.");
             }
             else if(Quantity.isEmpty()){
-                quantity.setError("This field is required");
+                quantity.setError("How many luggage did you lose?");
             }
             else if(flight.isEmpty()){
-                flightDate.setError("This field is required");
+                flightDate.setError("When was the flight date when of which your luggage got lost?");
             }
             else{
                 Toast.makeText(getActivity(), "Your luggage information is being processed.", Toast.LENGTH_SHORT).show();

@@ -27,13 +27,12 @@ public class delivery_inquiries extends Fragment {
     View view;
     ListView inq_lv;
     FirebaseAuth fAuth;
-    FirebaseFirestore db,fStore;
+    FirebaseFirestore db;
     String uiD;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_delivery_inquiries, container, false);
-        fStore = FirebaseFirestore.getInstance();
         db = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
@@ -60,7 +59,7 @@ public class delivery_inquiries extends Fragment {
                                         Toast.makeText(getActivity(),"Luggage is out for delivery.",Toast.LENGTH_SHORT).show();
                                         DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                         String customerId = selectedDocument.getString("customer_id");
-                                        DocumentReference documentReference = fStore.collection("users").document(uiD);
+                                        DocumentReference documentReference = db.collection("users").document(uiD);
                                         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
                                             if (documentSnapshot != null) {
                                                 String endorserName = documentSnapshot.getString("l_name")+", "+documentSnapshot.getString("f_name");

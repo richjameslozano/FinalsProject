@@ -14,17 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="59dp">
 
-        <Button
-            android:id="@+id/changepfp_bt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="CHANGE PROFILE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="200dp"
@@ -63,6 +52,18 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/changepfp_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CHANGE PROFILE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            app:layout_constraintVertical_bias="0.066" />
 
 
         <EditText
@@ -152,8 +153,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.576" />
+            app:layout_constraintTop_toBottomOf="@+id/update_btn"
+            app:layout_constraintVertical_bias="0.105" />
 
         <Button
             android:id="@+id/update_btn"
@@ -161,11 +162,11 @@
             android:layout_height="46dp"
             android:layout_marginBottom="16dp"
             android:text="Update Credentials"
-            app:layout_constraintBottom_toTopOf="@+id/reset_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/changepfp_bt"
-            app:layout_constraintVertical_bias="0.727" />
+            app:layout_constraintVertical_bias="0.081" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -29,7 +29,6 @@ import com.example.finalsproject.R;
 import com.example.finalsproject.dashboard_user_activities.admin.account_management;
 import com.example.finalsproject.dashboard_user_activities.customer.inquire_lost_luggage;
 import com.example.finalsproject.dashboard_user_activities.employee.delivery_inquiries;
-import com.example.finalsproject.dashboard_user_activities.employee.pending_deliveries;
 import com.example.finalsproject.dashboard_user_activities.subcontractor.available_deliveries;
 import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
@@ -133,9 +132,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 break;
                             case "Delivery Inquiries":
                                 setDeliveryInquiries(new delivery_inquiries());
-                                break;
-                            case "Pending Deliveries":
-                                setPendingDeliveries(new pending_deliveries());
                                 break;
                             case "Luggage Monitoring":
                                 setLuggageMonitoring(new fragment_luggage_monitoring());
@@ -262,12 +258,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         transaction.commit();
     }
     private void setDeliveryInquiries(delivery_inquiries a){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.dashboard_layout, a);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-    private void setPendingDeliveries(pending_deliveries a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.dashboard_layout, a);
         transaction.addToBackStack(null);

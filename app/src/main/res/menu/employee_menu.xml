@@ -9,7 +9,6 @@
                     android:layout_height="wrap_content"
                     android:title="Home" />
                 <item android:title="Delivery Inquiries" />
-                <item android:title="Pending Deliveries" />
                 <item android:title="Luggage Monitoring" />
             </menu>
         </item>
