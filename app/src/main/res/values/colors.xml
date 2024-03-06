@@ -4,5 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bblue">#0096FF</color>
     <color name="pblue">#A7C7E7</color>
+    <color name="darkgreen">#013220</color>
+    <color name="sdarkgreen">#014421</color>
+    <color name="pastelgreen">#8DA290</color>
+    <color name="neutralgreen">#335E3B</color>
+    <color name="mossgreen">#8A9A5B</color>
+    <color name="sage">#BCB88A</color>
+
+
+
+
 
 </resources>
