@@ -127,6 +127,7 @@ String uID;
 
     }
 
+    //used but not acknowledge
     private void setAccountSettingsFragment(fragment_account_settings a) {
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
