@@ -26,7 +26,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.example.finalsproject.dashboard_user_activities.admin.account_management;
-import com.example.finalsproject.dashboard_user_activities.admin.delivery_history;
+import com.example.finalsproject.dashboard_user_activities.customer.inquire_lost_luggage;
+import com.example.finalsproject.dashboard_user_activities.customer.luggage_monitoring;
+import com.example.finalsproject.dashboard_user_activities.employee.delivery_inquiries;
+import com.example.finalsproject.dashboard_user_activities.employee.pending_deliveries;
+import com.example.finalsproject.dashboard_user_activities.subcontractor.available_deliveries;
 import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -128,10 +132,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setHomeFragment(new fragment_home());
                                 break;
                             case "Delivery Inquiries":
-                                //
+                                setDeliveryInquiries(new delivery_inquiries());
                                 break;
                             case "Pending Deliveries":
-                                //
+                                setPendingDeliveries(new pending_deliveries());
                                 break;
                             case "Delivery History":
                                 setDeliveryHistoryFragment(new delivery_history());
@@ -153,10 +157,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setHomeFragment(new fragment_home());
                                 break;
                             case "Inquire Lost Luggage":
-                                //
+                                setInquireLostLuggage(new inquire_lost_luggage());
                                 break;
                             case "Luggage Monitoring":
-                                //
+                                setLuggageMonitoring(new luggage_monitoring());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -175,7 +179,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setHomeFragment(new fragment_home());
                                 break;
                             case "Available Deliveries":
-                                //
+                                setAvailableDeliveries(new available_deliveries());
                                 break;
                             case "Delivery History":
                                 setDeliveryHistoryFragment(new delivery_history());
@@ -250,6 +254,36 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
+    }
+    private void setInquireLostLuggage(inquire_lost_luggage a){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, a);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    private void setDeliveryInquiries(delivery_inquiries a){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, a);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    private void setPendingDeliveries(pending_deliveries a){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, a);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    private void setLuggageMonitoring(luggage_monitoring a){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, a);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+    private void setAvailableDeliveries(available_deliveries a){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dashboard_layout, a);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
     private void setProfileFragment(fragment_profile a) {
         FragmentManager fragmentManager = getSupportFragmentManager();
