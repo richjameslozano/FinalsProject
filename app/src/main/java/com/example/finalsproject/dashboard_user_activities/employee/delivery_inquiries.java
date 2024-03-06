@@ -12,8 +12,7 @@ import com.example.finalsproject.R;
 public class delivery_inquiries extends Fragment {
     View view;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_delivery_inquiries, container, false);
 
