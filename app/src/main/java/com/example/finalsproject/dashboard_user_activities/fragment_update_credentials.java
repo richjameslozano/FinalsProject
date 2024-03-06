@@ -2,17 +2,15 @@ package com.example.finalsproject.dashboard_user_activities;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -102,16 +100,16 @@ String uID;
                 else if(contact.startsWith("09")){
                     documentReference.update("contact", contact);
                 }
-                setProfileFragment(new fragment_profile());
+                setAccountSettingsFragment(new fragment_account_settings());
             });
 
             builder.setNegativeButton("No", (dialog, which) -> {
                 setAccountSettingsFragment(new fragment_account_settings());
                 dialog.dismiss();
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+            });
 
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         DocumentReference documentReference = fStore.collection("users").document(uID);
@@ -129,13 +127,6 @@ String uID;
 
     }
 
-    private void setProfileFragment(fragment_profile a) {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.dashboard_layout,a);
-        fragmentTransaction.commit();
-    }
-
     //used but not acknowledge
     private void setAccountSettingsFragment(fragment_account_settings a) {
         FragmentManager fragmentManager = getParentFragmentManager();
@@ -143,5 +134,4 @@ String uID;
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
     }
-
 }

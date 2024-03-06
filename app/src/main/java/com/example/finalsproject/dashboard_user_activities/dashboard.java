@@ -9,6 +9,7 @@ import static com.example.finalsproject.SplashScreen.UID;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -171,6 +172,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Logout":
                                 logout();
                                 break;
+                            case "Contact Us":
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/richjames.lozano.3")));
+                                break;
                         }
                     break;
                     case "subcontractor":
@@ -192,6 +196,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 break;
                             case "Logout":
                                 logout();
+                                break;
+                            case "Contact Us":
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/curt.a.wong")));
                                 break;
                         }
                     break;

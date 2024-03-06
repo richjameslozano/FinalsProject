@@ -29,7 +29,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class map_customer extends FragmentActivity implements OnMapReadyCallback {
@@ -45,7 +47,7 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         db = FirebaseFirestore.getInstance();
-        // Initialize Firestore
+        // Initialize FireStore
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map1);
@@ -87,10 +89,11 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
                 }
                 // Add new marker
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title(addressLine));
-                // Store addressLine in Firebase Firestore
+                // Store addressLine in Firebase FireStore
                 if (marker != null) {
                     DocumentReference docRef = db.collection("delivery_info").document(uiD);
-                    docRef.set(new MarkerData(addressLine, latLng.latitude, latLng.longitude, coordinates));
+                    Map<String, Object> locationData = getStringObjectMap(latLng, addresses);
+                    docRef.update(locationData);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -111,17 +114,17 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private static class MarkerData {
-        public String address;
-        public double latitude;
-        public double longitude;
-        public String coordinates;
-
-        public MarkerData(String address, double latitude, double longitude, String coordinates) {
-            this.address = address;
-            this.latitude = latitude;
-            this.longitude = longitude;
-            this.coordinates = coordinates;
-        }
+    @NonNull
+    private Map<String, Object> getStringObjectMap(LatLng latLng, List<Address> addresses) {
+        Address address = addresses.get(0);
+        String addressLine = address.getAddressLine(0);
+        double latitude = latLng.latitude;
+        double longitude = latLng.longitude;
+        Map<String, Object> locationData = new HashMap<>();
+        locationData.put("customer_address", addressLine);
+        locationData.put("latitude", latitude);
+        locationData.put("longitude", longitude);
+        locationData.put("customer_coordinates", coordinates);
+        return locationData;
     }
 }
