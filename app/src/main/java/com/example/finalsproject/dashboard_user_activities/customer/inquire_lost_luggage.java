@@ -37,9 +37,8 @@ import java.util.Objects;
 public class inquire_lost_luggage extends Fragment {
     View view;
     EditText description, quantity, flightDate;
-    TextView SelectedAddress, tv;
-    Button currentBtn, customBtn;
-    Button proceedBtn;
+    TextView SelectedAddress;
+    Button currentBtn, customBtn, proceedBtn,refreshBtn;
     //LOCATIONS//
     public static final int DEFAULT_UPDATE_INTERVAL = 30;
     public static final int FAST_UPDATE_INTERVAL = 3;
@@ -61,7 +60,6 @@ public class inquire_lost_luggage extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         db = FirebaseFirestore.getInstance();
-        tv = view.findViewById(R.id.tv);
         description = view.findViewById(R.id.luggage_details_editText);
         quantity = view.findViewById(R.id.luggage_quant_editText);
         flightDate = view.findViewById(R.id.luggage_flight_date_editText);
@@ -82,12 +80,26 @@ public class inquire_lost_luggage extends Fragment {
         proceedBtn = view.findViewById(R.id.proceed_btn);
         currentBtn.setOnClickListener(v -> updateGPS());
         customBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), map_customer.class)));
+        refreshBtn = view.findViewById(R.id.refreshBtn);
+
+        getAddress();
+        refreshBtn.setOnClickListener(v->{
+            getAddress();
+        });
         proceedBtn.setOnClickListener(v -> {
         });
         // Now you can use cords as needed
         return view;
     }
 
+    private void getAddress() {
+        DocumentReference documentReference = db.collection("delivery_info").document(uiD);
+        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+            if (documentSnapshot != null) {
+                SelectedAddress.setText(documentSnapshot.getString("address"));
+            }
+        });
+    }
 
 
     //CURRENT LOCATION FUNCTIONS//
@@ -105,7 +117,7 @@ public class inquire_lost_luggage extends Fragment {
             }
         }
     }
-    //LOCATION UPDATE//
+    //CURRENT LOCATION UPDATE//
     private void updateGPS(){
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -119,8 +131,6 @@ public class inquire_lost_luggage extends Fragment {
         }
     }
     //LOCATION UPDATE//
-    //GET LOCATION PERMISSION REQUEST//
-
 
     //UPDATE VALUES IN UI//
     @SuppressLint("SetTextI18n")
@@ -134,7 +144,6 @@ public class inquire_lost_luggage extends Fragment {
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
             assert addresses != null;
             coordinates = addresses.toString();
-            SelectedAddress.setText(addresses.get(0).getAddressLine(0));
             DocumentReference docRef = db.collection("delivery_info").document(uiD);
             Address address = addresses.get(0);
             String addressLine = address.getAddressLine(0);
@@ -147,8 +156,7 @@ public class inquire_lost_luggage extends Fragment {
             locationData.put("coordinates", coordinates);
             docRef.set(locationData);
         }
-        catch (Exception e){
-            SelectedAddress.setText("Unable to get street address");
+        catch (Exception ignored){
         }
 
     }

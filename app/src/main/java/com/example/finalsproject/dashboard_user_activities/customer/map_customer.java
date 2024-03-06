@@ -72,7 +72,6 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
             LatLng myLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
         }
-
         // Add marker on map click
         googleMap.setOnMapClickListener(latLng -> {
             Geocoder geocoder = new Geocoder(getApplicationContext());
