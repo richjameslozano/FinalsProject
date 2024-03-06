@@ -6,7 +6,7 @@
         android:checkableBehavior="single">
         <item android:title="Home" />
         <item android:title="Account Management" />
-        <item android:title="Delivery History" />
+        <item android:title="Luggage Monitoring" />
         <item android:title="Profile" />
         <item
             android:layout_width="wrap_content"

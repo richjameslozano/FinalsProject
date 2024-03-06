@@ -28,7 +28,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.finalsproject.R;
 import com.example.finalsproject.dashboard_user_activities.admin.account_management;
 import com.example.finalsproject.dashboard_user_activities.customer.inquire_lost_luggage;
-import com.example.finalsproject.dashboard_user_activities.customer.luggage_monitoring;
 import com.example.finalsproject.dashboard_user_activities.employee.delivery_inquiries;
 import com.example.finalsproject.dashboard_user_activities.employee.pending_deliveries;
 import com.example.finalsproject.dashboard_user_activities.subcontractor.available_deliveries;
@@ -113,8 +112,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Account Management":
                                 setAccountManagementFragment(new account_management());
                                 break;
-                            case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
+                            case "Luggage Monitoring":
+                                setLuggageMonitoring(new fragment_luggage_monitoring());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -138,8 +137,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Pending Deliveries":
                                 setPendingDeliveries(new pending_deliveries());
                                 break;
-                            case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
+                            case "Luggage Monitoring":
+                                setLuggageMonitoring(new fragment_luggage_monitoring());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -161,7 +160,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setInquireLostLuggage(new inquire_lost_luggage());
                                 break;
                             case "Luggage Monitoring":
-                                setLuggageMonitoring(new luggage_monitoring());
+                                setLuggageMonitoring(new fragment_luggage_monitoring());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -185,8 +184,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             case "Available Deliveries":
                                 setAvailableDeliveries(new available_deliveries());
                                 break;
-                            case "Delivery History":
-                                setDeliveryHistoryFragment(new delivery_history());
+                            case "Luggage Monitoring":
+                                setLuggageMonitoring(new fragment_luggage_monitoring());
                                 break;
                             case "Profile":
                                 setProfileFragment(new fragment_profile());
@@ -256,12 +255,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
     }
-    private void setDeliveryHistoryFragment(delivery_history a) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.dashboard_layout,a);
-        fragmentTransaction.commit();
-    }
     private void setInquireLostLuggage(inquire_lost_luggage a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.dashboard_layout, a);
@@ -280,7 +273,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         transaction.addToBackStack(null);
         transaction.commit();
     }
-    private void setLuggageMonitoring(luggage_monitoring a){
+    private void setLuggageMonitoring(fragment_luggage_monitoring a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.dashboard_layout, a);
         transaction.addToBackStack(null);
