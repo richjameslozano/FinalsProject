@@ -83,9 +83,7 @@ public class inquire_lost_luggage extends Fragment {
         refreshBtn = view.findViewById(R.id.refreshBtn);
 
         getAddress();
-        refreshBtn.setOnClickListener(v->{
-            getAddress();
-        });
+        refreshBtn.setOnClickListener(v-> getAddress());
         proceedBtn.setOnClickListener(v -> {
         });
         // Now you can use cords as needed
