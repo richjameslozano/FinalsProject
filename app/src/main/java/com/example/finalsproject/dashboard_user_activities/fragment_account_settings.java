@@ -17,7 +17,10 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.example.finalsproject.R;
@@ -36,11 +39,14 @@ public class fragment_account_settings extends Fragment {
     ImageView pfp_acc;
     ToggleButton reset,show1,show2;
     EditText confirm_EditText, pass_EditText;
-    Button confirmReset_btn,changePfp_btn;
+    Button confirmReset_btn,changePfp_btn,update_btn;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     StorageReference storageReference;
+
     String uID;
+
+    FragmentManager fragmentManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //FIREBASE INSTANCES//
@@ -55,16 +61,21 @@ public class fragment_account_settings extends Fragment {
         pfp_acc = view.findViewById(R.id.pfp_acc);
         StorageReference profileRef = storageReference.child("users/"+Objects.requireNonNull(fAuth.getCurrentUser()).getUid()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(pfp_acc));
+
         reset = view.findViewById(R.id.reset_btn);
         show1 = view.findViewById(R.id.show1);
         show2 = view.findViewById(R.id.show2);
-        changePfp_btn = view.findViewById(R.id.changepfp_btn);
+
+
+        changePfp_btn = view.findViewById(R.id.changepfp_bt);
         confirmReset_btn = view.findViewById(R.id.confirmReset_btn);
         pass_EditText = view.findViewById(R.id.pass_EditText);
         confirm_EditText = view.findViewById(R.id.confirm_EditText);
         pass_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         confirm_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        update_btn = view.findViewById(R.id.update_btn);
 
+        update_btn.setOnClickListener(v-> editFragment(new fragment_update_credentials()));
         confirmReset_btn.setOnClickListener(v->{
             String pass = pass_EditText.getText().toString().trim();
             String confirm_pass = confirm_EditText.getText().toString().trim();
@@ -131,6 +142,13 @@ public class fragment_account_settings extends Fragment {
                 startActivityForResult(openGalleryIntent,1000);
         });
         return view;
+    }
+    private void editFragment(fragment_update_credentials a) {
+         fragmentManager = getParentFragmentManager(); // or getChildFragmentManager() if called within a Fragment
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a); // Replace fragment_container with your actual fragment container ID
+        fragmentTransaction.addToBackStack(null); // Optional, adds the transaction to the back stack
+        fragmentTransaction.commit();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
