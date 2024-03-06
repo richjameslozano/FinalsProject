@@ -179,7 +179,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                 setHomeFragment(new fragment_home());
                                 break;
                             case "Available Deliveries":
-                                //
+                                setAvailableDeliveries(new available_deliveries());
                                 break;
                             case "Delivery History":
                                 setDeliveryHistoryFragment(new delivery_history());

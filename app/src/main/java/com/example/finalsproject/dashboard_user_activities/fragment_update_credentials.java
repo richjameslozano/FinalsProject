@@ -41,8 +41,8 @@ String uID;
         uID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         view = inflater.inflate(R.layout.fragment_update_credentials,container,false);
         edit_uname = view.findViewById(R.id.edit_uname);
-        edit_LName = view.findViewById(R.id.edit_lname);
-        edit_FName = view.findViewById(R.id.edit_fname);
+        edit_LName = view.findViewById(R.id.edit_LName);
+        edit_FName = view.findViewById(R.id.edit_FName);
         edit_email = view.findViewById(R.id.edit_email);
         edit_contact = view.findViewById(R.id.edit_contact);
         save_btn = view.findViewById(R.id.save_btn);
@@ -102,14 +102,16 @@ String uID;
                 else if(contact.startsWith("09")){
                     documentReference.update("contact", contact);
                 }
-
-                Toast.makeText(getActivity(), "Credentials updated successfully!", Toast.LENGTH_SHORT).show();
+                setProfileFragment(new fragment_profile());
             });
 
-            builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+            builder.setNegativeButton("No", (dialog, which) -> {
+                setAccountSettingsFragment(new fragment_account_settings());
+                dialog.dismiss();
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-            AlertDialog dialog = builder.create();
-            dialog.show();
         });
 
         DocumentReference documentReference = fStore.collection("users").document(uID);
@@ -127,6 +129,13 @@ String uID;
 
     }
 
+    private void setProfileFragment(fragment_profile a) {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.dashboard_layout,a);
+        fragmentTransaction.commit();
+    }
+
     //used but not acknowledge
     private void setAccountSettingsFragment(fragment_account_settings a) {
         FragmentManager fragmentManager = getParentFragmentManager();
@@ -134,4 +143,5 @@ String uID;
         fragmentTransaction.replace(R.id.dashboard_layout,a);
         fragmentTransaction.commit();
     }
+
 }
