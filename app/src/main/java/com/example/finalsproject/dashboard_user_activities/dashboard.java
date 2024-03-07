@@ -27,11 +27,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
+import com.example.finalsproject.SplashScreen;
 import com.example.finalsproject.dashboard_user_activities.admin.account_management;
 import com.example.finalsproject.dashboard_user_activities.customer.inquire_lost_luggage;
 import com.example.finalsproject.dashboard_user_activities.employee.delivery_inquiries;
 import com.example.finalsproject.dashboard_user_activities.subcontractor.available_deliveries;
-import com.example.finalsproject.login;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,16 +58,27 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         DocumentReference documentReference = fStore.collection("users").document(uiD);
         documentReference.addSnapshotListener((value, error) -> {
-            assert value != null;
-            if(!value.exists()){
-                finish();
-                Toast.makeText(this, "Your account is invalid, please register your account.", Toast.LENGTH_SHORT).show();
-                fAuth.signOut();
-                un_remember_save();
+            if (value != null) {
+                if (!value.exists()) {
+                    handleInvalidAccount();
+                } else {
+                    setNavigationView();
+                }
             }
-            else{
-                setNavigationView();
+            else {
+                Toast.makeText(this, "Logging out.", Toast.LENGTH_SHORT).show();
             }
+        });
+
+    }
+
+    private void handleInvalidAccount() {
+        runOnUiThread(() -> {
+            Toast.makeText(this, "Your account is invalid, please register an account.", Toast.LENGTH_SHORT).show();
+            fAuth.signOut();
+            un_remember_save();
+            startActivity(new Intent(getApplicationContext(), SplashScreen.class));
+            finish();
         });
     }
     private void setNavigationView(){
@@ -104,6 +115,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                         navigationView.inflateMenu(R.menu.subcontractor_menu);
                         break;
                 }
+            }
+            else{
+                logout();
             }
         });
     }
@@ -233,7 +247,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 .setPositiveButton("Yes",(dialog, which) ->{
                     fAuth.signOut();
                     un_remember_save();
-                    startActivity(new Intent(this, login.class));
+                    startActivity(new Intent(this, SplashScreen.class));
                     finish();
                 })
                 .show();
