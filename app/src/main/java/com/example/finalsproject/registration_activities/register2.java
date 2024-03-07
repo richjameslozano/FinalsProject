@@ -52,7 +52,7 @@ public class register2 extends Fragment {
         show2 = view.findViewById(R.id.show2);
         fragment_layout = view.findViewById(R.id.fragment_layout);
         //regis2 data
-        email_regis = view.findViewById(R.id.email_regis);
+        email_regis = view.findViewById(R.id.first_name);
         pass_regis = view.findViewById(R.id.pass_regis);
         confirm_pass_regis = view.findViewById(R.id.confirm_pass);
         pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

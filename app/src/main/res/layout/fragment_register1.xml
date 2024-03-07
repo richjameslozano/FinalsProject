@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:background="@color/bblue"
+        android:background="@color/sdarkgreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -17,11 +17,46 @@
         app:layout_constraintVertical_bias="0.5"
         tools:layout_editor_absoluteY="228dp">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="370dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="364dp"
+            android:hint="First Name"
+            android:textColorHint="@color/pastelgreen"
+            app:boxStrokeColor="@color/green4"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/pastelgreen"
+            app:hintTextColor="@color/pastelgreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView3"
+            app:placeholderText="ex: abcde@gmail.com"
+            app:placeholderTextColor="@color/pastelgreen"
+            app:prefixTextColor="@color/pastelgreen"
+            app:startIconTint="@color/pastelgreen">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/first_name"
+                android:layout_width="357dp"
+                android:layout_height="51dp"
+                android:textAlignment="textStart"
+                android:textColor="@color/pastelgreen"
+                android:textColorHint="@color/pastelgreen"
+                android:textColorLink="@color/pastelgreen" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/next_btn1"
             android:layout_width="114dp"
             android:layout_height="63dp"
             android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/neutralgreen"
             android:text="Next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +67,7 @@
             android:id="@+id/back_btn1"
             android:layout_width="114dp"
             android:layout_height="63dp"
+            android:backgroundTint="@color/neutralgreen"
             android:text="Back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,57 +76,43 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.944" />
 
-        <EditText
-            android:id="@+id/first_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="First Name"
-            android:inputType="text|textPersonName"
-            android:maxLength="30"
-            android:minHeight="48dp"
-            android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.241"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.17" />
-
-        <EditText
-            android:id="@+id/last_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:ems="10"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="369dp"
+            android:layout_height="63dp"
             android:hint="Last Name"
-            android:inputType="text|textPersonName"
-            android:maxLength="20"
-            android:minHeight="48dp"
-            android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColorHint="@color/pastelgreen"
+            app:boxStrokeColor="@color/green4"
+            app:hintTextColor="@color/pastelgreen"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.243"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.341" />
+            app:placeholderTextColor="@color/pastelgreen"
+            app:suffixTextColor="@color/pastelgreen"
+            tools:layout_editor_absoluteY="116dp">
 
-        <EditText
-            android:id="@+id/contact_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="11"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/last_name"
+                android:layout_width="359dp"
+                android:layout_height="54dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="371dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
             android:hint="Contact Number"
-            android:inputType="phone"
-            android:maxLength="11"
-            android:minHeight="48dp"
-            android:textColorHint="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColorHint="@color/pastelgreen"
+            app:boxStrokeColor="@color/green4"
+            app:hintTextColor="@color/pastelgreen"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.27"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.689" />
+            app:placeholderTextColor="@color/pastelgreen"
+            app:prefixTextColor="@color/pastelgreen"
+            tools:layout_editor_absoluteY="214dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contact_num"
+                android:layout_width="358dp"
+                android:layout_height="58dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,7 +5,9 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/darkgreen"
     android:fitsSystemWindows="true"
+    android:foregroundTint="@color/pastelgreen"
     tools:context=".dashboard_user_activities.dashboard"
     tools:openDrawer="start">
 
@@ -15,9 +17,13 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-
-        android:background="@color/neutralgreen"
+        android:background="@color/sdarkgreen"
+        android:foregroundTint="@color/pastelgreen"
+        android:titleTextColor="@color/pastelgreen"
         app:headerLayout="@layout/header"
+        app:insetForeground="@color/pastelgreen"
+        app:itemIconTint="@color/pastelgreen"
+        app:itemTextColor="@color/pastelgreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
