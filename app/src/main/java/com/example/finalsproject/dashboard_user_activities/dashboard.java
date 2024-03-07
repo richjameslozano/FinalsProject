@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -55,7 +56,20 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-        setNavigationView();
+        DocumentReference documentReference = fStore.collection("users").document(uiD);
+        documentReference.addSnapshotListener((value, error) -> {
+            assert value != null;
+            if(!value.exists()){
+                Toast.makeText(this, "Your account is invalid, please register your account.", Toast.LENGTH_SHORT).show();
+                fAuth.signOut();
+                un_remember_save();
+                startActivity(new Intent(this, login.class));
+                finish();
+            }
+            else{
+                setNavigationView();
+            }
+        });
     }
     private void setNavigationView(){
         //NAVIGATION//
