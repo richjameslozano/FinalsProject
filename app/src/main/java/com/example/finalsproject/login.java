@@ -9,7 +9,6 @@ import static com.example.finalsproject.SplashScreen.UID;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -19,13 +18,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalsproject.dashboard_user_activities.dashboard;
 import com.example.finalsproject.registration_activities.register;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,9 +34,10 @@ public class login extends AppCompatActivity {
 
     TextView signup,forgot_btn;
     Button login_btn;
-    ToggleButton show;
     CheckBox remember_btn;
-    EditText email_login,pass_login;
+
+    TextInputEditText email_login,pass_login;
+
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String uID;
@@ -51,7 +51,7 @@ public class login extends AppCompatActivity {
         pass_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         signup = findViewById(R.id.signup);
         login_btn = findViewById(R.id.login_btn);
-        show = findViewById(R.id.show);
+
         forgot_btn = findViewById(R.id.forgot);
         remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
@@ -85,15 +85,6 @@ public class login extends AppCompatActivity {
                     Toast.makeText(login.this,Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
                 }
             });
-        });
-        show.setOnClickListener(v -> {
-            pass_login.setTypeface(Typeface.DEFAULT);
-            if (show.isChecked()) {
-                pass_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
-            }
-            else {
-                pass_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
         });
         //PASSWORD RESET//
         forgot_btn.setOnClickListener(this::showAlertDialogButtonClicked);
