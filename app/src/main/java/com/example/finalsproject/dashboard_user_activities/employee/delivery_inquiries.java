@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,50 +42,68 @@ public class delivery_inquiries extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
         inq_lv.setAdapter(adapter);
         db.collection("delivery_info")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        String name = document.getString("customer_name");
-                        String add = document.getString("customer_address");
-                        String contact = document.getString("customer_contact");
-                        String status = document.getString("delivery_status");
-                        String id = document.getId();
-                        documentList.add("Customer Name: " + name + "\n\nCustomer Address: " + add + "\n\nCustomer contact: " + contact + "\n\nDelivery Status: " + status + "\n\nUser ID: " + id);
-                        adapter.notifyDataSetChanged();
-                        inq_lv.setOnItemClickListener((parent, view1, position, ID) -> {
-                                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
-                                    alertDialogBuilder.setTitle("Confirming delivery.");
-                                    alertDialogBuilder.setMessage("Do you confirm that this is a lost luggage within our system's storage?");
-                                    alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
-                                        Toast.makeText(getActivity(),"Luggage is out for delivery.",Toast.LENGTH_SHORT).show();
-                                        DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
-                                        String customerId = selectedDocument.getString("customer_id");
-                                        DocumentReference documentReference = db.collection("users").document(uiD);
-                                        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-                                            if (documentSnapshot != null) {
-                                                String endorserName = documentSnapshot.getString("l_name")+", "+documentSnapshot.getString("f_name");
-                                                assert customerId != null;
-                                                DocumentReference docRef = db.collection("delivery_info").document(customerId);
-                                                docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
-                                                        if (documentSnapshot1 != null) {
-                                                            Map<String, Object> userData = new HashMap<>();
-                                                            userData.put("endorser_name", endorserName);
-                                                            userData.put("delivery_status","Out for Delivery");
-                                                            docRef.update(userData);
-                                                        }
-                                                });
-                                            }
-                                        });
-                                    });
-                                    alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
-                                        Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    }));
-                                    alertDialogBuilder.show();
-                                });
-                    }
-                })
-                .addOnFailureListener(e -> {});
+            .get()
+            .addOnSuccessListener(queryDocumentSnapshots -> {
+                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                    //DISPLAY LIST//
+                    displayData(document,documentList, adapter);
+                    //DISPLAY LIST//
+                    inq_lv.setOnItemClickListener((parent, view1, position, ID) -> {
+                    onClickListView(queryDocumentSnapshots, position);
+                    });
+                }
+            })
+            .addOnFailureListener(e -> {});
         return view;
+    }
+    private static void displayData(QueryDocumentSnapshot document, ArrayList<String> documentList, ArrayAdapter<String> adapter) {
+        String name = document.getString("customer_name");
+        String add = document.getString("customer_address");
+        String contact = document.getString("customer_contact");
+        String status = document.getString("delivery_status");
+        String id = document.getId();
+        documentList.add("Customer Name: " + name +
+                "\nCustomer Address: " + add +
+                "\nCustomer contact: " + contact +
+                "\nDelivery Status: " + status +
+                "\nUser ID: " + id);
+        adapter.notifyDataSetChanged();
+    }
+    private void onClickListView(QuerySnapshot queryDocumentSnapshots, int position) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
+        alertDialogBuilder.setTitle("Confirming delivery.");
+        alertDialogBuilder.setMessage("Do you confirm that this is a lost luggage within our system's storage?");
+        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
+            getCustomerData(queryDocumentSnapshots, position);
+        });
+        alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
+            Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }));
+        alertDialogBuilder.show();
+    }
+    private void getCustomerData(QuerySnapshot queryDocumentSnapshots, int position) {
+        Toast.makeText(getActivity(),"Luggage is out for delivery.",Toast.LENGTH_SHORT).show();
+        DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
+        String customerId = selectedDocument.getString("customer_id");
+        DocumentReference documentReference = db.collection("users").document(uiD);
+        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+            if (documentSnapshot != null) {
+                String endorserName = documentSnapshot.getString("l_name")+", "+documentSnapshot.getString("f_name");
+                assert customerId != null;
+                getDeliveryData(customerId, endorserName);
+            }
+        });
+    }
+    private void getDeliveryData(String customerId, String endorserName) {
+        DocumentReference docRef = db.collection("delivery_info").document(customerId);
+        docRef.addSnapshotListener(requireActivity(), (documentSnapshot, error1) -> {
+            if (documentSnapshot != null) {
+                Map<String, Object> userData = new HashMap<>();
+                userData.put("endorser_name", endorserName);
+                userData.put("delivery_status","Out for Delivery");
+                docRef.update(userData);
+            }
+        });
     }
 }

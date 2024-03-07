@@ -52,8 +52,13 @@ String uiD;
                         String add = document.getString("customer_address");
                         String contact = document.getString("customer_contact");
                         String status = document.getString("delivery_status");
-                        String id = document.getId();
-                        documentList.add("Customer Name: " + name + "\n\nCustomer Address: " + add + "\n\nCustomer contact: " + contact + "\n\nDelivery Status: " + status + "\n\nUser ID: " + id);
+                        String quantity = document.getString("luggage_quantity");
+                        documentList.add(
+                                "Customer Name: " + name +
+                                "\nCustomer Address: " + add +
+                                "\nCustomer Contact: " + contact +
+                                "\nDelivery Status: " + status +
+                                "\nLuggage Quantity: " + quantity);
                         adapter.notifyDataSetChanged();
                         available_deliveries_lv.setOnItemClickListener((parent, view1, position, ID) -> {
                             DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
@@ -120,7 +125,6 @@ String uiD;
                     }
                 })
                 .addOnFailureListener(e -> {});
-
         return view;
     }
 }

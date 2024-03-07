@@ -39,6 +39,7 @@ public class fragment_luggage_monitoring extends Fragment {
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
         luggage_monitoring_lv.setAdapter(adapter);
+
         DocumentReference documentReference = db.collection("users").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
@@ -46,30 +47,55 @@ public class fragment_luggage_monitoring extends Fragment {
                 String acc_type = documentSnapshot.getString("acc_type");
                 assert acc_type != null;
                 if(acc_type.equals("Customer")){
-                    customerLuggage();
+                    customerList(documentList, adapter);
                 }
+                
                 else if(acc_type.equals("Admin")||acc_type.equals("Employee")){
                     db.collection("delivery_info")
                             .get()
                             .addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                    String name = document.getString("customer_name");
-                                    String add = document.getString("customer_address");
-                                    String contact = document.getString("customer_contact");
-                                    String status = document.getString("delivery_status");
-                                    String id = document.getId();
-                                    documentList.add("Customer Name: " + name + "\n\nCustomer Address: " + add + "\n\nCustomer contact: " + contact + "\n\nDelivery Status: " + status + "\n\nUser ID: " + id);
-                                    adapter.notifyDataSetChanged();
+                                    nonCustomerList(document,documentList,adapter);
                                 }
-                            })
-                            .addOnFailureListener(e -> {});
+                            });
                 }
             }
         });
         return view;
     }
-
-    private void customerLuggage() {
+    //DISPLAY ADMIN AND EMPLOYEE HISTORY//
+    private void nonCustomerList(QueryDocumentSnapshot document, ArrayList<String> documentList, ArrayAdapter<String> adapter) {
+            String customerName = document.getString("customer_name");
+            String customerContact = document.getString("customer_contact");
+            String customerAddress = document.getString("customer_address");
+            String deliveryStatus = document.getString("delivery_status");
+            String luggageQuantity = document.getString("luggage_quantity");
+            String flightDate = document.getString("flight_date");
+            String luggageDescription = document.getString("luggage_description");
+            String endorserName = document.getString("endorser_name");
+            String subcontractorName = document.getString("subcontractor_name");
+            luggage_monitoring_lv.setAdapter(adapter);
+            if (deliveryStatus == null && customerName == null && customerContact == null && customerAddress == null &&
+                    luggageDescription == null && luggageQuantity == null && flightDate == null && endorserName == null &&
+                    subcontractorName == null) {
+                documentList.add("No inquiries yet");
+            } else {
+                documentList.add(
+                (deliveryStatus != null ? "Delivery Status: " + deliveryStatus : "") +
+                (customerName != null ? "\nCustomer Name: " + customerName : "") +
+                (customerContact != null ? "\nCustomer Contact: " + customerContact : "") +
+                (customerAddress != null ? "\nCustomer Address: " + customerAddress : "") +
+                (luggageDescription != null ? "\nLuggage Description: " + luggageDescription : "") +
+                (luggageQuantity != null ? "\nLuggage Quantity: " + luggageQuantity : "") +
+                (flightDate != null ? "\nFlight Date: " + flightDate : "") +
+                (endorserName != null ? "\nEndorser Name: " + endorserName : "") +
+                (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
+                );
+            }
+            adapter.notifyDataSetChanged();
+    }
+    //DISPLAY ISOLATED CUSTOMER HISTORY//
+    private void customerList(ArrayList<String> documentList, ArrayAdapter<String> adapter) {
         DocumentReference documentReference = db.collection("delivery_info").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
@@ -78,16 +104,30 @@ public class fragment_luggage_monitoring extends Fragment {
                 String customerAddress = documentSnapshot.getString("customer_address");
                 String deliveryStatus = documentSnapshot.getString("delivery_status");
                 String luggageQuantity = documentSnapshot.getString("luggage_quantity");
+                String flightDate = documentSnapshot.getString("flight_date");
                 String luggageDescription = documentSnapshot.getString("luggage_description");
-                ArrayList<String> documentList = new ArrayList<>();
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
+                String endorserName = documentSnapshot.getString("endorser_name");
+                String subcontractorName = documentSnapshot.getString("subcontractor_name");
                 luggage_monitoring_lv.setAdapter(adapter);
-                documentList.add("Delivery Status: " + deliveryStatus +
-                        "\nCustomer Name: " + customerName +
-                        "\nCustomer Contact: " + customerContact +
-                        "\nCustomer Address: " + customerAddress +
-                        "\nLuggage Quantity: " + luggageQuantity +
-                        "\nLuggage Description: " + luggageDescription);
+                documentList.clear();
+                // Check if all values are null
+                if (deliveryStatus == null && customerName == null && customerContact == null && customerAddress == null &&
+                        luggageDescription == null && luggageQuantity == null && flightDate == null && endorserName == null &&
+                        subcontractorName == null) {
+                    documentList.add("No inquiries yet");
+                } else {
+                    documentList.add(
+                    (deliveryStatus != null ? "Delivery Status: " + deliveryStatus : "") +
+                    (customerName != null ? "\nCustomer Name: " + customerName : "") +
+                    (customerContact != null ? "\nCustomer Contact: " + customerContact : "") +
+                    (customerAddress != null ? "\nCustomer Address: " + customerAddress : "") +
+                    (luggageDescription != null ? "\nLuggage Description: " + luggageDescription : "") +
+                    (luggageQuantity != null ? "\nLuggage Quantity: " + luggageQuantity : "") +
+                    (flightDate != null ? "\nFlight Date: " + flightDate : "") +
+                    (endorserName != null ? "\nEndorser Name: " + endorserName : "") +
+                    (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
+                    );
+                }
                 adapter.notifyDataSetChanged();
             }
         });

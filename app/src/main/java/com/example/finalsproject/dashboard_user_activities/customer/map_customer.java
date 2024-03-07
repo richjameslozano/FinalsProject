@@ -39,7 +39,7 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     FirebaseFirestore db;
     FirebaseAuth fAuth;
-    String uiD,coordinates;
+    String uiD;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,6 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
         }
-
         // Zoom in on current location
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
@@ -82,7 +81,6 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
                 List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                 assert addresses != null;
                 String addressLine = addresses.get(0).getAddressLine(0);
-                coordinates = addresses.toString();
                 // Remove previous marker
                 if (marker != null) {
                     marker.remove();
@@ -113,7 +111,7 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
             return true; // Return true to indicate that the click event has been consumed
         });
     }
-
+    //STORING LATEST PLACED MARKER ONTO DATABASE//
     @NonNull
     private Map<String, Object> getStringObjectMap(LatLng latLng, List<Address> addresses) {
         Address address = addresses.get(0);
@@ -124,7 +122,6 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
         locationData.put("customer_address", addressLine);
         locationData.put("latitude", latitude);
         locationData.put("longitude", longitude);
-        locationData.put("customer_coordinates", coordinates);
         return locationData;
     }
 }

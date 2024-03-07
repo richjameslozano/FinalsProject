@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -36,14 +37,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
 public class inquire_lost_luggage extends Fragment {
     View view;
-    EditText description, quantity, flightDate;
+    EditText description, quantity;
     TextView SelectedAddress;
-    Button currentBtn, customBtn, proceedBtn,refreshBtn;
+    Button flightDate, currentBtn, customBtn, proceedBtn,refreshBtn;
     //LOCATIONS//
     public static final int DEFAULT_UPDATE_INTERVAL = 30;
     public static final int FAST_UPDATE_INTERVAL = 3;
@@ -52,8 +54,7 @@ public class inquire_lost_luggage extends Fragment {
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
-    String coordinates;
-    FirebaseFirestore db,fStore;
+    FirebaseFirestore db;
     FirebaseAuth fAuth;
     String uiD;
 
@@ -62,14 +63,7 @@ public class inquire_lost_luggage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_inquire_lost_luggage, container, false);
-        fAuth = FirebaseAuth.getInstance();
-        uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-        db = FirebaseFirestore.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        description = view.findViewById(R.id.luggage_details_editText);
-        quantity = view.findViewById(R.id.luggage_quant_editText);
-        flightDate = view.findViewById(R.id.luggage_flight_date_editText);
-        SelectedAddress = view.findViewById(R.id.address_tv);
+        //GET CURRENT LOCATION//
         locationRequest = new LocationRequest();
         locationRequest.setInterval(1000 * DEFAULT_UPDATE_INTERVAL);
         locationRequest.setFastestInterval(1000 * FAST_UPDATE_INTERVAL);
@@ -81,16 +75,36 @@ public class inquire_lost_luggage extends Fragment {
                 currentLocation = locationResult.getLastLocation();
             }
         };
+        //GET CURRENT LOCATION//
+        fAuth = FirebaseAuth.getInstance();
+        uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        db = FirebaseFirestore.getInstance();
+        getAddress();
+        description = view.findViewById(R.id.luggage_details_editText);
+        quantity = view.findViewById(R.id.luggage_quant_editText);
+        flightDate = view.findViewById(R.id.luggage_flight_dateBtn);
+        SelectedAddress = view.findViewById(R.id.address_tv);
         currentBtn = view.findViewById(R.id.current_address_btn);
         customBtn = view.findViewById(R.id.custom_address_btn);
         proceedBtn = view.findViewById(R.id.proceed_btn);
+        refreshBtn = view.findViewById(R.id.refreshBtn);
+        flightDate.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext());
+            // Set the maximum date to today's date
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+            datePickerDialog.getDatePicker().setMinDate(2016);
+            // Show the DatePickerDialog
+            datePickerDialog.setOnDateSetListener((view, year, monthOfYear, dayOfMonth) -> {
+                // Set the selected date to the flightDate TextView
+                flightDate.setText(String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year));
+            });
+            datePickerDialog.show();
+        });
         currentBtn.setOnClickListener(v -> {
             updateGPS();
             getAddress();
         });
         customBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), map_customer.class)));
-        refreshBtn = view.findViewById(R.id.refreshBtn);
-        getAddress();
         refreshBtn.setOnClickListener(v-> getAddress());
         proceedBtn.setOnClickListener(v -> {
             String desc = description.getText().toString().trim(),
@@ -102,13 +116,16 @@ public class inquire_lost_luggage extends Fragment {
             else if(Quantity.isEmpty()){
                 quantity.setError("How many luggage did you lose?");
             }
-            else if(flight.isEmpty()){
-                flightDate.setError("When was the flight date when of which your luggage got lost?");
+            else if(Integer.parseInt(Quantity)<=0){
+                quantity.setError("Invalid amount of luggage?");
+            }
+            else if(flight.equals("Flight Date: DD/MM/YY")){
+                Toast.makeText(getActivity(), "Please select the flight date of when you lost your luggage.", Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(getActivity(), "Your luggage information is being processed.", Toast.LENGTH_SHORT).show();
                 DocumentReference docRef = db.collection("delivery_info").document(uiD);
-                DocumentReference documentReference = fStore.collection("users").document(uiD);
+                DocumentReference documentReference = db.collection("users").document(uiD);
                 documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
                     if (documentSnapshot != null) {
                         Map<String, Object> userData = new HashMap<>();
@@ -123,7 +140,6 @@ public class inquire_lost_luggage extends Fragment {
                         getAddress();
                     }
                 });
-
             }
         });
         DocumentReference docRef = db.collection("delivery_info").document(uiD);
@@ -138,23 +154,49 @@ public class inquire_lost_luggage extends Fragment {
                 Log.d(TAG, "Failed with: ", task.getException());
             }
         });
-
+        newInquiry();
         return view;
     }
 
+    private void newInquiry() {
+        DocumentReference documentReference = db.collection("delivery_info").document(uiD);
+        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+            assert documentSnapshot != null;
+            String status = documentSnapshot.getString("delivery_status");
+                if(status!=null){
+                    if(status.equals("Luggage delivered")){
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("customer_address", null);
+                        updates.put("customer_contact", null);
+                        updates.put("customer_id", null);
+                        updates.put("customer_name", null);
+                        updates.put("delivery_status", null);
+                        updates.put("flight_date", null);
+                        updates.put("latitude", null);
+                        updates.put("longitude", null);
+                        updates.put("luggage_description", null);
+                        updates.put("luggage_quantity", null);
+                        updates.put("subcontractor_name", null);
+                        documentReference.update(updates);
+                    }
+                }
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
     private void getAddress() {
         DocumentReference documentReference = db.collection("delivery_info").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
                 SelectedAddress.setText(documentSnapshot.getString("customer_address"));
             }
+            else{
+                SelectedAddress.setText("No address has been registered yet.");
+            }
         });
     }
 
-
-    //CURRENT LOCATION FUNCTIONS//
-
-    //LOCATION PERMISSION REQUEST//
+    //LOCATION PERMISSION REQUEST CONDITION//
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -185,15 +227,10 @@ public class inquire_lost_luggage extends Fragment {
     //UPDATE VALUES IN UI//
     @SuppressLint("SetTextI18n")
     private void updateUIValues(Location location) {
-        if (location == null) {
-            // Handle null location
-            return;
-        }
         Geocoder geocoder = new Geocoder(requireContext());
         try{
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
             assert addresses != null;
-            coordinates = addresses.toString();
             DocumentReference docRef = db.collection("delivery_info").document(uiD);
             Map<String, Object> locationData = getStringObjectMap(location, addresses);
             docRef.update(locationData);
@@ -212,7 +249,6 @@ public class inquire_lost_luggage extends Fragment {
         locationData.put("customer_address", addressLine);
         locationData.put("latitude", latitude);
         locationData.put("longitude", longitude);
-        locationData.put("customer_coordinates", coordinates);
         return locationData;
     }
 }
