@@ -60,11 +60,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         documentReference.addSnapshotListener((value, error) -> {
             assert value != null;
             if(!value.exists()){
+                finish();
                 Toast.makeText(this, "Your account is invalid, please register your account.", Toast.LENGTH_SHORT).show();
                 fAuth.signOut();
                 un_remember_save();
-                startActivity(new Intent(this, login.class));
-                finish();
             }
             else{
                 setNavigationView();
