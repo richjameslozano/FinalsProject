@@ -61,22 +61,22 @@ public class register2 extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //LISTENERS//
-//        show1.setOnClickListener(v -> {
-//            if (show1.isChecked()) {
-//                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
-//            }
-//            else {
-//                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//            }
-//        });
-//        show2.setOnClickListener(v -> {
-//            if (show2.isChecked()) {
-//                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-//            }
-//            else {
-//                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//            }
-//        });
+        show1.setOnClickListener(v -> {
+            if (show1.isChecked()) {
+                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
+            }
+            else {
+                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
+        show2.setOnClickListener(v -> {
+            if (show2.isChecked()) {
+                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+            }
+            else {
+                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            }
+        });
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
             String

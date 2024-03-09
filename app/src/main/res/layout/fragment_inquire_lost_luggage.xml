@@ -15,122 +15,128 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:text="Enter your luggage details"
-            app:layout_constraintBottom_toTopOf="@+id/luggage_details_editText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.106" />
 
         <EditText
             android:id="@+id/luggage_details_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:ems="10"
             android:hint="Luggage Description"
             android:inputType="text"
             android:minHeight="48dp"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/luggage_quant_editText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.18" />
 
         <EditText
             android:id="@+id/luggage_quant_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:ems="10"
             android:hint="Luggage Quantity"
             android:inputType="number"
             android:maxLength="1"
             android:minHeight="48dp"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/airline_editText"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.27" />
 
         <EditText
             android:id="@+id/airline_editText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:ems="10"
             android:hint="Airline Name"
             android:inputType="text"
             android:minHeight="48dp"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/luggage_flight_dateBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.368" />
 
         <Button
             android:id="@+id/luggage_flight_dateBtn"
             android:layout_width="203dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="30dp"
             android:text="Flight Date: DD/MM/YY"
-            app:layout_constraintBottom_toTopOf="@+id/address_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.471" />
 
         <TextView
             android:id="@+id/address_tv"
             android:layout_width="312dp"
             android:layout_height="151dp"
-            android:layout_marginBottom="20dp"
             android:text="Current Address"
-            app:layout_constraintBottom_toTopOf="@+id/current_address_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/current_address_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="Set Current Address"
-            app:layout_constraintBottom_toTopOf="@+id/proceed_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.068"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/luggage_flight_dateBtn"
+            app:layout_constraintVertical_bias="0.08" />
 
         <Button
             android:id="@+id/custom_address_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Set Custom Address"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.931"
+            app:layout_constraintHorizontal_bias="0.92"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/current_address_btn" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.793" />
+
+        <Button
+            android:id="@+id/current_address_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Current Address"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.079"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.793" />
 
         <Button
             android:id="@+id/proceed_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:text="Proceed"
-            app:layout_constraintBottom_toTopOf="@+id/refreshBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.89" />
 
         <Button
             android:id="@+id/refreshBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:text="Refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.978" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

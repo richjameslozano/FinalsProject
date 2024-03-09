@@ -53,17 +53,20 @@ public class delivery_inquiries extends Fragment {
                             inq_lv.setOnItemClickListener((parent, view1, position, ID) -> onClickListView(queryDocumentSnapshots, position));
                         }
                         else{
+                            adapter.notifyDataSetChanged();
                             documentList.clear();
                             documentList.add("No inquiries yet");
                         }
                     }
                     else{
+                        adapter.notifyDataSetChanged();
                         documentList.clear();
                         documentList.add("No inquiries yet");
                     }
                 }
             })
             .addOnFailureListener(e -> {
+                adapter.notifyDataSetChanged();
                 documentList.clear();
                 documentList.add("No deliveries yet");
             });
@@ -94,7 +97,9 @@ public class delivery_inquiries extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
         alertDialogBuilder.setTitle("Confirming delivery.");
         alertDialogBuilder.setMessage("Do you confirm that this is a lost luggage within our system's storage?");
-        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> getCustomerData(queryDocumentSnapshots, position));
+        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
+            getCustomerData(queryDocumentSnapshots, position);
+        });
         alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
             Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
             dialog.dismiss();

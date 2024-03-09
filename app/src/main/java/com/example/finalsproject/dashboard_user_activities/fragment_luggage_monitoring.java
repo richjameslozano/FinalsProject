@@ -131,15 +131,7 @@ public class fragment_luggage_monitoring extends Fragment {
                     (endorserName != null ? "\nEndorser Name: " + endorserName : "") +
                     (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
                     );
-                    luggage_monitoring_lv.setOnItemClickListener((parent, view1, position, ID) -> {
-                        if(deliveryStatus.equals("Delivery in progress")){
-                            //NEW MAPS ACTIVITY
-                            System.exit(0);
-                        }
-                        else{
-                            Toast.makeText(getActivity(), "Delivery Status: " + deliveryStatus, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    luggage_monitoring_lv.setOnItemClickListener((parent, view1, position, ID) -> Toast.makeText(getActivity(), "Delivery Status: " + deliveryStatus, Toast.LENGTH_SHORT).show());
                 }
                 adapter.notifyDataSetChanged();
             }

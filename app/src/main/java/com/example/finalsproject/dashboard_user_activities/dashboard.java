@@ -327,6 +327,12 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     else if(status.equals("Out for Delivery")||status.equals("Delivery in Progress") ||status.equals("Attempt Failed")){
                         Toast.makeText(this, "You cannot cancel this transaction. Please wait until it is finished.", Toast.LENGTH_LONG).show();
                     }
+                    else{
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.dashboard_layout, a);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
                 }
             }
         });
