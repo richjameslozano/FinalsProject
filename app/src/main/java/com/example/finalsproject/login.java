@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,8 +45,8 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        email_login =findViewById(R.id.first_name);
-        pass_login = findViewById(R.id.pass_regis);
+        email_login =findViewById(R.id.email_login);
+        pass_login = findViewById(R.id.pass_login);
         pass_login.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         signup = findViewById(R.id.signup);
         login_btn = findViewById(R.id.login_btn);
@@ -61,11 +60,11 @@ public class login extends AppCompatActivity {
             String email = email_login.getText().toString().trim();
             String password = pass_login.getText().toString().trim();
 
-            if (TextUtils.isEmpty(email)){
+            if (email.isEmpty()){
                 email_login.setError("Email is Required");
                 return;
             }
-                if(TextUtils.isEmpty(password)){
+                if(password.isEmpty()){
                     pass_login.setError("Password is Required.");
                     return;
                 }

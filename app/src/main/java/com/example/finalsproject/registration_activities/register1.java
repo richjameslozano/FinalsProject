@@ -35,7 +35,7 @@ public class register1 extends Fragment {
         fragment_layout = view.findViewById(R.id.fragment_layout);
         register_layout = view.findViewById(R.id.register_layout);
         //regis1 data
-        first_name = view.findViewById(R.id.first_name);
+        first_name = view.findViewById(R.id.email_login);
         last_name = view.findViewById(R.id.last_name);
         contact_num = view.findViewById(R.id.contact_num);
 
@@ -64,7 +64,7 @@ public class register1 extends Fragment {
             else if(contact.isEmpty()){
                 contact_num.setError("Contact number is required.");
             }
-            else if (contact.length()<=10||!contact.startsWith("09")) {
+            else if (contact.length()<10||!contact.startsWith("9")) {
                 contact_num.setError("Invalid contact number.");
             }
             //CONTINUE//
