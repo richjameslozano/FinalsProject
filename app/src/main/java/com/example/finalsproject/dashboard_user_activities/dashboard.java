@@ -37,6 +37,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -264,7 +266,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             super.onBackPressed();
         }
     }
-
     //ALL FRAGMENTS//
     private void setHomeFragment(fragment_home a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -279,10 +280,56 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fragmentTransaction.commit();
     }
     private void setInquireLostLuggage(inquire_lost_luggage a){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.dashboard_layout, a);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        DocumentReference docRef = fStore.collection("delivery_info").document(uiD);
+        docRef.addSnapshotListener(this, (documentSnapshot, error) -> {
+            if(documentSnapshot!=null){
+                String status = documentSnapshot.getString("delivery_status");
+                if(status==null){
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.dashboard_layout, a);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                else {
+                    if(status.equals("Processing")){
+                        AlertDialog.Builder cancelDialog = new AlertDialog.Builder(this);
+                        cancelDialog
+                        .setTitle("You already have a transaction")
+                        .setMessage("Do you want to cancel your transaction.")
+                        .setNegativeButton("No",(dialog, which) ->{
+                            dialog.dismiss();
+                            setLuggageMonitoring(new fragment_luggage_monitoring());
+                        })
+                        .setPositiveButton("Yes",(dialog, which) ->{
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("customer_address", null);
+                        updates.put("customer_contact", null);
+                        updates.put("customer_id", null);
+                        updates.put("customer_name", null);
+                        updates.put("delivery_status", null);
+                        updates.put("flight_date", null);
+                        updates.put("latitude", null);
+                        updates.put("longitude", null);
+                        updates.put("luggage_description", null);
+                        updates.put("luggage_quantity", null);
+                        updates.put("luggage_airline",null);
+                        updates.put("subcontractor_name", null);
+                        updates.put("endorser_name", null);
+                        docRef.update(updates);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.dashboard_layout, a);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        dialog.dismiss();
+                        })
+                        .show();
+                    }
+                    else if(status.equals("Out for Delivery")||status.equals("Delivery in Progress") ||status.equals("Attempt Failed")){
+                        Toast.makeText(this, "You cannot cancel this transaction. Please wait until it is finished.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
     private void setDeliveryInquiries(delivery_inquiries a){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

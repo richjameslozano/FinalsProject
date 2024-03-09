@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -49,7 +50,6 @@ public class fragment_luggage_monitoring extends Fragment {
                 if(acc_type.equals("Customer")){
                     customerList(documentList, adapter);
                 }
-                
                 else if(acc_type.equals("Admin")||acc_type.equals("Employee")){
                     db.collection("delivery_info")
                             .get()
@@ -70,6 +70,7 @@ public class fragment_luggage_monitoring extends Fragment {
             String customerAddress = document.getString("customer_address");
             String deliveryStatus = document.getString("delivery_status");
             String luggageQuantity = document.getString("luggage_quantity");
+            String airlines  = document.getString("luggage_airline");
             String flightDate = document.getString("flight_date");
             String luggageDescription = document.getString("luggage_description");
             String endorserName = document.getString("endorser_name");
@@ -79,7 +80,8 @@ public class fragment_luggage_monitoring extends Fragment {
                     luggageDescription == null && luggageQuantity == null && flightDate == null && endorserName == null &&
                     subcontractorName == null) {
                 documentList.add("No inquiries yet");
-            } else {
+            }
+            else {
                 documentList.add(
                 (deliveryStatus != null ? "Delivery Status: " + deliveryStatus : "") +
                 (customerName != null ? "\nCustomer Name: " + customerName : "") +
@@ -87,6 +89,7 @@ public class fragment_luggage_monitoring extends Fragment {
                 (customerAddress != null ? "\nCustomer Address: " + customerAddress : "") +
                 (luggageDescription != null ? "\nLuggage Description: " + luggageDescription : "") +
                 (luggageQuantity != null ? "\nLuggage Quantity: " + luggageQuantity : "") +
+                (airlines != null ? "\nAirline Name: " + airlines : "") +
                 (flightDate != null ? "\nFlight Date: " + flightDate : "") +
                 (endorserName != null ? "\nEndorser Name: " + endorserName : "") +
                 (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
@@ -115,7 +118,8 @@ public class fragment_luggage_monitoring extends Fragment {
                         luggageDescription == null && luggageQuantity == null && flightDate == null && endorserName == null &&
                         subcontractorName == null) {
                     documentList.add("No inquiries yet");
-                } else {
+                }
+                else {
                     documentList.add(
                     (deliveryStatus != null ? "Delivery Status: " + deliveryStatus : "") +
                     (customerName != null ? "\nCustomer Name: " + customerName : "") +
@@ -127,6 +131,15 @@ public class fragment_luggage_monitoring extends Fragment {
                     (endorserName != null ? "\nEndorser Name: " + endorserName : "") +
                     (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
                     );
+                    luggage_monitoring_lv.setOnItemClickListener((parent, view1, position, ID) -> {
+                        if(deliveryStatus.equals("Delivery in progress")){
+                            //NEW MAPS ACTIVITY
+                            System.exit(0);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Delivery Status: " + deliveryStatus, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 adapter.notifyDataSetChanged();
             }

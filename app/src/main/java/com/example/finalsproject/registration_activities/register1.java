@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -47,7 +46,6 @@ public class register1 extends Fragment {
                     contact = contact_num.getText().toString().trim();
 
             //TEMPORARY//
-            Toast.makeText(getActivity(), "Account Type: " + register_values.account_type, Toast.LENGTH_SHORT).show();
             if(f_name.isEmpty()){
                 first_name.setError("First name is required.");
 

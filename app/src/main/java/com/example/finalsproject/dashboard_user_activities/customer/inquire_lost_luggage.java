@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.finalsproject.R;
+import com.example.finalsproject.dashboard_user_activities.dashboard;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -43,7 +44,7 @@ import java.util.Objects;
 
 public class inquire_lost_luggage extends Fragment {
     View view;
-    EditText description, quantity;
+    EditText description, quantity, airline;
     TextView SelectedAddress;
     Button flightDate, currentBtn, customBtn, proceedBtn,refreshBtn;
     //LOCATIONS//
@@ -82,6 +83,7 @@ public class inquire_lost_luggage extends Fragment {
         getAddress();
         description = view.findViewById(R.id.luggage_details_editText);
         quantity = view.findViewById(R.id.luggage_quant_editText);
+        airline = view.findViewById(R.id.airline_editText);
         flightDate = view.findViewById(R.id.luggage_flight_dateBtn);
         SelectedAddress = view.findViewById(R.id.address_tv);
         currentBtn = view.findViewById(R.id.current_address_btn);
@@ -109,7 +111,8 @@ public class inquire_lost_luggage extends Fragment {
         proceedBtn.setOnClickListener(v -> {
             String desc = description.getText().toString().trim(),
                    Quantity = quantity.getText().toString(),
-                   flight = flightDate.getText().toString();
+                   flight = flightDate.getText().toString(),
+                   airlines = airline.getText().toString();
             if(desc.isEmpty()){
                 description.setError("Describe your lost luggage.");
             }
@@ -118,6 +121,9 @@ public class inquire_lost_luggage extends Fragment {
             }
             else if(Integer.parseInt(Quantity)<=0){
                 quantity.setError("Invalid amount of luggage?");
+            }
+            else if(airlines.isEmpty()){
+                airline.setError("Enter the airlines that the luggage was checked in.");
             }
             else if(flight.equals("Flight Date: DD/MM/YY")){
                 Toast.makeText(getActivity(), "Please select the flight date of when you lost your luggage.", Toast.LENGTH_SHORT).show();
@@ -133,6 +139,7 @@ public class inquire_lost_luggage extends Fragment {
                         userData.put("customer_contact", documentSnapshot.getString("contact"));
                         userData.put("luggage_description", desc);
                         userData.put("luggage_quantity", Quantity);
+                        userData.put("luggage_airline",airlines);
                         userData.put("flight_date", flight);
                         userData.put("delivery_status","Processing");
                         userData.put("customer_id",uiD);
@@ -140,6 +147,7 @@ public class inquire_lost_luggage extends Fragment {
                         getAddress();
                     }
                 });
+                startActivity(new Intent(getActivity(),dashboard.class));
             }
         });
         DocumentReference docRef = db.collection("delivery_info").document(uiD);
@@ -176,6 +184,8 @@ public class inquire_lost_luggage extends Fragment {
                         updates.put("longitude", null);
                         updates.put("luggage_description", null);
                         updates.put("luggage_quantity", null);
+                        updates.put("luggage_airline",null);
+                        updates.put("endorser_name", null);
                         updates.put("subcontractor_name", null);
                         documentReference.update(updates);
                     }

@@ -46,26 +46,47 @@ public class delivery_inquiries extends Fragment {
             .addOnSuccessListener(queryDocumentSnapshots -> {
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                     //DISPLAY LIST//
-                    displayData(document,documentList, adapter);
-                    //DISPLAY LIST//
-                    inq_lv.setOnItemClickListener((parent, view1, position, ID) -> {
-                    onClickListView(queryDocumentSnapshots, position);
-                    });
+                    String status = document.getString("delivery_status");
+                    if(status!=null){
+                        if(status.equals("Processing")||status.equals("Attempt Failed")){
+                            displayData(document,documentList, adapter);
+                            inq_lv.setOnItemClickListener((parent, view1, position, ID) -> onClickListView(queryDocumentSnapshots, position));
+                        }
+                        else{
+                            documentList.clear();
+                            documentList.add("No inquiries yet");
+                        }
+                    }
+                    else{
+                        documentList.clear();
+                        documentList.add("No inquiries yet");
+                    }
                 }
             })
-            .addOnFailureListener(e -> {});
+            .addOnFailureListener(e -> {
+                documentList.clear();
+                documentList.add("No deliveries yet");
+            });
         return view;
     }
     private static void displayData(QueryDocumentSnapshot document, ArrayList<String> documentList, ArrayAdapter<String> adapter) {
-        String name = document.getString("customer_name");
-        String add = document.getString("customer_address");
-        String contact = document.getString("customer_contact");
-        String status = document.getString("delivery_status");
+        String customerName = document.getString("customer_name");
+        String customerContact = document.getString("customer_contact");
+        String customerAddress = document.getString("customer_address");
+        String deliveryStatus = document.getString("delivery_status");
+        String luggageQuantity = document.getString("luggage_quantity");
+        String airline  = document.getString("luggage_airline");
+        String flightDate = document.getString("flight_date");
+        String luggageDescription = document.getString("luggage_description");
         String id = document.getId();
-        documentList.add("Customer Name: " + name +
-                "\nCustomer Address: " + add +
-                "\nCustomer contact: " + contact +
-                "\nDelivery Status: " + status +
+        documentList.add("Customer Name: " + customerName +
+                "\nCustomer Contact: " + customerContact +
+                "\nCustomer Address: " + customerAddress +
+                "\nDelivery Status: " + deliveryStatus +
+                "\nLuggage Quantity: " + luggageQuantity +
+                "\nAirline Name: " + airline +
+                "\nFlight Date: " + flightDate +
+                "\nLuggage Description: " + luggageDescription +
                 "\nUser ID: " + id);
         adapter.notifyDataSetChanged();
     }
@@ -73,9 +94,7 @@ public class delivery_inquiries extends Fragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
         alertDialogBuilder.setTitle("Confirming delivery.");
         alertDialogBuilder.setMessage("Do you confirm that this is a lost luggage within our system's storage?");
-        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
-            getCustomerData(queryDocumentSnapshots, position);
-        });
+        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> getCustomerData(queryDocumentSnapshots, position));
         alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
             Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
             dialog.dismiss();

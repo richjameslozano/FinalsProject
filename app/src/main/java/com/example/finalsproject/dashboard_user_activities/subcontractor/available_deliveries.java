@@ -39,7 +39,6 @@ String uiD;
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         available_deliveries_lv = view.findViewById(R.id.available_deliveries_lv);
-
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
         available_deliveries_lv.setAdapter(adapter);
@@ -51,80 +50,123 @@ String uiD;
                         String name = document.getString("customer_name");
                         String add = document.getString("customer_address");
                         String contact = document.getString("customer_contact");
+                        String airline = document.getString("luggage_airline");
                         String status = document.getString("delivery_status");
                         String quantity = document.getString("luggage_quantity");
-                        documentList.add(
+                        if(status!=null){
+                            if(status.equals("Out for delivery")||status.equals("Attempt Failed")||status.equals("Delivery in progress")){
+                                documentList.add(
                                 "Customer Name: " + name +
                                 "\nCustomer Address: " + add +
                                 "\nCustomer Contact: " + contact +
+                                "\nAirline Name: " + airline +
                                 "\nDelivery Status: " + status +
                                 "\nLuggage Quantity: " + quantity);
-                        adapter.notifyDataSetChanged();
-                        available_deliveries_lv.setOnItemClickListener((parent, view1, position, ID) -> {
-                            DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
-                            String stats = selectedDocument.getString("delivery_status");
-                            assert stats != null;
-                            if(!stats.equals("Luggage delivered")){
-                                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
-                                alertDialogBuilder.setTitle("Confirming delivery.");
-                                alertDialogBuilder.setMessage("Are you willing to deliver this lost luggage?");
-                                alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
-                                    Toast.makeText(getActivity(),"Luggage has been picked up by subcontractor.",Toast.LENGTH_SHORT).show();
-                                    String customerId = selectedDocument.getString("customer_id");
-                                    DocumentReference documentReference = db.collection("users").document(uiD);
-                                    documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-                                        if (documentSnapshot != null) {
-                                            String subcontractor_name = documentSnapshot.getString("l_name")+", "+documentSnapshot.getString("f_name");
-                                            assert customerId != null;
-                                            DocumentReference docRef = db.collection("delivery_info").document(customerId);
-                                            docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
-                                                if (documentSnapshot1 != null) {
-                                                    Map<String, Object> userData = new HashMap<>();
-                                                    userData.put("subcontractor_name", subcontractor_name);
-                                                    userData.put("delivery_status","Delivery in progress");
-                                                    docRef.update(userData);
-                                                    Intent intent = new Intent(getActivity(), map_subcontractor.class);
-                                                    intent.putExtra("customerId", customerId);
-                                                    intent.putExtra("address",selectedDocument.getString("customer_address"));
-                                                    startActivity(intent);
-                                                }
-                                            });
-                                        }
-                                    });
-                                    dialog.dismiss();
+                                adapter.notifyDataSetChanged();
+                                available_deliveries_lv.setOnItemClickListener((parent, view1, position, ID) -> {
+                                    DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
+                                    if(status.equals("Out for delivery")||status.equals("Attempt Failed")){
+                                        Delivery(selectedDocument);
+                                    }
+                                    else{
+                                        InDelivery(selectedDocument);
+                                    }
                                 });
-                                alertDialogBuilder.setNeutralButton("Luggage has been delivered",((dialog, which) -> {
-                                    Toast.makeText(getActivity(),"Delivery successful.",Toast.LENGTH_SHORT).show();
-                                    String customerId = selectedDocument.getString("customer_id");
-                                    DocumentReference documentReference = db.collection("users").document(uiD);
-                                    documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-                                        if (documentSnapshot != null) {
-                                            assert customerId != null;
-                                            DocumentReference docRef = db.collection("delivery_info").document(customerId);
-                                            docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
-                                                if (documentSnapshot1 != null) {
-                                                    Map<String, Object> userData = new HashMap<>();
-                                                    userData.put("delivery_status","Luggage delivered");
-                                                    docRef.update(userData);
-                                                }
-                                            });
-                                        }
-                                    });
-                                    dialog.dismiss();
-                                }));
-                                alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
-                                    Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                }));
-                                alertDialogBuilder.show();
                             }
                             else{
-                                Toast.makeText(getActivity(),"Luggage is already delivered.",Toast.LENGTH_SHORT).show();
+                                documentList.clear();
+                                documentList.add("No deliveries yet");
                             }
-                        });
+                        }
+                        else{
+                            documentList.clear();
+                            documentList.add("No deliveries yet");
+                        }
                     }
                 })
-                .addOnFailureListener(e -> {});
+                .addOnFailureListener(e -> {
+                    documentList.clear();
+                    documentList.add("No deliveries yet");
+                });
         return view;
+    }
+    private void Delivery(DocumentSnapshot selectedDocument) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
+        alertDialogBuilder.setTitle("Confirming delivery.");
+        alertDialogBuilder.setMessage("Are you willing to deliver this lost luggage?");
+        alertDialogBuilder.setNegativeButton("No",((dialog, which) -> {
+            Toast.makeText(getActivity(),"Delivery dismissed.",Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        }));
+        alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
+            Toast.makeText(getActivity(),"Luggage has been picked up by subcontractor.",Toast.LENGTH_SHORT).show();
+            String customerId = selectedDocument.getString("customer_id");
+            DocumentReference documentReference = db.collection("users").document(uiD);
+            documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+                if (documentSnapshot != null) {
+                    String subcontractor_name = documentSnapshot.getString("l_name")+", "+documentSnapshot.getString("f_name");
+                    assert customerId != null;
+                    DocumentReference docRef = db.collection("delivery_info").document(customerId);
+                    docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
+                        if (documentSnapshot1 != null) {
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("subcontractor_name", subcontractor_name);
+                            userData.put("delivery_status","Delivery in progress");
+                            docRef.update(userData);
+                            Intent intent = new Intent(getActivity(), map_subcontractor.class);
+                            intent.putExtra("customerId", customerId);
+                            intent.putExtra("address", selectedDocument.getString("customer_address"));
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
+            dialog.dismiss();
+        });
+        alertDialogBuilder.show();
+    }
+    private void InDelivery(DocumentSnapshot selectedDocument) {
+        String customerId = selectedDocument.getString("customer_id");
+        assert customerId != null;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
+        alertDialogBuilder.setTitle("Delivery is in progress.");
+        alertDialogBuilder.setMessage("Have you delivered the luggage?");
+        alertDialogBuilder.setNeutralButton("Not Yet",((dialog, which) -> {
+            AlertDialog.Builder alertDialogBuilder1 = new AlertDialog.Builder(requireContext());
+            alertDialogBuilder1.setTitle("Opening application maps?");
+            alertDialogBuilder1.setMessage("Do you want to view the delivery location point?");
+            alertDialogBuilder1.setNegativeButton("No",((dialog1, which1) -> dialog1.dismiss()));
+            alertDialogBuilder1.setPositiveButton("Yes",((dialog1, which1) -> {
+            }));
+
+        }));
+        alertDialogBuilder.setNegativeButton("Attempt Failed",((dialog, which) -> {
+            DocumentReference docRef = db.collection("delivery_info").document(customerId);
+            docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
+                if (documentSnapshot1 != null) {
+                    Map<String, Object> userData = new HashMap<>();
+                    userData.put("delivery_status","Attempt Failed");
+                    docRef.update(userData);
+                }
+            });
+        }));
+        alertDialogBuilder.setPositiveButton("Yes",((dialog, which) -> {
+            Toast.makeText(getActivity(),"Delivery successful.",Toast.LENGTH_SHORT).show();
+            DocumentReference documentReference = db.collection("users").document(uiD);
+            documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+                if (documentSnapshot != null) {
+                    DocumentReference docRef = db.collection("delivery_info").document(customerId);
+                    docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
+                        if (documentSnapshot1 != null) {
+                            Map<String, Object> userData = new HashMap<>();
+                            userData.put("delivery_status","Luggage delivered");
+                            docRef.update(userData);
+                        }
+                    });
+                }
+            });
+            dialog.dismiss();
+        }));
+
     }
 }
