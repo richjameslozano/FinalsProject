@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class register1 extends Fragment {
@@ -22,7 +23,7 @@ public class register1 extends Fragment {
     View view;
     FirebaseAuth fAuth;
     Button next_btn1, back_btn1;
-    EditText first_name,last_name,contact_num;
+    TextInputEditText first_name,last_name,contact_num;
     ConstraintLayout fragment_layout,register_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,7 +36,7 @@ public class register1 extends Fragment {
         fragment_layout = view.findViewById(R.id.fragment_layout);
         register_layout = view.findViewById(R.id.register_layout);
         //regis1 data
-        first_name = view.findViewById(R.id.email_login);
+        first_name = view.findViewById(R.id.first_name);
         last_name = view.findViewById(R.id.last_name);
         contact_num = view.findViewById(R.id.contact_num);
 
@@ -64,7 +65,7 @@ public class register1 extends Fragment {
             else if(contact.isEmpty()){
                 contact_num.setError("Contact number is required.");
             }
-            else if (contact.length()<10||!contact.startsWith("9")) {
+            else if (contact.length()<=10||!contact.startsWith("09")) {
                 contact_num.setError("Invalid contact number.");
             }
             //CONTINUE//

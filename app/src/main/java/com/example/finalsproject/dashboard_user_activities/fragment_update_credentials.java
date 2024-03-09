@@ -93,7 +93,7 @@ String uID;
                     documentReference.update("email", email);
                 }
 
-                if (!contact.isEmpty()&&contact.length() >= 10 && !contact.startsWith("09")) {
+                if (!contact.isEmpty()&&contact.length() > 11 && !contact.startsWith("09")) {
                     edit_contact.setError("Invalid contact number.");
                     return;
                 }
