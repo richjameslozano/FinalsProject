@@ -57,8 +57,8 @@ public class register2 extends Fragment {
 
         confirm_pass_regis = view.findViewById(R.id.confirm_pass_regis);
 
-//        pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-//        confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         //FIREBASE INSTANCES
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

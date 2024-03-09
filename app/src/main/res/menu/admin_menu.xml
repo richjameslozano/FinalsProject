@@ -4,14 +4,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:checkableBehavior="single">
-        <item android:title="Home" />
-        <item android:title="Account Management" />
-        <item android:title="Luggage Monitoring" />
-        <item android:title="Profile" />
+        <item
+            android:icon="@drawable/baseline_home_24"
+            android:iconTint="@color/textcolor"
+            android:title="Home" />
+        <item
+            android:icon="@drawable/baseline_manage_accounts_24"
+            android:iconTint="@color/textcolor"
+            android:title="Account Management" />
+        <item
+            android:icon="@drawable/trackingfill"
+            android:iconTint="@color/textcolor"
+            android:title="Luggage Monitoring" />
+        <item
+            android:icon="@drawable/profile"
+            android:iconTint="@color/textcolor"
+            android:title="Profile" />
         <item
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:icon="@drawable/settings"
+            android:iconTint="@color/textcolor"
             android:title="Account Settings" />
-        <item android:title="Logout" />
+        <item
+            android:icon="@drawable/baseline_logout_24"
+            android:iconTint="@color/textcolor"
+            android:title="Logout" />
     </group>
 </menu>

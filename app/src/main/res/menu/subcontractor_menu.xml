@@ -10,8 +10,13 @@
                 <item
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:icon="@drawable/baseline_home_24"
+                    android:iconTint="@color/textcolor"
                     android:title="Home" />
-                <item android:title="Available Deliveries" />
+                <item
+                    android:icon="@drawable/box"
+                    android:iconTint="@color/textcolor"
+                    android:title="Available Deliveries" />
             </menu>
         </item>
         <item
@@ -19,9 +24,18 @@
             android:layout_height="wrap_content"
             android:title="My Account">
             <menu>
-                <item android:title="Profile" />
-                <item android:title="Account Settings" />
-                <item android:title="Logout" />
+                <item
+                    android:icon="@drawable/profile"
+                    android:iconTint="@color/textcolor"
+                    android:title="Profile" />
+                <item
+                    android:icon="@drawable/settings"
+                    android:iconTint="@color/textcolor"
+                    android:title="Account Settings" />
+                <item
+                    android:icon="@drawable/baseline_logout_24"
+                    android:iconTint="@color/textcolor"
+                    android:title="Logout" />
             </menu>
         </item>
         <item
@@ -29,7 +43,10 @@
             android:layout_height="wrap_content"
             android:title="Help Center">
             <menu>
-                <item android:title="Contact Us" />
+                <item
+                    android:icon="@drawable/contact"
+                    android:iconTint="@color/textcolor"
+                    android:title="Contact Us" />
             </menu>
         </item>
     </group>

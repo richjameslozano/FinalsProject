@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,7 +24,7 @@ import java.util.Objects;
 public class fragment_update_credentials extends Fragment {
 
 View view;
-EditText edit_uname, edit_LName, edit_FName,edit_email,edit_contact;
+TextInputEditText edit_uname, edit_LName, edit_FName,edit_email,edit_contact;
 
 Button save_btn;
 FirebaseAuth fAuth;
@@ -93,11 +94,11 @@ String uID;
                     documentReference.update("email", email);
                 }
 
-                if (!contact.isEmpty()&&contact.length() > 11 && !contact.startsWith("09")) {
+                if (!contact.isEmpty()&&contact.length() <=10 && !contact.startsWith("09")) {
                     edit_contact.setError("Invalid contact number.");
                     return;
                 }
-                else if(contact.startsWith("09")){
+                else if(contact.length() == 11 && contact.startsWith("09")){
                     documentReference.update("contact", contact);
                 }
                 setAccountSettingsFragment(new fragment_account_settings());
