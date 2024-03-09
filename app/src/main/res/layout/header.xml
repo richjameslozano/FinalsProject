@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/sdarkgreen"
+    android:background="@color/trial3"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="20dp">
@@ -10,14 +10,14 @@
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/company_logo_main" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo"
         android:text="Dashboard"
-        android:textColor="@color/sage"
+        android:textColor="@color/textcolor"
         android:textSize="24sp" />
 
 

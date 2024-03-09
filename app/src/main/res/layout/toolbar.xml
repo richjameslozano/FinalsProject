@@ -3,8 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000096FF"
+    android:background="@color/darkg"
+    android:backgroundTint="@color/trial3"
     android:elevation="4dp"
-    app:navigationIcon="@drawable/menu">
+    android:foregroundTint="@color/textcolor"
+    app:navigationIcon="@drawable/menu"
+    app:subtitleTextColor="@color/textcolor"
+    app:titleTextColor="@color/textcolor">
 
 </androidx.appcompat.widget.Toolbar>

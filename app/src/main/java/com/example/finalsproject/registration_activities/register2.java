@@ -52,31 +52,31 @@ public class register2 extends Fragment {
         show2 = view.findViewById(R.id.show2);
         fragment_layout = view.findViewById(R.id.fragment_layout);
         //regis2 data
-        email_regis = view.findViewById(R.id.email_regis);
-        pass_regis = view.findViewById(R.id.pass_regis);
-        confirm_pass_regis = view.findViewById(R.id.confirm_pass);
+        email_regis = view.findViewById(R.id.email_login);
+        pass_regis = view.findViewById(R.id.pass_login);
+        confirm_pass_regis = view.findViewById(R.id.confirm_pass_regis);
         pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         //FIREBASE INSTANCES
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //LISTENERS//
-        show1.setOnClickListener(v -> {
-            if (show1.isChecked()) {
-                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
-            }
-            else {
-                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
-        show2.setOnClickListener(v -> {
-            if (show2.isChecked()) {
-                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            else {
-                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
+//        show1.setOnClickListener(v -> {
+//            if (show1.isChecked()) {
+//                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
+//            }
+//            else {
+//                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            }
+//        });
+//        show2.setOnClickListener(v -> {
+//            if (show2.isChecked()) {
+//                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//            }
+//            else {
+//                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//            }
+//        });
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
             String
@@ -91,7 +91,7 @@ public class register2 extends Fragment {
             }
             else if (pass.isEmpty()) {
                 pass_regis.setError("Password is required.");
-            } else if (pass.length() < 8) {
+            } else if (pass.length() < 6) {
                 pass_regis.setError("Password should be at least 8 characters.");
             }
             else if(confirm_pass.isEmpty()){

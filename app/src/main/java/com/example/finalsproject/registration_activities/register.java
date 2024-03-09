@@ -37,8 +37,8 @@ public class register extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance(); //firebase instance
         next_btn = findViewById(R.id.next_btn);
         back_btn = findViewById(R.id.back_btn);
-        pass_regis = findViewById(R.id.pass_regis);
-        confirm_pass = findViewById(R.id.confirm_pass);
+        pass_regis = findViewById(R.id.pass_login);
+        confirm_pass = findViewById(R.id.confirm_pass_regis);
 
         spinner = findViewById(R.id.acctype_spinner);
         user_regis = findViewById(R.id.user_regis);

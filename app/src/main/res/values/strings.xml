@@ -14,6 +14,7 @@
     <string name="save">SAVE</string>
     <string name="account_management">ACCOUNT MANAGEMENT</string>
     <string name="title_activity_map_subcontractor">map_subcontractor</string>
+    <string name="title">EGC-GHE Delivery Service App</string>
 
 
 </resources>
