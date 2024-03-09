@@ -32,7 +32,7 @@ public class SplashScreen extends AppCompatActivity {
         @SuppressLint({"MissingInflateId", "LocalSuppress"})
         ImageView img = findViewById(R.id.splashimg);
         Glide.with(SplashScreen.this)
-                .load(R.drawable.spongebob)
+                .load(R.drawable.truck_delivery_service)
                 .into(img);
         new Handler().postDelayed(() -> {
             boolean login_status;
@@ -49,6 +49,6 @@ public class SplashScreen extends AppCompatActivity {
                 startActivity(new Intent(this, login.class));
                 finish();
             }
-        },2000);
+        },5000);
     }
 }

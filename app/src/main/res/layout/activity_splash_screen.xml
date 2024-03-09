@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/darkg"
+    android:backgroundTint="@color/darkg"
     tools:context=".SplashScreen">
 
     <ImageView
         android:id="@+id/splashimg"
-        android:layout_width="1550dp"
-        android:layout_height="match_parent"
+        android:layout_width="457dp"
+        android:layout_height="578dp"
+        android:background="@color/trial3"
+        android:backgroundTint="@color/darkg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -25,6 +25,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.example.finalsproject.R;
 import com.example.finalsproject.login;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +40,9 @@ public class fragment_account_settings extends Fragment {
     View view;
     ImageView pfp_acc;
     ToggleButton reset,show1,show2;
-    EditText confirm_EditText, pass_EditText;
+
+    TextInputLayout passlayout,confirmlayout;
+    TextInputEditText confirm_EditText, pass_EditText;
     Button confirmReset_btn,changePfp_btn,update_btn;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -61,11 +65,10 @@ public class fragment_account_settings extends Fragment {
         pfp_acc = view.findViewById(R.id.pfp_acc);
         StorageReference profileRef = storageReference.child("users/"+Objects.requireNonNull(fAuth.getCurrentUser()).getUid()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(pfp_acc));
+        passlayout = view.findViewById(R.id.passlayout);
+        confirmlayout = view.findViewById(R.id.confirmlayout);
 
         reset = view.findViewById(R.id.reset_btn);
-        show1 = view.findViewById(R.id.show1);
-        show2 = view.findViewById(R.id.show2);
-
 
         changePfp_btn = view.findViewById(R.id.changepfp_bt);
         confirmReset_btn = view.findViewById(R.id.confirmReset_btn);
@@ -105,36 +108,24 @@ public class fragment_account_settings extends Fragment {
                         .show();
             }
         });
-        show1.setOnClickListener(v -> {
-            if (show1.isChecked()) {
-                pass_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
-            }
-            else {
-                pass_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
-        show2.setOnClickListener(v -> {
-            if (show2.isChecked()) {
-                confirm_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            else {
-                confirm_EditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
+
         reset.setOnClickListener(v->{
             if(reset.isChecked()){
+                passlayout.setVisibility(View.VISIBLE);
+                confirmlayout.setVisibility(View.VISIBLE);
                 pass_EditText.setVisibility(View.VISIBLE);
                 confirm_EditText.setVisibility(View.VISIBLE);
                 confirmReset_btn.setVisibility(View.VISIBLE);
-                show1.setVisibility(View.VISIBLE);
-                show2.setVisibility(View.VISIBLE);
+
+
             }
             else{
+                passlayout.setVisibility(View.GONE);
+                confirmlayout.setVisibility(View.GONE);
                 pass_EditText.setVisibility(View.GONE);
                 confirm_EditText.setVisibility(View.GONE);
                 confirmReset_btn.setVisibility(View.GONE);
-                show1.setVisibility(View.GONE);
-                show2.setVisibility(View.GONE);
+
             }
         });
         changePfp_btn.setOnClickListener(v -> {
