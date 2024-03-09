@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.example.finalsproject.login;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,22 +61,6 @@ public class register2 extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         //LISTENERS//
-        show1.setOnClickListener(v -> {
-            if (show1.isChecked()) {
-                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);//move to the end of the edittext
-            }
-            else {
-                pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
-        show2.setOnClickListener(v -> {
-            if (show2.isChecked()) {
-                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            }
-            else {
-                confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            }
-        });
         next_btn2.setOnClickListener(view -> {
             //CONTINUE
             String  email = email_regis.getText().toString().trim(),

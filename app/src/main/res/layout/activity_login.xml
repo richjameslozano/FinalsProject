@@ -11,7 +11,7 @@
     <Button
         android:id="@+id/login_btn"
         android:layout_width="137dp"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:backgroundTint="@color/textcolor"
         android:fontFamily="@font/baloo"
         android:text="SIGN IN"
@@ -20,7 +20,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.813"
+        app:layout_constraintHorizontal_bias="0.828"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
         app:layout_constraintVertical_bias="0.1"
@@ -91,18 +91,18 @@
         app:buttonIconTint="@color/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
+        app:layout_constraintHorizontal_bias="0.135"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintVertical_bias="0.095" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
-        android:layout_width="360dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="10dp"
         android:hint="Email"
         android:textColorHint="@color/textcolor"
         app:boxStrokeColor="@color/textcolor"
@@ -111,7 +111,7 @@
         app:errorEnabled="true"
         app:hintTextColor="@color/textcolor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:placeholderText="ex: abcde@gmail.com"
@@ -122,7 +122,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_login"
             android:layout_width="350dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:textAlignment="textStart"
             android:textColor="@color/textcolor"
             android:textColorHint="@color/textcolor"
@@ -131,11 +131,11 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
-        android:layout_width="360dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="10dp"
         android:hint="Password"
         android:textColorHint="@color/textcolor"
         app:boxStrokeColor="@color/textcolor"
@@ -144,7 +144,7 @@
         app:errorEnabled="true"
         app:hintTextColor="@color/textcolor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.307"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
         app:prefixTextColor="@color/textcolor"
@@ -154,10 +154,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pass_login"
             android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:textColor="@color/darkg"
-            android:textColorHint="@color/darkg"
-            android:textColorLink="@color/darkg" />
+            android:layout_height="60dp"
+            android:textColor="@color/textcolor"
+            android:textColorHint="@color/textcolor"
+            android:textColorLink="@color/textcolor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

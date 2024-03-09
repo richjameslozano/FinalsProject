@@ -84,7 +84,7 @@
             android:id="@+id/address_tv"
             android:layout_width="312dp"
             android:layout_height="151dp"
-            android:text="Current Address"
+            android:text="current address (add title)"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"

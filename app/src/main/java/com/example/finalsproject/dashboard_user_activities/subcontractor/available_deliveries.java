@@ -74,12 +74,8 @@ public class available_deliveries extends Fragment {
                                                 DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                                 InDelivery(selectedDocument);
                                             });
-                                        } else {
-                                            adapter.notifyDataSetChanged();
-                                            documentList.clear();
-                                            documentList.add("No deliveries yet");
                                         }
-                                    } else {
+                                    }else {
                                         if (status.equals("Out for Delivery") || status.equals("Attempt Failed")) {
                                             documentList.add(format);
                                             adapter.notifyDataSetChanged();
@@ -87,22 +83,10 @@ public class available_deliveries extends Fragment {
                                                 DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                                 Delivery(selectedDocument);
                                             });
-                                        } else {
-                                            adapter.notifyDataSetChanged();
-                                            documentList.clear();
-                                            documentList.add("No deliveries yet");
                                         }
                                     }
-                                } else {
-                                    adapter.notifyDataSetChanged();
-                                    documentList.clear();
-                                    documentList.add("No deliveries yet");
                                 }
                             });
-                        } else {
-                            adapter.notifyDataSetChanged();
-                            documentList.clear();
-                            documentList.add("No deliveries yet");
                         }
                     }
                 })
@@ -152,7 +136,6 @@ public class available_deliveries extends Fragment {
 
     private void InDelivery(DocumentSnapshot selectedDocument) {
         String customerId = selectedDocument.getString("customer_id");
-        assert customerId != null;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
         alertDialogBuilder.setTitle("Delivery is in progress.");
         alertDialogBuilder.setMessage("Have you delivered the luggage?");

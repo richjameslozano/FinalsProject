@@ -3,7 +3,9 @@ package com.example.finalsproject.dashboard_user_activities.subcontractor;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -19,10 +21,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class map_subcontractor extends FragmentActivity implements OnMapReadyCallback {
@@ -31,6 +36,7 @@ public class map_subcontractor extends FragmentActivity implements OnMapReadyCal
     FirebaseFirestore db;
     FirebaseAuth fAuth;
     String uiD;
+    Marker marker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +79,26 @@ public class map_subcontractor extends FragmentActivity implements OnMapReadyCal
                         Double longitude = documentSnapshot.getDouble("longitude");
                         if (latitude != null && longitude != null) {
                             LatLng location = new LatLng(latitude, longitude);
-                            // Add marker to the map
-                            googleMap.addMarker(new MarkerOptions().position(location).title(address));
-                            // Zoom in on the marker
+                            Geocoder geocoder = new Geocoder(getApplicationContext());
+                            try {
+                            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                            assert addresses != null;
+                            String addressLine = addresses.get(0).getAddressLine(0);
+                            marker = googleMap.addMarker(new MarkerOptions().position(location).title(addressLine));
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+                            marker.showInfoWindow();
+                            }
+                            catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         }
                     }
                 })
                 .addOnFailureListener(e -> {});
+            googleMap.setOnMarkerClickListener(marker -> {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 15));
+                marker.showInfoWindow();
+            return false; // Return true to indicate that the click event has been consumed
+            });
     }
 }
