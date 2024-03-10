@@ -24,8 +24,8 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/trial3"
-            app:cardBackgroundColor="@color/trial3"
+            android:backgroundTint="@color/textcolor"
+            app:cardBackgroundColor="@color/textcolor"
             app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toTopOf="@+id/changepfp_bt"
             app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +152,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pass_EditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="53dp"
                 android:textColor="@color/textcolor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,7 +181,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_EditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="50dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

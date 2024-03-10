@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.example.finalsproject.login;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,8 @@ import java.util.Objects;
 
 public class register2 extends Fragment {
     EditText email_regis,pass_regis,confirm_pass_regis;
+
+    TextInputLayout confirmlayout,pass2layout,emaillayout;
     Button next_btn2, back_btn2;
 
     View view;
@@ -50,10 +53,11 @@ public class register2 extends Fragment {
         fragment_layout = view.findViewById(R.id.fragment_layout);
         //regis2 data
         email_regis = view.findViewById(R.id.email_regis);
-
         pass_regis = view.findViewById(R.id.pass_regis);
-
         confirm_pass_regis = view.findViewById(R.id.confirm_pass_regis);
+        confirmlayout = view.findViewById(R.id.confirmlayout);
+        pass2layout = view.findViewById(R.id.pass2layout);
+        emaillayout = view.findViewById(R.id.emaillayout);
 
         pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         confirm_pass_regis.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -68,21 +72,25 @@ public class register2 extends Fragment {
             confirm_pass = confirm_pass_regis.getText().toString().trim();
 
             if(email.isEmpty()){
-                email_regis.setError("Email address is required.");
+                emaillayout.setError("Email address is required.");
             }
             else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
-                email_regis.setError("Invalid email address.");
+                emaillayout.setError("Invalid Email Address.");
+                emaillayout.setErrorIconDrawable(null);
             }
             else if (pass.isEmpty()) {
-                pass_regis.setError("Password is required.");
+                pass2layout.setError("Password is required.");
             } else if (pass.length() < 6) {
-                pass_regis.setError("Password should be at least 8 characters.");
+                pass2layout.setError("Password should be at least 6 characters.");
+                pass2layout.setErrorIconDrawable(null);
             }
             else if(confirm_pass.isEmpty()){
-                confirm_pass_regis.setError("Confirm your password.");
+                confirmlayout.setError("Confirm your password.");
+                confirmlayout.setErrorIconDrawable(null);
             }
             else if(!pass.equals(confirm_pass)){
-                confirm_pass_regis.setError("Password does not match.");
+                confirmlayout.setError("Password does not match.");
+                confirmlayout.setErrorIconDrawable(null);
             }
             //CONTINUE//
             else{

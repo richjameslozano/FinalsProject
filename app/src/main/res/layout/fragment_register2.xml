@@ -50,6 +50,7 @@
             app:layout_constraintVertical_bias="0.891" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirmlayout"
             android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_marginStart="30dp"
@@ -64,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            app:layout_constraintTop_toBottomOf="@+id/pass2layout"
             app:placeholderTextColor="@color/textcolor"
             app:prefixTextColor="@color/textcolor"
             app:startIconDrawable="@drawable/pass_logo"
@@ -73,13 +74,13 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirm_pass_regis"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="46dp"
                 android:textColor="@color/textcolor"
                 android:textColorHint="@color/textcolor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout4"
+            android:id="@+id/emaillayout"
             android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_marginStart="30dp"
@@ -102,11 +103,11 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_regis"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="49dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout5"
+            android:id="@+id/pass2layout"
             android:layout_width="0dp"
             android:layout_height="75dp"
             android:layout_marginStart="30dp"
@@ -122,14 +123,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/emaillayout"
             app:startIconDrawable="@drawable/pass_logo"
             app:startIconTint="@color/textcolor">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pass_regis"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="49dp"
                 android:textColor="@color/textcolor"
                 android:textColorHint="@color/textcolor"
                 android:textColorLink="@color/textcolor" />

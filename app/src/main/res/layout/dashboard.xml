@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/textcolor"
     android:fitsSystemWindows="true"
-    android:foregroundTint="@color/pastelgreen"
+    android:foregroundTint="@color/textcolor"
     tools:context=".dashboard_user_activities.dashboard"
     tools:openDrawer="start">
 
@@ -17,10 +17,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:visibility="gone"
         android:background="@color/maincolor"
         android:foregroundTint="@color/pastelgreen"
         android:titleTextColor="@color/textcolor"
+        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:insetForeground="@color/pastelgreen"
         app:itemIconTint="@color/textcolor"
@@ -60,10 +60,10 @@
             android:foregroundTint="@color/maincolor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
