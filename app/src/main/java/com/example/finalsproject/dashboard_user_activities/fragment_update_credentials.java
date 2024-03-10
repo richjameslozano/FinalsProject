@@ -49,7 +49,7 @@ String uID;
         save_btn.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); // Use getActivity() if you are in a Fragment
             builder.setTitle("Confirm Save");
-            builder.setMessage("Are you sure you want to save changes?");
+            builder.setMessage("Are you sure you want to save changes?(Leave empty to cancel)");
 
             builder.setPositiveButton("Yes", (dialog, which) -> {
                 DocumentReference documentReference = fStore.collection("users").document(uID);
