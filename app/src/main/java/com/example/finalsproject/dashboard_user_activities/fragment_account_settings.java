@@ -81,15 +81,19 @@ public class fragment_account_settings extends Fragment {
             String pass = Objects.requireNonNull(pass_EditText.getText()).toString().trim();
             String confirm_pass = Objects.requireNonNull(confirm_EditText.getText()).toString().trim();
             if (pass.isEmpty()) {
-                pass_EditText.setError("Password is required.");
-            } else if (pass.length() < 8) {
-                pass_EditText.setError("Password should be at least 8 characters.");
+                passLayout.setError("Password is required.");
+                passLayout.setErrorIconDrawable(null);
+            } else if (pass.length() < 6) {
+                passLayout.setError("Password should be at least 6 characters.");
+                passLayout.setErrorIconDrawable(null);
             }
             else if(confirm_pass.isEmpty()){
-                confirm_EditText.setError("Confirm your password.");
+                confirmLayout.setError("Confirm your password.");
+                confirmLayout.setErrorIconDrawable(null);
             }
             else if(!pass.equals(confirm_pass)){
-                confirm_EditText.setError("Password does not match.");
+                confirmLayout.setError("Password does not match.");
+                confirmLayout.setErrorIconDrawable(null);
             }
             else{
                 final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());

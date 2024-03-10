@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.finalsproject.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -24,6 +25,8 @@ public class register1 extends Fragment {
     FirebaseAuth fAuth;
     Button next_btn1, back_btn1;
     TextInputEditText first_name,last_name,contact_num;
+
+    TextInputLayout firstnamelayout,lastnamelayout,contactlayout;
     ConstraintLayout fragment_layout,register_layout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +43,10 @@ public class register1 extends Fragment {
         last_name = view.findViewById(R.id.last_name);
         contact_num = view.findViewById(R.id.contact_num);
 
+        firstnamelayout = view.findViewById(R.id.firstnamelayout);
+        lastnamelayout = view.findViewById(R.id.lastnamelayout);
+        contactlayout = view.findViewById(R.id.contactlayout);
+
         //LISTENERS//
         next_btn1.setOnClickListener(view -> {
             String
@@ -50,22 +57,25 @@ public class register1 extends Fragment {
             //TEMPORARY//
             if(f_name.isEmpty()){
                 first_name.setError("First name is required.");
-
             }
             else if (!f_name.matches("[a-zA-Z ]+")) {
-                first_name.setError("First name should contain letters only.");
+                firstnamelayout.setError("First name should contain letters only.");
+                firstnamelayout.setErrorIconDrawable(null);
+
             }
             else if(l_name.isEmpty()){
                 last_name.setError("Last name is required.");
             }
             else if (!l_name.matches("[a-zA-Z ]+")) {
-                last_name.setError("Last name should contain letters only.");
+                lastnamelayout.setError("Last name should contain letters only.");
+                lastnamelayout.setErrorIconDrawable(null);
             }
             else if(contact.isEmpty()){
                 contact_num.setError("Contact number is required.");
             }
             else if (contact.length()<=10||!contact.startsWith("09")) {
-                contact_num.setError("Invalid contact number.");
+                contactlayout.setError("Invalid contact number.");
+                contactlayout.setErrorIconDrawable(null);
             }
             //CONTINUE//
             else{
