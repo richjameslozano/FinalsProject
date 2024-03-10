@@ -102,8 +102,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_regis"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="hint" />
+                android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

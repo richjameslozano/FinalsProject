@@ -44,6 +44,9 @@ public class delivery_inquiries extends Fragment {
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.list,R.id.list_tv, documentList);
         inq_lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        documentList.clear();
+        documentList.add("No inquiries yet");
         db.collection("delivery_info")
             .get()
             .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -55,24 +58,10 @@ public class delivery_inquiries extends Fragment {
                             displayData(document,documentList, adapter);
                             inq_lv.setOnItemClickListener((parent, view1, position, ID) -> onClickListView(queryDocumentSnapshots, position));
                         }
-                        else{
-                            adapter.notifyDataSetChanged();
-                            documentList.clear();
-                            documentList.add("No inquiries yet");
-                        }
-                    }
-                    else{
-                        adapter.notifyDataSetChanged();
-                        documentList.clear();
-                        documentList.add("No inquiries yet");
                     }
                 }
             })
-            .addOnFailureListener(e -> {
-                adapter.notifyDataSetChanged();
-                documentList.clear();
-                documentList.add("No deliveries yet");
-            });
+            .addOnFailureListener(e -> {});
         sv_di.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -97,16 +86,17 @@ public class delivery_inquiries extends Fragment {
         String flightDate = document.getString("flight_date");
         String luggageDescription = document.getString("luggage_description");
         String id = document.getId();
-        documentList.add("Customer Name: " + customerName +
+        adapter.notifyDataSetChanged();
+        documentList.clear();
+        documentList.add("Delivery Status: " + deliveryStatus +
+                "\nCustomer Name: " + customerName +
                 "\nCustomer Contact: " + customerContact +
                 "\nCustomer Address: " + customerAddress +
-                "\nDelivery Status: " + deliveryStatus +
                 "\nLuggage Quantity: " + luggageQuantity +
                 "\nAirline Name: " + airline +
                 "\nFlight Date: " + flightDate +
                 "\nLuggage Description: " + luggageDescription +
                 "\nUser ID: " + id);
-        adapter.notifyDataSetChanged();
     }
     private void onClickListView(QuerySnapshot queryDocumentSnapshots, int position) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());

@@ -42,6 +42,9 @@ public class fragment_luggage_monitoring extends Fragment {
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),R.layout.list,R.id.list_tv, documentList);
         luggage_monitoring_lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        documentList.clear();
+        documentList.add("No transactions yet");
         DocumentReference documentReference = db.collection("users").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
@@ -53,12 +56,12 @@ public class fragment_luggage_monitoring extends Fragment {
                 }
                 else if(acc_type.equals("Admin")||acc_type.equals("Employee")){
                     db.collection("delivery_info")
-                            .get()
-                            .addOnSuccessListener(queryDocumentSnapshots -> {
-                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                    nonCustomerList(document,documentList,adapter);
-                                }
-                            });
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            nonCustomerList(document,documentList,adapter);
+                        }
+                    });
                 }
             }
         });
@@ -77,6 +80,8 @@ public class fragment_luggage_monitoring extends Fragment {
             String endorserName = document.getString("endorser_name");
             String subcontractorName = document.getString("subcontractor_name");
             luggage_monitoring_lv.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            documentList.clear();
             if (deliveryStatus == null && customerName == null && customerContact == null && customerAddress == null &&
                     luggageDescription == null && luggageQuantity == null && flightDate == null && endorserName == null &&
                     subcontractorName == null) {
@@ -96,7 +101,6 @@ public class fragment_luggage_monitoring extends Fragment {
                 (subcontractorName != null ? "\nSubcontractor Name: " + subcontractorName : "")
                 );
             }
-            adapter.notifyDataSetChanged();
     }
     //DISPLAY ISOLATED CUSTOMER HISTORY//
     private void customerList(ArrayList<String> documentList, ArrayAdapter<String> adapter) {
@@ -113,6 +117,7 @@ public class fragment_luggage_monitoring extends Fragment {
                 String endorserName = documentSnapshot.getString("endorser_name");
                 String subcontractorName = documentSnapshot.getString("subcontractor_name");
                 luggage_monitoring_lv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 documentList.clear();
                 // Check if all values are null
                 if (deliveryStatus == null && customerName == null && customerContact == null && customerAddress == null &&

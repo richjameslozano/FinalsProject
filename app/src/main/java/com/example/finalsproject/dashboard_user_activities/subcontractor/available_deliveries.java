@@ -45,6 +45,9 @@ public class available_deliveries extends Fragment {
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),R.layout.list,R.id.list_tv, documentList);
         available_deliveries_lv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        documentList.clear();
+        documentList.add("No deliveries yet");
         db.collection("delivery_info")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -71,32 +74,24 @@ public class available_deliveries extends Fragment {
                                             "\nEndorser Name: " + end_name;
                                     if (sub_name != null) {
                                         if (status.equals("Delivery in Progress") && sub_name.equals(subcontractor_name)) {
-                                            documentList.add(format);
                                             adapter.notifyDataSetChanged();
+                                            documentList.clear();
+                                            documentList.add(format);
                                             available_deliveries_lv.setOnItemClickListener((parent, view, position, ID) -> {
                                                 DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                                 InDelivery(selectedDocument);
                                             });
                                         }
-                                        else{
-                                            adapter.notifyDataSetChanged();
-                                            documentList.clear();
-                                            documentList.add("No deliveries yet");
-                                        }
                                     }
                                     else {
                                         if (status.equals("Out for Delivery") || status.equals("Attempt Failed")) {
-                                            documentList.add(format);
                                             adapter.notifyDataSetChanged();
+                                            documentList.clear();
+                                            documentList.add(format);
                                             available_deliveries_lv.setOnItemClickListener((parent, view, position, ID) -> {
                                                 DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                                 Delivery(selectedDocument);
                                             });
-                                        }
-                                        else{
-                                            adapter.notifyDataSetChanged();
-                                            documentList.clear();
-                                            documentList.add("No deliveries yet");
                                         }
                                     }
                                 }
