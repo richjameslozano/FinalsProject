@@ -7,10 +7,15 @@ import static com.example.finalsproject.SplashScreen.STATUS;
 import static com.example.finalsproject.SplashScreen.UID;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +26,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
@@ -41,6 +47,7 @@ import java.util.Objects;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 1;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -69,9 +76,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 Toast.makeText(this, "Logging out.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
     private void handleInvalidAccount() {
         runOnUiThread(() -> {
             Toast.makeText(this, "Your account is invalid, please register an account.", Toast.LENGTH_SHORT).show();
@@ -106,6 +111,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                         navigationView.inflateMenu(R.menu.admin_menu);
                         break;
                     case "customer":
+                        requestNotificationPermissions();
+                        Notify();
                         navigationView.inflateMenu(R.menu.customer_menu);
                         break;
                     case "employee":
@@ -120,6 +127,77 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 logout();
             }
         });
+    }
+    @SuppressLint("ObsoleteSdkInt")
+    private void requestNotificationPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (!notificationManager.areNotificationsEnabled()) {
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                startActivityForResult(intent, REQUEST_NOTIFICATION_PERMISSION);
+            }
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            Notify();
+        }
+    }
+    private void Notify() {
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        if (notificationManager != null && notificationManager.getActiveNotifications().length == 0) {
+            Intent intent = new Intent(this, dashboard.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            DocumentReference docRef = fStore.collection("delivery_info").document(uiD);
+            docRef.addSnapshotListener(this, (documentSnapshot, error) -> {
+                if (documentSnapshot != null) {
+                    String status = documentSnapshot.getString("delivery_status");
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(dashboard.this, "test");
+                    NotificationChannel channel = new NotificationChannel("test", "EGC-GHE Delivery Service App", NotificationManager.IMPORTANCE_DEFAULT);
+                    notificationManager.createNotificationChannel(channel);
+                    builder.setContentIntent(notifyPendingIntent)
+                            .setSmallIcon(R.drawable.luggage)
+                            .setContentTitle("EGC-GHE Delivery Service App");
+                    if (status != null && status.equals("Processing ")) {
+                        builder.setContentText("Your inquiry is in for processing.")
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText("We are currently processing your inquiry"))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        notificationManager.notify(1, builder.build());
+                    } else if (status != null && status.equals("Out for Delivery")) {
+                        String e_name = documentSnapshot.getString("endorser_name");
+                        builder.setContentText("Your luggage is out for delivery.")
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText("Your luggage has been processed and located by " + e_name + "."))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        notificationManager.notify(1, builder.build());
+                    } else if (status != null && status.equals("Delivery in Progress")) {
+                        String sub_name = documentSnapshot.getString("subcontractor_name");
+                        builder.setContentText("Your luggage is currently in delivery.")
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText("Your luggage has been picked up by " + sub_name + "."))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        notificationManager.notify(1, builder.build());
+                    } else if (status != null && status.equals("Luggage Delivered")) {
+                        builder.setContentText("Your luggage has been delivered.")
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText("Your luggage has been delivered to your destined location."))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        notificationManager.notify(1, builder.build());
+                    } else if (status != null && status.equals("Attempt Failed")) {
+                        builder.setContentText("Delivery attempt failed.")
+                                .setStyle(new NotificationCompat.BigTextStyle()
+                                        .bigText("A delivery attempt for your luggage was made."))
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        notificationManager.notify(1, builder.build());
+                    }
+                }
+            });
+        }
     }
 
     @Override   //FRAGMENTS UTILIZATION// ISOLATE EACH FRAGMENT BASED ON ACCOUNT TYPE //
