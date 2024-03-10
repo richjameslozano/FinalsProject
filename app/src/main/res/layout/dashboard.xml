@@ -20,7 +20,7 @@
         android:background="@color/maincolor"
         android:foregroundTint="@color/pastelgreen"
         android:titleTextColor="@color/textcolor"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:headerLayout="@layout/header"
         app:insetForeground="@color/pastelgreen"
         app:itemIconTint="@color/textcolor"

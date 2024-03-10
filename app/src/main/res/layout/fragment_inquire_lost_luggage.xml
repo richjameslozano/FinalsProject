@@ -19,7 +19,7 @@
             android:text="Enter your luggage details"
             android:textColor="@color/textcolor"
             android:textColorHint="@color/textcolor"
-            android:textSize="20sp"
+            android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
