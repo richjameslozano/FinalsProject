@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 public class delivery_inquiries extends Fragment {
     View view;
+    SearchView sv_di;
     ListView inq_lv;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
@@ -38,6 +40,7 @@ public class delivery_inquiries extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         inq_lv = view.findViewById(R.id.inq_lv);
+        sv_di = view.findViewById(R.id.sv_di);
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
         inq_lv.setAdapter(adapter);
@@ -70,6 +73,18 @@ public class delivery_inquiries extends Fragment {
                 documentList.clear();
                 documentList.add("No deliveries yet");
             });
+        sv_di.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return view;
     }
     private static void displayData(QueryDocumentSnapshot document, ArrayList<String> documentList, ArrayAdapter<String> adapter) {

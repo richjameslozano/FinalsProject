@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 public class fragment_luggage_monitoring extends Fragment {
     View view;
+    SearchView sv_lm;
     ListView luggage_monitoring_lv;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
@@ -35,12 +37,11 @@ public class fragment_luggage_monitoring extends Fragment {
         db = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-
+        sv_lm = view.findViewById(R.id.sv_di);
         luggage_monitoring_lv = view.findViewById(R.id.luggage_monitoring_lv);
         ArrayList<String> documentList = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
         luggage_monitoring_lv.setAdapter(adapter);
-
         DocumentReference documentReference = db.collection("users").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
             if (documentSnapshot != null) {
@@ -134,6 +135,18 @@ public class fragment_luggage_monitoring extends Fragment {
                     luggage_monitoring_lv.setOnItemClickListener((parent, view1, position, ID) -> Toast.makeText(getActivity(), "Delivery Status: " + deliveryStatus, Toast.LENGTH_SHORT).show());
                 }
                 adapter.notifyDataSetChanged();
+            }
+        });
+        sv_lm.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
     }

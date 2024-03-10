@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import com.example.finalsproject.R;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class account_management extends Fragment {
     View view;
-
+    SearchView sv_am;
     private ArrayAdapter<String> adapter;
     private List<String> documentEmails;
     private List<DocumentSnapshot> documentSnapshots;
@@ -31,6 +32,7 @@ public class account_management extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_account_management, container, false);
         ListView listView = view.findViewById(R.id.usersListView);
+        sv_am = view.findViewById(R.id.sv_am);
         documentEmails = new ArrayList<>();
         documentSnapshots = new ArrayList<>();
         adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentEmails);
@@ -94,8 +96,18 @@ public class account_management extends Fragment {
                         });
             }
         });
+        sv_am.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-// Delete account method
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     return view;
 
     }
