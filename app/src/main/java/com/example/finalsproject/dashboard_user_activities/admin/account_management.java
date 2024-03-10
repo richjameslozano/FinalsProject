@@ -28,7 +28,6 @@ public class account_management extends Fragment {
     private List<DocumentSnapshot> documentSnapshots;
     private FirebaseFirestore fStore;
 
-        // Process each user record (e.g., display in a list, store in a data structure)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
