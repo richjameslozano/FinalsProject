@@ -10,8 +10,8 @@
     <fragment
         android:id="@+id/map1"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="401dp"
+        android:layout_height="600dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +32,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/map1"
-        app:layout_constraintVertical_bias="0.021" />
+        app:layout_constraintVertical_bias="0.01" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

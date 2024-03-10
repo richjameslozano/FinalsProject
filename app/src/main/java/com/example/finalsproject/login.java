@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.finalsproject.dashboard_user_activities.dashboard;
 import com.example.finalsproject.registration_activities.register;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,6 +37,8 @@ public class login extends AppCompatActivity {
     CheckBox remember_btn;
 
     TextInputEditText email_login,pass_login;
+
+  TextInputLayout login_pass_layout,login_email_layout;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -51,6 +54,9 @@ public class login extends AppCompatActivity {
         signup = findViewById(R.id.signup);
         login_btn = findViewById(R.id.login_btn);
 
+       login_pass_layout = findViewById(R.id.login_pass_layout);
+       login_email_layout = findViewById(R.id.login_email_layout);
+
         forgot_btn = findViewById(R.id.forgot);
         remember_btn = findViewById(R.id.remember_btn);
         fAuth = FirebaseAuth.getInstance();
@@ -60,30 +66,42 @@ public class login extends AppCompatActivity {
             String email = Objects.requireNonNull(email_login.getText()).toString().trim();
             String password = Objects.requireNonNull(pass_login.getText()).toString().trim();
 
-            if (email.isEmpty()){
-                email_login.setError("Email is Required");
+
+            if(email.isEmpty()){
+                login_email_layout.setError("Email is Required.");
+                login_email_layout.setErrorIconDrawable(null);
                 return;
+                }
+            else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
+                login_email_layout.setError("Invalid email address.");
+                login_email_layout.setErrorIconDrawable(null);
+                return;
+                }
+
+            if (password.isEmpty()) {
+                login_pass_layout.setError("Password is Required.");
+                login_pass_layout.setErrorIconDrawable(null);
+                return;
+                }
+            else if (password.length() < 6) {
+                        login_pass_layout.setError("Password should be at least 6 characters.");
+                        login_pass_layout.setErrorIconDrawable(null);
+                        return;
+                    }
+
+else {
+                //authentication
+                fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        uID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+                        remember_save();
+                        startActivity(new Intent(getApplicationContext(), dashboard.class));
+                        finish();
+                    } else {
+                        Toast.makeText(login.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
-                if(password.isEmpty()){
-                    pass_login.setError("Password is Required.");
-                    return;
-                }
-                if(password.length()<6){
-                    pass_login.setError("Password must be 6 Characters and above");
-                  return;
-            }
-            //authentication
-            fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    uID = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
-                    remember_save();
-                    startActivity(new Intent(getApplicationContext(), dashboard.class));
-                    finish();
-                }
-                else{
-                    Toast.makeText(login.this,Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_LONG).show();
-                }
-            });
         });
         //PASSWORD RESET//
         forgot_btn.setOnClickListener(this::showAlertDialogButtonClicked);

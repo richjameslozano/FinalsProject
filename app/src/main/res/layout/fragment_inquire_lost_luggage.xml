@@ -94,6 +94,7 @@
             android:layout_height="151dp"
             android:fontFamily="@font/baloo"
             android:text="Register your address: "
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
@@ -131,29 +132,31 @@
 
         <Button
             android:id="@+id/proceed_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="178dp"
+            android:layout_height="42dp"
             android:backgroundTint="@color/textcolor"
             android:fontFamily="@font/baloo"
             android:text="Proceed"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.922"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.89" />
+            app:layout_constraintVertical_bias="0.872" />
 
         <Button
             android:id="@+id/refreshBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="174dp"
+            android:layout_height="41dp"
             android:backgroundTint="@color/textcolor"
             android:fontFamily="@font/baloo"
             android:text="Refresh"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.016"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.978" />
+            app:layout_constraintVertical_bias="0.875" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
