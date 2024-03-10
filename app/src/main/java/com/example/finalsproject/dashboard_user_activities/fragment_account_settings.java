@@ -118,8 +118,6 @@ public class fragment_account_settings extends Fragment {
                 pass_EditText.setVisibility(View.VISIBLE);
                 confirm_EditText.setVisibility(View.VISIBLE);
                 confirmReset_btn.setVisibility(View.VISIBLE);
-
-
             }
             else{
                 passLayout.setVisibility(View.GONE);
@@ -127,7 +125,6 @@ public class fragment_account_settings extends Fragment {
                 pass_EditText.setVisibility(View.GONE);
                 confirm_EditText.setVisibility(View.GONE);
                 confirmReset_btn.setVisibility(View.GONE);
-
             }
         });
         changePfp_btn.setOnClickListener(v -> {

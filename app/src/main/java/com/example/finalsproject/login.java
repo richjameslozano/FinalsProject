@@ -65,18 +65,16 @@ public class login extends AppCompatActivity {
         login_btn.setOnClickListener(v -> {
             String email = Objects.requireNonNull(email_login.getText()).toString().trim();
             String password = Objects.requireNonNull(pass_login.getText()).toString().trim();
-
-
             if(email.isEmpty()){
                 login_email_layout.setError("Email is Required.");
                 login_email_layout.setErrorIconDrawable(null);
                 return;
-                }
+            }
             else if (!email.matches("[a-zA-Z].*") || !email.matches(".*[a-zA-Z].*") || !email.endsWith("@gmail.com")) { //standard format of gmail addresses
                 login_email_layout.setError("Invalid email address.");
                 login_email_layout.setErrorIconDrawable(null);
                 return;
-                }
+            }
 
             if (password.isEmpty()) {
                 login_pass_layout.setError("Password is Required.");
@@ -85,9 +83,8 @@ public class login extends AppCompatActivity {
             else if (password.length() < 6) {
                         login_pass_layout.setError("Password should be at least 6 characters.");
                         login_pass_layout.setErrorIconDrawable(null);
-                    }
-
-else {
+            }
+            else{
                 //authentication
                 fAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -123,7 +120,7 @@ else {
             EditText editText = customLayout.findViewById(R.id.emailReset);
             String email = editText.getText().toString().trim();
             if (email.isEmpty()){
-                Toast.makeText(this,"Email does not exist in our system.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Invalid email address.",Toast.LENGTH_SHORT).show();
             }
             else{
                 sendEmail(email);

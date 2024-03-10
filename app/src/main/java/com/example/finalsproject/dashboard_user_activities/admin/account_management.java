@@ -79,7 +79,6 @@ public class account_management extends Fragment {
 
             private void deleteAccount(int position) {
                 DocumentSnapshot documentSnapshot = documentSnapshots.get(position);
-
                 fStore.collection("users").document(documentSnapshot.getId())
                         .delete()
                         .addOnSuccessListener(aVoid -> {
@@ -93,7 +92,7 @@ public class account_management extends Fragment {
                         .addOnFailureListener(e -> {
                             // Error occurred
                             Toast.makeText(getActivity(), "Error deleting account", Toast.LENGTH_SHORT).show();
-                        });
+                });
             }
         });
         sv_am.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -91,7 +91,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         //NAVIGATION//
         drawerLayout = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
-
         navigationView = findViewById(R.id.nav_view);
         navigationView.setVisibility(View.VISIBLE);
         //actionbar
@@ -100,7 +99,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         toggle.syncState();
         //navigation
         navigationView.bringToFront();
-
         navigationView.setNavigationItemSelectedListener(this);
         // HANDLE HOW EACH DASHBOARD DIFFERS PER USER THROUGH LAYOUTS //
         DocumentReference documentReference = fStore.collection("users").document(uiD);
