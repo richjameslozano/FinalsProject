@@ -42,7 +42,7 @@ public class delivery_inquiries extends Fragment {
         inq_lv = view.findViewById(R.id.inq_lv);
         sv_di = view.findViewById(R.id.sv_di);
         ArrayList<String> documentList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), R.layout.list,R.id.list_tv, documentList);
         inq_lv.setAdapter(adapter);
         db.collection("delivery_info")
             .get()

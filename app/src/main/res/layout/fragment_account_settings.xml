@@ -136,6 +136,7 @@
             android:layout_marginBottom="10dp"
             android:hint="New Password"
             android:textColorHint="@color/textcolor"
+            android:visibility="gone"
             app:boxStrokeColor="@color/textcolor"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/textcolor"

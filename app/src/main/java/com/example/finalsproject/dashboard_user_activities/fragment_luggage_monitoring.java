@@ -40,7 +40,7 @@ public class fragment_luggage_monitoring extends Fragment {
         sv_lm = view.findViewById(R.id.sv_di);
         luggage_monitoring_lv = view.findViewById(R.id.luggage_monitoring_lv);
         ArrayList<String> documentList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),R.layout.list,R.id.list_tv, documentList);
         luggage_monitoring_lv.setAdapter(adapter);
         DocumentReference documentReference = db.collection("users").document(uiD);
         documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {

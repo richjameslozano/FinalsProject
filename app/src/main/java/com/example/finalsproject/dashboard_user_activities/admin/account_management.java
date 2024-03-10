@@ -10,10 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
+
 import com.example.finalsproject.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +38,9 @@ public class account_management extends Fragment {
         sv_am = view.findViewById(R.id.sv_am);
         documentEmails = new ArrayList<>();
         documentSnapshots = new ArrayList<>();
-        adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentEmails);
+        adapter = new ArrayAdapter<>(requireActivity(), R.layout.list,R.id.list_tv, documentEmails);
         listView.setAdapter(adapter);
         fStore = FirebaseFirestore.getInstance();
-
-        // Replace "your_collection_name" with your actual collection name
         fStore.collection("users")
                 .get()
                 .addOnCompleteListener(task -> {

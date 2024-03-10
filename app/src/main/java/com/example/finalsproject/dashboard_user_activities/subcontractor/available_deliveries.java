@@ -43,7 +43,7 @@ public class available_deliveries extends Fragment {
         available_deliveries_lv = view.findViewById(R.id.available_deliveries_lv);
         sv_ad = view.findViewById(R.id.sv_ad);
         ArrayList<String> documentList = new ArrayList<>();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_list_item_1, documentList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity(),R.layout.list,R.id.list_tv, documentList);
         available_deliveries_lv.setAdapter(adapter);
         db.collection("delivery_info")
                 .get()
@@ -92,6 +92,11 @@ public class available_deliveries extends Fragment {
                                                 DocumentSnapshot selectedDocument = queryDocumentSnapshots.getDocuments().get(position);
                                                 Delivery(selectedDocument);
                                             });
+                                        }
+                                        else{
+                                            adapter.notifyDataSetChanged();
+                                            documentList.clear();
+                                            documentList.add("No deliveries yet");
                                         }
                                     }
                                 }
