@@ -81,12 +81,10 @@ public class login extends AppCompatActivity {
             if (password.isEmpty()) {
                 login_pass_layout.setError("Password is Required.");
                 login_pass_layout.setErrorIconDrawable(null);
-                return;
                 }
             else if (password.length() < 6) {
                         login_pass_layout.setError("Password should be at least 6 characters.");
                         login_pass_layout.setErrorIconDrawable(null);
-                        return;
                     }
 
 else {

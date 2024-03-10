@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -16,6 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.finalsproject.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 public class register1 extends Fragment {
     //VARIABLE DECLARATIONS//
@@ -42,9 +43,9 @@ public class register1 extends Fragment {
         //LISTENERS//
         next_btn1.setOnClickListener(view -> {
             String
-                    f_name = first_name.getText().toString().trim(),
-                    l_name = last_name.getText().toString().trim(),
-                    contact = contact_num.getText().toString().trim();
+                    f_name = Objects.requireNonNull(first_name.getText()).toString().trim(),
+                    l_name = Objects.requireNonNull(last_name.getText()).toString().trim(),
+                    contact = Objects.requireNonNull(contact_num.getText()).toString().trim();
 
             //TEMPORARY//
             if(f_name.isEmpty()){
