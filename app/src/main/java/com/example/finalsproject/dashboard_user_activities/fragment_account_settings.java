@@ -10,14 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -39,9 +37,9 @@ import java.util.Objects;
 public class fragment_account_settings extends Fragment {
     View view;
     ImageView pfp_acc;
-    ToggleButton reset,show1,show2;
+    ToggleButton reset;
 
-    TextInputLayout passlayout,confirmlayout;
+    TextInputLayout passLayout, confirmLayout;
     TextInputEditText confirm_EditText, pass_EditText;
     Button confirmReset_btn,changePfp_btn,update_btn;
     FirebaseAuth fAuth;
@@ -65,8 +63,8 @@ public class fragment_account_settings extends Fragment {
         pfp_acc = view.findViewById(R.id.pfp_acc);
         StorageReference profileRef = storageReference.child("users/"+Objects.requireNonNull(fAuth.getCurrentUser()).getUid()+"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(uri -> Picasso.get().load(uri).into(pfp_acc));
-        passlayout = view.findViewById(R.id.passlayout);
-        confirmlayout = view.findViewById(R.id.confirmlayout);
+        passLayout = view.findViewById(R.id.passlayout);
+        confirmLayout = view.findViewById(R.id.confirmlayout);
 
         reset = view.findViewById(R.id.reset_btn);
 
@@ -80,8 +78,8 @@ public class fragment_account_settings extends Fragment {
 
         update_btn.setOnClickListener(v-> editFragment(new fragment_update_credentials()));
         confirmReset_btn.setOnClickListener(v->{
-            String pass = pass_EditText.getText().toString().trim();
-            String confirm_pass = confirm_EditText.getText().toString().trim();
+            String pass = Objects.requireNonNull(pass_EditText.getText()).toString().trim();
+            String confirm_pass = Objects.requireNonNull(confirm_EditText.getText()).toString().trim();
             if (pass.isEmpty()) {
                 pass_EditText.setError("Password is required.");
             } else if (pass.length() < 8) {
@@ -111,8 +109,8 @@ public class fragment_account_settings extends Fragment {
 
         reset.setOnClickListener(v->{
             if(reset.isChecked()){
-                passlayout.setVisibility(View.VISIBLE);
-                confirmlayout.setVisibility(View.VISIBLE);
+                passLayout.setVisibility(View.VISIBLE);
+                confirmLayout.setVisibility(View.VISIBLE);
                 pass_EditText.setVisibility(View.VISIBLE);
                 confirm_EditText.setVisibility(View.VISIBLE);
                 confirmReset_btn.setVisibility(View.VISIBLE);
@@ -120,8 +118,8 @@ public class fragment_account_settings extends Fragment {
 
             }
             else{
-                passlayout.setVisibility(View.GONE);
-                confirmlayout.setVisibility(View.GONE);
+                passLayout.setVisibility(View.GONE);
+                confirmLayout.setVisibility(View.GONE);
                 pass_EditText.setVisibility(View.GONE);
                 confirm_EditText.setVisibility(View.GONE);
                 confirmReset_btn.setVisibility(View.GONE);

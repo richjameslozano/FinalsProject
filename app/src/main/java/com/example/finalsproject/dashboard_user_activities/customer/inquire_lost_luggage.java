@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -43,6 +44,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class inquire_lost_luggage extends Fragment {
+    public static double longitude,latitude;
+    public static String CustomAddress;
     View view;
     EditText description, quantity, airline;
     TextView SelectedAddress;
@@ -80,7 +83,6 @@ public class inquire_lost_luggage extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
         db = FirebaseFirestore.getInstance();
-        getAddress();
         description = view.findViewById(R.id.luggage_details_editText);
         quantity = view.findViewById(R.id.luggage_quant_editText);
         airline = view.findViewById(R.id.airline_editText);
@@ -90,6 +92,7 @@ public class inquire_lost_luggage extends Fragment {
         customBtn = view.findViewById(R.id.custom_address_btn);
         proceedBtn = view.findViewById(R.id.proceed_btn);
         refreshBtn = view.findViewById(R.id.refreshBtn);
+
         flightDate.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext());
             // Set the maximum date to today's date
@@ -102,17 +105,15 @@ public class inquire_lost_luggage extends Fragment {
             });
             datePickerDialog.show();
         });
-        currentBtn.setOnClickListener(v -> {
-            updateGPS();
-            getAddress();
-        });
+        currentBtn.setOnClickListener(v -> updateGPS());
         customBtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), map_customer.class)));
         refreshBtn.setOnClickListener(v-> getAddress());
         proceedBtn.setOnClickListener(v -> {
             String desc = description.getText().toString().trim(),
                    Quantity = quantity.getText().toString(),
                    flight = flightDate.getText().toString(),
-                   airlines = airline.getText().toString();
+                   airlines = airline.getText().toString(),
+                   address = SelectedAddress.getText().toString();
             if(desc.isEmpty()){
                 description.setError("Describe your lost luggage.");
             }
@@ -128,82 +129,90 @@ public class inquire_lost_luggage extends Fragment {
             else if(flight.equals("Flight Date: DD/MM/YY")){
                 Toast.makeText(getActivity(), "Please select the flight date of when you lost your luggage.", Toast.LENGTH_SHORT).show();
             }
+            else if(address.equals("Register your address: ")){
+                Toast.makeText(getActivity(), "Please register Address.", Toast.LENGTH_SHORT).show();
+            }
             else{
-                Toast.makeText(getActivity(), "Your luggage information is being processed.", Toast.LENGTH_SHORT).show();
-                DocumentReference docRef = db.collection("delivery_info").document(uiD);
-                DocumentReference documentReference = db.collection("users").document(uiD);
-                documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-                    if (documentSnapshot != null) {
-                        Map<String, Object> userData = new HashMap<>();
-                        userData.put("customer_name", documentSnapshot.getString("l_name") + ", " + documentSnapshot.getString("f_name"));
-                        userData.put("customer_contact", documentSnapshot.getString("contact"));
-                        userData.put("luggage_description", desc);
-                        userData.put("luggage_quantity", Quantity);
-                        userData.put("luggage_airline",airlines);
-                        userData.put("flight_date", flight);
-                        userData.put("delivery_status","Processing");
-                        userData.put("customer_id",uiD);
-                        docRef.update(userData);
-                        getAddress();
-                    }
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
+                alertDialogBuilder.setTitle("Confirming inquiry.");
+                alertDialogBuilder.setMessage("Do you want to process your inquiry?");
+                alertDialogBuilder.setNegativeButton("No", (dialog, which) -> {});
+                alertDialogBuilder.setPositiveButton("Yes", (dialog, which) -> {
+                    Toast.makeText(getActivity(), "Your luggage information is being processed.", Toast.LENGTH_SHORT).show();
+                    DocumentReference docRef = db.collection("delivery_info").document(uiD);
+                    DocumentReference documentReference = db.collection("users").document(uiD);
+                    documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
+                        if (documentSnapshot != null) {
+                            docRef.get().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (!document.exists()) {
+                                        Map<String, Object> data = new HashMap<>();
+                                        docRef.set(data);
+                                        Map<String, Object> userData = new HashMap<>();
+                                        userData.put("customer_name", documentSnapshot.getString("l_name") + ", " + documentSnapshot.getString("f_name"));
+                                        userData.put("customer_contact", documentSnapshot.getString("contact"));
+                                        userData.put("luggage_description", desc);
+                                        userData.put("luggage_quantity", Quantity);
+                                        userData.put("luggage_airline",airlines);
+                                        userData.put("flight_date", flight);
+                                        userData.put("delivery_status","Processing");
+                                        userData.put("customer_id",uiD);
+                                        userData.put("customer_address", CustomAddress);
+                                        userData.put("latitude", latitude);
+                                        userData.put("longitude", longitude);
+                                        docRef.update(userData);
+                                    }
+                                    else{
+                                        docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
+                                            assert documentSnapshot1 != null;
+                                            String status = documentSnapshot1.getString("delivery_status");
+                                            if(status!=null){
+                                                if(status.equals("Luggage Delivered")){
+                                                    docRef.delete();
+                                                    Map<String, Object> data = new HashMap<>();
+                                                    docRef.set(data);
+                                                    Map<String, Object> userData = new HashMap<>();
+                                                    userData.put("customer_name", documentSnapshot.getString("l_name") + ", " + documentSnapshot.getString("f_name"));
+                                                    userData.put("customer_contact", documentSnapshot.getString("contact"));
+                                                    userData.put("luggage_description", desc);
+                                                    userData.put("luggage_quantity", Quantity);
+                                                    userData.put("luggage_airline",airlines);
+                                                    userData.put("flight_date", flight);
+                                                    userData.put("delivery_status","Processing");
+                                                    userData.put("customer_id",uiD);
+                                                    userData.put("customer_address", CustomAddress);
+                                                    userData.put("latitude", latitude);
+                                                    userData.put("longitude", longitude);
+                                                    docRef.update(userData);
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                else {
+                                    Log.d(TAG, "Failed with: ", task.getException());
+                                }
+                            });
+                        }
+                    });
+                    startActivity(new Intent(getActivity(), dashboard.class));
                 });
-                startActivity(new Intent(getActivity(),dashboard.class));
+                alertDialogBuilder
+                        .create()
+                        .show();
             }
         });
-        DocumentReference docRef = db.collection("delivery_info").document(uiD);
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (!document.exists()) {
-                    Map<String, Object> data = new HashMap<>();
-                    docRef.set(data);
-                }
-            } else {
-                Log.d(TAG, "Failed with: ", task.getException());
-            }
-        });
-        newInquiry();
         return view;
     }
-
-    private void newInquiry() {
-        DocumentReference documentReference = db.collection("delivery_info").document(uiD);
-        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-            assert documentSnapshot != null;
-            String status = documentSnapshot.getString("delivery_status");
-                if(status!=null){
-                    if(status.equals("Luggage delivered")){
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("customer_address", null);
-                        updates.put("customer_contact", null);
-                        updates.put("customer_id", null);
-                        updates.put("customer_name", null);
-                        updates.put("delivery_status", null);
-                        updates.put("flight_date", null);
-                        updates.put("latitude", null);
-                        updates.put("longitude", null);
-                        updates.put("luggage_description", null);
-                        updates.put("luggage_quantity", null);
-                        updates.put("luggage_airline",null);
-                        updates.put("endorser_name", null);
-                        updates.put("subcontractor_name", null);
-                        documentReference.update(updates);
-                    }
-                }
-        });
-    }
-
     @SuppressLint("SetTextI18n")
     private void getAddress() {
-        DocumentReference documentReference = db.collection("delivery_info").document(uiD);
-        documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
-            if (documentSnapshot != null) {
-                SelectedAddress.setText(documentSnapshot.getString("customer_address"));
-            }
-            else{
-                SelectedAddress.setText("No address has been registered yet.");
-            }
-        });
+        if (CustomAddress != null) {
+            SelectedAddress.setText("Address: "+CustomAddress);
+        }
+        else{
+            SelectedAddress.setText("No address has been registered yet.");
+        }
     }
 
     //LOCATION PERMISSION REQUEST CONDITION//
@@ -220,12 +229,28 @@ public class inquire_lost_luggage extends Fragment {
         }
     }
     //CURRENT LOCATION UPDATE//
+    @SuppressLint("SetTextI18n")
     private void updateGPS(){
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
-                updateUIValues(location);
-                currentLocation = location;
+                Geocoder geocoder = new Geocoder(requireContext());
+                try{
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                    assert addresses != null;
+                    Address address = addresses.get(0);
+                    CustomAddress = address.getAddressLine(0);
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    if (CustomAddress != null) {
+                        SelectedAddress.setText("Address: "+CustomAddress);
+                    }
+                    else{
+                        SelectedAddress.setText("No address has been registered yet.");
+                    }
+                }
+                catch (Exception ignored){
+                }
             });
         }
         else{
@@ -233,32 +258,4 @@ public class inquire_lost_luggage extends Fragment {
         }
     }
     //LOCATION UPDATE//
-
-    //UPDATE VALUES IN UI//
-    @SuppressLint("SetTextI18n")
-    private void updateUIValues(Location location) {
-        Geocoder geocoder = new Geocoder(requireContext());
-        try{
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-            assert addresses != null;
-            DocumentReference docRef = db.collection("delivery_info").document(uiD);
-            Map<String, Object> locationData = getStringObjectMap(location, addresses);
-            docRef.update(locationData);
-        }
-        catch (Exception ignored){
-        }
-    }
-
-    @NonNull
-    private Map<String, Object> getStringObjectMap(Location location, List<Address> addresses) {
-        Address address = addresses.get(0);
-        String addressLine = address.getAddressLine(0);
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        Map<String, Object> locationData = new HashMap<>();
-        locationData.put("customer_address", addressLine);
-        locationData.put("latitude", latitude);
-        locationData.put("longitude", longitude);
-        return locationData;
-    }
 }

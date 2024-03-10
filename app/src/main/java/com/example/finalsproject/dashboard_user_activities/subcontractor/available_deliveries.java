@@ -75,7 +75,13 @@ public class available_deliveries extends Fragment {
                                                 InDelivery(selectedDocument);
                                             });
                                         }
-                                    }else {
+                                        else{
+                                            adapter.notifyDataSetChanged();
+                                            documentList.clear();
+                                            documentList.add("No deliveries yet");
+                                        }
+                                    }
+                                    else {
                                         if (status.equals("Out for Delivery") || status.equals("Attempt Failed")) {
                                             documentList.add(format);
                                             adapter.notifyDataSetChanged();
@@ -153,6 +159,7 @@ public class available_deliveries extends Fragment {
             alertDialogBuilder1.show();
         }));
         alertDialogBuilder.setNegativeButton("Attempt failed", ((dialog, which) -> {
+            assert customerId!=null;
             DocumentReference docRef = db.collection("delivery_info").document(customerId);
             docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
                 if (documentSnapshot1 != null) {
@@ -168,6 +175,7 @@ public class available_deliveries extends Fragment {
             DocumentReference documentReference = db.collection("users").document(uiD);
             documentReference.addSnapshotListener(requireActivity(), (documentSnapshot, error) -> {
                 if (documentSnapshot != null) {
+                    assert customerId!=null;
                     DocumentReference docRef = db.collection("delivery_info").document(customerId);
                     docRef.addSnapshotListener(requireActivity(), (documentSnapshot1, error1) -> {
                         if (documentSnapshot1 != null) {

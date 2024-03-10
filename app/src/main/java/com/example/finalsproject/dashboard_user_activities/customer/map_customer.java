@@ -25,13 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class map_customer extends FragmentActivity implements OnMapReadyCallback {
@@ -89,9 +86,11 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
                 marker = googleMap.addMarker(new MarkerOptions().position(latLng).title(addressLine));
                 // Store addressLine in Firebase FireStore
                 if (marker != null) {
-                    DocumentReference docRef = db.collection("delivery_info").document(uiD);
-                    Map<String, Object> locationData = getStringObjectMap(latLng, addresses);
-                    docRef.update(locationData);
+                    marker.showInfoWindow();
+                    Address address = addresses.get(0);
+                    inquire_lost_luggage.CustomAddress = address.getAddressLine(0);
+                    inquire_lost_luggage.latitude = latLng.latitude;
+                    inquire_lost_luggage.longitude = latLng.longitude;
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -110,18 +109,5 @@ public class map_customer extends FragmentActivity implements OnMapReadyCallback
             alertDialogBuilder.create().show();
             return true; // Return true to indicate that the click event has been consumed
         });
-    }
-    //STORING LATEST PLACED MARKER ONTO DATABASE//
-    @NonNull
-    private Map<String, Object> getStringObjectMap(LatLng latLng, List<Address> addresses) {
-        Address address = addresses.get(0);
-        String addressLine = address.getAddressLine(0);
-        double latitude = latLng.latitude;
-        double longitude = latLng.longitude;
-        Map<String, Object> locationData = new HashMap<>();
-        locationData.put("customer_address", addressLine);
-        locationData.put("latitude", latitude);
-        locationData.put("longitude", longitude);
-        return locationData;
     }
 }

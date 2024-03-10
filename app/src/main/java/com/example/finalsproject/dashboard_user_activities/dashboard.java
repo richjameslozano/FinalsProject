@@ -37,8 +37,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -301,21 +299,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             setLuggageMonitoring(new fragment_luggage_monitoring());
                         })
                         .setPositiveButton("Yes",(dialog, which) ->{
-                        Map<String, Object> updates = new HashMap<>();
-                        updates.put("customer_address", null);
-                        updates.put("customer_contact", null);
-                        updates.put("customer_id", null);
-                        updates.put("customer_name", null);
-                        updates.put("delivery_status", null);
-                        updates.put("flight_date", null);
-                        updates.put("latitude", null);
-                        updates.put("longitude", null);
-                        updates.put("luggage_description", null);
-                        updates.put("luggage_quantity", null);
-                        updates.put("luggage_airline",null);
-                        updates.put("subcontractor_name", null);
-                        updates.put("endorser_name", null);
-                        docRef.update(updates);
+                        docRef.delete();
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.dashboard_layout, a);
                         transaction.addToBackStack(null);

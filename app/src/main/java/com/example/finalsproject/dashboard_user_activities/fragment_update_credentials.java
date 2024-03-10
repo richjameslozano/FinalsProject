@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -56,11 +55,11 @@ String uID;
                 DocumentReference documentReference = fStore.collection("users").document(uID);
 
                 String
-                        username = edit_uname.getText().toString().trim(),
-                        lastname = edit_LName.getText().toString().trim(),
-                        firstname = edit_FName.getText().toString().trim(),
-                        email = edit_email.getText().toString().trim(),
-                        contact = edit_contact.getText().toString().trim();
+                        username = Objects.requireNonNull(edit_uname.getText()).toString().trim(),
+                        lastname = Objects.requireNonNull(edit_LName.getText()).toString().trim(),
+                        firstname = Objects.requireNonNull(edit_FName.getText()).toString().trim(),
+                        email = Objects.requireNonNull(edit_email.getText()).toString().trim(),
+                        contact = Objects.requireNonNull(edit_contact.getText()).toString().trim();
 
                 // For each field, check if the user has entered data and only then update it
               if(!username.isEmpty()&& username.length()<6){

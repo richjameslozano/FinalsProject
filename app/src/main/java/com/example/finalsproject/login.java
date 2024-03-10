@@ -57,8 +57,8 @@ public class login extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         signup.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(),register.class)));
         login_btn.setOnClickListener(v -> {
-            String email = email_login.getText().toString().trim();
-            String password = pass_login.getText().toString().trim();
+            String email = Objects.requireNonNull(email_login.getText()).toString().trim();
+            String password = Objects.requireNonNull(pass_login.getText()).toString().trim();
 
             if (email.isEmpty()){
                 email_login.setError("Email is Required");
@@ -93,8 +93,8 @@ public class login extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(STATUS, remember_btn.isChecked())
         .putString(UID, uID)
-        .putString(EMAIL,email_login.getText().toString().trim())
-        .putString(PASSWORD,pass_login.getText().toString().trim())
+        .putString(EMAIL, Objects.requireNonNull(email_login.getText()).toString().trim())
+        .putString(PASSWORD, Objects.requireNonNull(pass_login.getText()).toString().trim())
         .apply();
     }
     public void showAlertDialogButtonClicked(View view) {
