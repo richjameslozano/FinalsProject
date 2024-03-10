@@ -63,6 +63,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         uiD = Objects.requireNonNull(fAuth.getCurrentUser()).getUid();
+        setHomeFragment(new fragment_home());
         DocumentReference documentReference = fStore.collection("users").document(uiD);
         documentReference.addSnapshotListener((value, error) -> {
             if (value != null) {
